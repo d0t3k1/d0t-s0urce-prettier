@@ -776,8 +776,6 @@ const stats = {
         if (!newWindow)
             return;
         
-        editWindow(newWindow.addedNodes[0]);
-
         const isFilamentWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/filament.svg']")?.parentNode?.parentNode;
         if (isFilamentWindow) {
             const upgrader = isFilamentWindow.querySelectorAll("h3")[1];
@@ -1197,7 +1195,6 @@ const stats = {
         windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
-        await editWindows();
         editFilaments();
         editProgressBar();
         await editCountryWarWindow();
