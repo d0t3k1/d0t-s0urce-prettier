@@ -46,33 +46,8 @@ class Component {
 	}
 }
 
-class CacheManager {
-    #current = JSON.parse(localStorage.getItem("prettier"));
-
-    constructor() {
-        if (!this.#current) {
-            localStorage.setItem("prettier", "{}");
-            this.#current = {};
-        }
-    }
-
-    #save() {
-        localStorage.setItem("prettier", JSON.stringify(this.#current));
-    }
-
-    update(key, data) {
-        this.#current[key] = data;
-        this.#save();
-    }
-
-    get(key) {
-        return this.#current[key];
-    }
-}
-
 const player = {
     username: document.querySelector("img[src='icons/online.svg']")?.parentNode?.innerText?.trim(),
-    cache: new CacheManager(),
     hacksInProgress: [],
     currentlyHacking: null,
     lastHacked: null,
@@ -157,11 +132,11 @@ const stats = {
 		long: [0,0]
 	},
 	{
-		hp: [167,217],
+		hp: [172,217],
 		rd: [0,12.5],
 		regen: [0,7.5],
-		medium: [0,40],
-		long: [0,0]
+		medium: [20,40],
+		long: [0,25]
 	},
 	{
 		hp: [219,269],
@@ -1174,86 +1149,6 @@ const stats = {
         }
     }
 
-    const windowResizeObserver = new MutationObserver(mutations => {
-        if (mutations.length > 2 || !mutations[0].target.classList || !mutations[0].target.classList.contains("window-content"))
-            return;
-        const key = mutations[0].target.parentNode.querySelector("img")?.src;
-        if (!key) return;
-        const target = mutations[0].target;
-        const data = player.cache.get(key);
-        updateCache(key, target.parentNode);
-    })
-
-
-    const editWindows = async () => {
-        const windows = Array.from(document.querySelectorAll(".window-title")).map(e => e?.parentNode);
-
-        for (let w of windows)
-            editWindow(w), await sleep(200);
-    }
-
-    const editWindow = async (w) => {
-        try {
-            const key = w.querySelector("img")?.src;
-            const data = player.cache.get(key);
-            w.querySelector(".window-title")?.addEventListener("mouseup", (e) => {
-                if (!e.target.classList.contains("window-title") || !e.target.parentNode) return;
-                updateCache(key, e.target.parentNode);
-            })
-            if (!data) updateCache(newWindow.addedNodes[0].querySelector("img").src, newWindow.addedNodes[0]);
-            else {
-                moveWindow(w, data.position);
-                await sleep(100);
-                resizeWindow(w, data.size);
-                await sleep(100);
-            }
-        } catch(e) {}
-    }
-
-    const mouseDown = (type, w) => {
-        w?.dispatchEvent(new MouseEvent("mousedown"));
-        switch (type) {
-            case "position":
-                w?.querySelector(".window-title")?.dispatchEvent(new MouseEvent("mousedown"));
-                break;
-            case "size":
-                w?.querySelector(".window-resize-bottomright").dispatchEvent(new MouseEvent("mousedown"));
-                break;
-        }
-    }
-
-    const moveWindow = async (w, position) => {
-        const pos = { x: Number(w.style.left.slice(0, -2)), y: Number(w.style.top.slice(0, -2)) };
-        if (pos.x == position.x && pos.y == position.y) return;
-        mouseDown("position", w);
-        await sleep(100);
-        window.dispatchEvent(new MouseEvent("mousemove", { movementX: position.x - pos.x, movementY: position.y - pos.y }));
-        window.dispatchEvent(new MouseEvent("mouseup"));
-    }
-
-    const resizeWindow = async (w, dataSize) => {
-        const size = { height: Number(w.querySelector(".window-content").style.height.match(/\d+/)[0]), width: Number(w.querySelector(".window-content").style.width.match(/\d+/)[0]) };
-        if (size.height == dataSize.height && size.width == dataSize.width) return;
-        mouseDown("size", w);
-        await sleep(100);
-        window.dispatchEvent(new MouseEvent("mousemove", { movementX: dataSize.width - size.width, movementY: dataSize.height - size.height}))
-        await sleep(100);
-        window.dispatchEvent(new MouseEvent("mouseup"));
-    }
-
-    const updateCache = (key, w) => {
-        player.cache.update(key, {
-            position: {
-                x: Number(w.style.left.slice(0, -2)),
-                y: Number(w.style.top.slice(0, -2))
-            },
-            size: {
-                height: Number(w.querySelector(".window-content").style.height.match(/\d+/)[0]),
-                width: Number(w.querySelector(".window-content").style.width.match(/\d+/)[0])
-            }
-        });
-    }
-
     const loadingScreen = (action) => {
         switch (action) {
             case "create":
@@ -1302,7 +1197,6 @@ const stats = {
         windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
-        windowResizeObserver.observe(document.querySelector("main"), { attributes: true, attributeFilter: ["style"], subtree: true });
         await editWindows();
         editFilaments();
         editProgressBar();
