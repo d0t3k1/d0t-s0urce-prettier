@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         prettier-d0urce
+// @name         nalegified-d0urce
 // @version      2024-06-15
 // @description  Get a prettier s0urce.io environment!
-// @author       d0t
-// @originator   Xen0o2
+// @author       Naleg
+// @originator   d0t & Xen0o2
 // @match        https://s0urce.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
-// @downloadURL  https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.js
-// @updateURL    https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.js
+// @downloadURL  https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js
+// @updateURL    https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js
 // @grant        none
 // ==/UserScript==
 
@@ -908,6 +908,7 @@ const stats = {
         
         const isFilamentWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/filament.svg']")?.parentNode?.parentNode;
         if (isFilamentWindow) {
+            console.log("is filament window")
             const upgrader = isFilamentWindow.querySelectorAll("h3")[1];
             if (!upgrader)
                 return;
@@ -975,6 +976,106 @@ const stats = {
             if (!isHackingYou)
                 return;
             counterHack(isHackingYou);
+        }
+
+        const isParamWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/settings.svg']")?.parentNode?.parentNode;
+        console.log(isParamWindow)
+        if (isParamWindow) {
+            console.log("is the param window")
+            const backgroundThingy = document.createElement("div")
+            backgroundThingy.className = "el svelte-176ijne"
+            backgroundThingy.innerHTML = `<h4>Edit background image</h4>
+            <div style="font-size: 14px;">Upload a file</div>
+            <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
+            </div>
+            <div style="font-size: 14px;"> Or import from URL</div>
+            <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
+            </div>
+            <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
+            </div>`
+            // <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
+
+            const uploadButton = document.createElement("BUTTON");
+            uploadButton.innerHTML = "Upload"
+            uploadButton.className = "grey svelte-ec9kqa"
+            uploadButton.style = "height: auto; padding: 6px 14px; font-family: var(--font-family-1); font-size: 15px; box-shadow: 0 10px 15px var(--color-shadow);"
+            uploadButton.onclick = () => {
+                var input = document.createElement('input');
+                input.type = 'file';
+
+                input.onchange = e => {
+                    var file = e.target.files[0];
+
+                    var fileReader = new FileReader();
+                    fileReader.onload = function() {
+                        var readResult = fileReader.result
+                                            addOrUpdateStyle(`
+        /* Modify background image */
+        body {
+            background-image: url("` + readResult + `") !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+        }`)
+                        localStorage.setItem("bg_image", readResult)
+                    }
+                    fileReader.readAsDataURL(file)
+
+                }
+
+                input.click();
+            }
+            //backgroundThingy.children[1].appendChild(uploadButton)
+
+            const resetBgButton = document.createElement("BUTTON");
+            resetBgButton.innerHTML = "Reset background"
+            resetBgButton.className = "red svelte-ec9kqa"
+            resetBgButton.style = "height: auto; padding: 6px 14px; font-family: var(--font-family-1); font-size: 15px; box-shadow: 0 10px 15px var(--color-shadow);"
+            resetBgButton.onclick = () => {
+                addOrUpdateStyle(`
+        /* Modify background image */
+        body {
+            background-image: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 50%),
+    rgb(0 0 255 / 50%)
+),url(https://cdn.discordapp.com/attachments/714329253650366515/1226604971068231680/ezgif-6-6e6390f4d2.gif?ex=66255fe6&is=6612eae6&hm=6b590b09702787a83b6171e5870101be827ee4b2da7e6bd1e3d4118c622ca4b5&) !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+        }`)
+                localStorage.setItem("bg_image", "")
+            };
+            backgroundThingy.children[2].innerHTML = backgroundThingy.children[2].innerHTML + '<a style="width: auto; display: inline-block; margin: 0px; flex: 0 1 auto;"></a>'
+            backgroundThingy.children[2].children[0].appendChild(uploadButton)
+            backgroundThingy.children[5].innerHTML = backgroundThingy.children[4].innerHTML + '<a style="width: auto; display: inline-block; margin: 0px; flex: 0 1 auto;"></a>'
+            backgroundThingy.children[5].children[0].appendChild(resetBgButton)
+
+            const urlInput = document.createElement("INPUT")
+            urlInput.className = "svelte-16rukbq"
+            urlInput.style = "width: 100%; height: 100%; padding: 6px 10px; font-family: var(--font-family-2); background-color: var(--color-grey);"
+            urlInput.type = "url"
+            urlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    addOrUpdateStyle(`
+        /* Modify background image */
+        body {
+            background-image: url("` + urlInput.value + `") !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+        }`)
+                    localStorage.setItem("bg_image", urlInput.value)
+                }
+            });
+            backgroundThingy.children[4].appendChild(urlInput)
+
+            const paramsContent = isParamWindow.getElementsByClassName("window-content")[0]
+            paramsContent.style.overflowY = "scroll"
+            paramsContent.firstChild.appendChild(backgroundThingy)
         }
 
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
@@ -1360,7 +1461,10 @@ function addOrUpdateStyle(css) {
     }
 
     // Add custom CSS
-    addOrUpdateStyle(`
+    // Insert the saved image
+    const backgroundImage = localStorage.getItem("bg_image")
+    if (!backgroundImage) {
+        addOrUpdateStyle(`
         /* Modify background image */
         body {
             background-image: linear-gradient(
@@ -1373,6 +1477,17 @@ function addOrUpdateStyle(css) {
             background-attachment: fixed !important;
             background-position: center !important;
         }`)
+    } else {
+        addOrUpdateStyle(`
+        /* Modify background image */
+        body {
+            background-image: url("` + backgroundImage + `") !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+        }`)
+    }
 var send=WebSocket.prototype.send, inboundLog=true, outboundLog=true
 function traverse(obj,fn){
   let keys=Object.keys(obj)
