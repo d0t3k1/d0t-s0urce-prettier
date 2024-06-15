@@ -1291,10 +1291,11 @@ const stats = {
         message.innerHTML = message.innerHTML
             .replace("System started.<br>", "")
             .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.4 ✨")
+	    .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Tweaked by <span style='color: yellow; text-shadow: 0 0 3px yellow'>Naleg</span> 👀.</span>")
             .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
             .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
         sendLog(`
-            <a href="https://www.buymeacoffee.com/doteki">Buy me a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
+            <a href="https://www.buymeacoffee.com/doteki">Buy d0t a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
         `)
         sendLog(`
             <div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
