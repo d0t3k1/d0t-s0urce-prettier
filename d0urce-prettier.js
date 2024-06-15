@@ -1,10 +1,13 @@
 // ==UserScript==
-// @name         prettier-s0urce
-// @version      2024-05-18
+// @name         prettier-d0urce
+// @version      2024-06-15
 // @description  Get a prettier s0urce.io environment!
-// @author       Xen0o2 + d0t
+// @author       d0t
+// @originator   Xen0o2
 // @match        https://s0urce.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
+// @downloadURL  https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.js
+// @updateURL    https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.js
 // @grant        none
 // ==/UserScript==
 
@@ -62,7 +65,7 @@ const player = {
 }
 
 const stats = {
-    cpu: [
+	cpu: [
         {
             hack: [8, 18],
             trueDam: [0, 0],
@@ -107,49 +110,101 @@ const stats = {
         }
     ],
 	firewall: [
-	{
-		hp: [22,62],
-		rd: [0,0],
-		regen: [0,0],
-		medium: [0,0],
-		long: [0,0]
-	},
-	{
-		hp: [64,114],
-		rd: [0,7.5],
-		regen: [0,2.5],
-		medium: [0,0],
-		long: [0,0]
-	},
-	{
-		hp: [116,166],
-		rd: [0,10],
-		regen: [0,5],
-		medium: [0,30],
-		long: [0,0]
-	},
-	{
-		hp: [172,217],
-		rd: [0,12.5],
-		regen: [0,7.5],
-		medium: [20,40],
-		long: [0,25]
-	},
-	{
-		hp: [219,269],
-		rd: [0,15],
-		regen: [9.25,10],
-		medium: [44,0],
-		long: [27,30]
-	},
-	{
-		hp: [305,320],
-		rd: [13.5,15],
-		regen: [11.75,12.5],
-		medium: [65,57.5],
-		long: [32,35]
-	},
+        {
+            hp: [22,62],
+            rd: [0,0],
+            regen: [0,0],
+            medium: [0,0],
+            long: [0,0]
+        },
+        {
+            hp: [64,114],
+            rd: [0,7.5],
+            regen: [0,2.5],
+            medium: [0,0],
+            long: [0,0]
+        },
+        {
+            hp: [116,166],
+            rd: [0,10],
+            regen: [0,5],
+            medium: [0,30],
+            long: [0,0]
+        },
+        {
+            hp: [172,217],
+            rd: [0,12.5],
+            regen: [0,7.5],
+            medium: [20,40],
+            long: [0,25]
+        },
+        {
+            hp: [219,269],
+            rd: [0,15],
+            regen: [9.25,10],
+            medium: [44,0],
+            long: [27,30]
+        },
+        {
+            hp: [305,320],
+            rd: [13.5,15],
+            regen: [11.75,12.5],
+            medium: [65,57.5],
+            long: [32,35]
+        },
     ],
+	gpu: [
+        {
+            idle: [0.000010,0.000014],
+            bart: [0,0],
+            crip: [0,0],
+        },
+        {
+            idle: [0.000011,0.000024],
+            bart: [0,10],
+            crip: [2.5,10],
+        },
+        {
+            idle: [0.000016,0.000033],
+            bart: [0,12.5],
+            crip: [2.5,12.5],
+        },
+        {
+            idle: [0.0000223,0.000043],
+            bart: [0,15],
+            crip: [6,15],
+        },
+        {
+            idle: [0.0000372,0.000054],
+            bart: [0,20],
+            crip: [11.25,20],
+        },
+        {
+            idle: [0.0000644,0.000074],
+            bart: [21.25,25],
+            crip: [21.25,25],
+        },
+    ],
+    psu: [
+        {
+            boost: [1, 5],
+        },
+        {
+            boost: [5, 10], 
+        },
+        {
+            boost: [10, 15],
+        },
+        {
+            boost: [16, 25], 
+        },
+        {
+            boost: [28, 35], 
+        },
+        {
+            boost: [38.5, 40]
+        },
+    ],	
 	port: [
 		{ hp: 1000+3*60, rd: 0 },
 		{ hp: 1000+3*114, rd: 3*0.075 },
@@ -158,12 +213,18 @@ const stats = {
 		{ hp: 1000+3*269, rd: 3*0.15 },
 		{ hp: 1000+3*320, rd: 3*0.15 }
     ],
-    	cputerm: [
+    cputerm: [
         3, 3.5, 4, 4.25, 4.75, 5
     ],
 	fireterm: [
-	12, 14, 16, 17, 19, 20
-    ]
+	    12, 14, 16, 17, 19, 20
+    ],
+	gpu_term: [
+	    0.0000042*0.6, 0.0000042*0.7, 0.0000042*0.8, 0.0000042*0.85, 0.0000042*0.95, 0.0000042
+    ],
+	psu_term: [
+    	1.2, 1.4, 1.6, 1.7, 1.9, 2
+    ],
 };
 
 (function() {
@@ -609,21 +670,65 @@ const stats = {
 	}
     }
 
+    const netBTCperHour = (idle, barter, crypto) => {
+        const npcsPerHour = 27.69;
+        // Based on 1 Hour of Grinding returns
+        idle *= 3600;
+        // Maximum bartering benefit is selling uncommons, assuming it is used:
+        barter /= 100;
+        barter = ((1+barter)*0.00864000-0.00864000) * npcsPerHour;
+        // Hack bonus, similar to bartering
+        crypto /= 100;
+        crypto = ((1+crypto)*0.00180000-0.00180000) * npcsPerHour;
+        return idle + barter + crypto;
+    }
+
+    const dGI = (idle,barter,crypto,level,rarity) => {
+        const item = stats.gpu[rarity];
+        const bestGPU = netBTCperHour(item.idle[1]+stats.gpu_term[rarity]*level,item.bart[1],item.crip[1]);
+        const worstGPU = netBTCperHour(item.idle[0]+stats.gpu_term[rarity]*level,item.bart[0],item.crip[0]);
+        const actualGPU = netBTCperHour(idle,barter,crypto);
+        const qualityRange = bestGPU - worstGPU;
+        const actualRange = actualGPU - worstGPU;
+        var gpuRank = 1+((actualRange/qualityRange)*9);
+        if (gpuRank < 1) gpuRank = 1;
+        return gpuRank;
+    }
+
+    const boostBTCperHour = (boost,rarity) => {
+        var idle = stats.gpu[rarity].idle[1]+stats.gpu_term[rarity]
+        idle *= 3600
+        boost /= 100
+        return idle*(1+boost) - idle
+    }
+
+    const dPI = (boost,level,rarity) => {
+        const item = stats.psu[rarity];
+        const bestPSU = boostBTCperHour(item.boost[1]+stats.psu_term[rarity]*level,rarity)
+        const worstPSU = boostBTCperHour(item.boost[0]+stats.psu_term[rarity]*level,rarity)
+        const actualPSU = boostBTCperHour(boost,rarity)
+        const qualityRange = bestPSU - worstPSU
+        const actualRange = actualPSU - worstPSU
+        var psuRank = 1+((actualRange/qualityRange)*9)
+        if (psuRank < 1) psuRank = 1
+        return psuRank
+    }
+
     const dFI = (hp, rd, rg, enc, level, rarity) => {
-	const item = stats.firewall[rarity];
-	const cpu = stats.cpu[rarity];
-	const cpuV = hackPower(cpu.hack[1]+stats.cputerm[rarity]*(level-1), cpu.trueDam[1], cpu.pen[1], cpu.chance[1], cpu.dam[1]);
-    	const cpsAverage = 5;
-	const bestPort = firewallEncryption(item.hp[1]+stats.fireterm[rarity]*(level-1),item.rd[1],item.regen[1],item.medium[1],item.long[1]);
-    	const worstPort = firewallEncryption(item.hp[0]+stats.fireterm[rarity]*(level-1),item.rd[0],item.regen[0],item.medium[0],item.long[0]);
-	const bestHoldout = penTest(bestPort, cpuV, bestPort[3]/cpsAverage+.3);
-	const worstHoldout = penTest(worstPort, cpuV, worstPort[3]/cpsAverage+.3);
-	const actualHoldout = penTest([hp,rd,rg],cpuV,enc/cpsAverage+.3);
-	const qualityRange = worstHoldout - bestHoldout;
-	const qualityActually = worstHoldout - actualHoldout;
-	var fireRank = 1+(qualityActually/qualityRange*9);
-	if (fireRank < 1) fireRank = 1;
-	return fireRank;
+        const item = stats.firewall[rarity];
+        const cpu = stats.cpu[rarity];
+        const cpuV = hackPower(cpu.hack[1]+stats.cputerm[rarity]*(level-1), cpu.trueDam[1], cpu.pen[1], cpu.chance[1], cpu.dam[1]);
+        const cpsAverage = 5;
+        const bestPort = firewallEncryption(item.hp[1]+stats.fireterm[rarity]*(level-1),item.rd[1],item.regen[1],item.medium[1],item.long[1]);
+        const worstPort = firewallEncryption(item.hp[0]+stats.fireterm[rarity]*(level-1),item.rd[0],item.regen[0],item.medium[0],item.long[0]);
+        const bestHoldout = penTest(bestPort, cpuV, bestPort[3]/cpsAverage+.3);
+        const worstHoldout = penTest(worstPort, cpuV, worstPort[3]/cpsAverage+.3);
+        const actualHoldout = penTest([hp,rd,rg],cpuV,enc/cpsAverage+.3);
+        const qualityRange = worstHoldout - bestHoldout;
+        const qualityActually = worstHoldout - actualHoldout;
+        var fireRank = 1+(qualityActually/qualityRange*9);
+        if (fireRank < 1) fireRank = 1;
+        return fireRank;
     }
 	
     const hackPower = (hack, trueDam, pen, chance, dam) => {
@@ -662,14 +767,22 @@ const stats = {
                 const dam = effects["Hack Critical Damage Bonus"] || 0;
                 const [raw, penV, trueDamV] = hackPower(hack, trueDam, pen, chance, dam);
                 return dCI(raw, penV, trueDamV, level, index).toFixed(4);
-	    case "router":
-		const hp = effects["Firewall Health"];
-		const rd = effects["Firewall Damage Reduction"] || 0;
-		const rg = effects["Firewall Regeneration"] || 0;
-		const ad = effects["Firewall Advanced Encryption"] || 0;
-		const ms = effects["Firewall Master Encryption"] || 0;
-		const [hpP, rdP, rgP, encryption] = firewallEncryption(hp,rd,rg,ad,ms);
-		return dFI(hpP, rdP, rgP, encryption, level, index).toFixed(4);
+            case "gpu":
+                const idle = effects["Idle Crypto Mining"]
+                const bart = effects["More Crypto Reward"] || 0
+                const crip = effects["Better Barter"] || 0
+                return dGI(idle, bart, crip, level, index).toFixed(4);
+            case "psu":
+                const boost = effects["Crypto Mining Power"]
+                return dPI(boost, level, index).toFixed(4)
+            case "router":
+                const hp = effects["Firewall Health"];
+                const rd = effects["Firewall Damage Reduction"] || 0;
+                const rg = effects["Firewall Regeneration"] || 0;
+                const ad = effects["Firewall Advanced Encryption"] || 0;
+                const ms = effects["Firewall Master Encryption"] || 0;
+                const [hpP, rdP, rgP, encryption] = firewallEncryption(hp,rd,rg,ad,ms);
+                return dFI(hpP, rdP, rgP, encryption, level, index).toFixed(4);
 	    default:
                 return -1;
         }
@@ -705,30 +818,50 @@ const stats = {
         const grade = getItemGrade(type, level, index, effects);
         if (grade == -1)
             return
-	switch(type) {
-		case "cpu":
-		        var gradeComponent = new Component("div", {
-		            id: "grade",
-		            classList: ["attribute", "svelte-181npts"],
-		            innerText: `${grade} / 10 dCI`,
-		            style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
-		        })
-			description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-		            description.style.width = "300px";
-		            break;
-		case "router":
-			var gradeComponent = new Component("div", {
-		            id: "grade",
-		            classList: ["attribute", "svelte-181npts"],
-		            innerText: `${grade} / 10 dFI`,
-		            style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
-		        })
-			description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-		            description.style.width = "300px";
-		            break;
-		default:
-			return -1;
-	}
+        switch(type) {
+            case "cpu":
+                var gradeComponent = new Component("div", {
+                    id: "grade",
+                    classList: ["attribute", "svelte-181npts"],
+                    innerText: `${grade} / 10 dCI`,
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                })
+                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+                description.style.width = "300px";
+                break;
+            case "gpu":
+                var gradeComponent = new Component("div", {
+                    id: "grade",
+                    classList: ["attribute", "svelte-181npts"],
+                    innerText: `${grade} / 10 dGI`,
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                })
+                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+                description.style.width = "300px";
+                break;
+            case "psu":
+                var gradeComponent = new Component("div", {
+                    id: "grade",
+                    classList: ["attribute", "svelte-181npts"],
+                    innerText: `${grade} / 10 dPI`,
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                })
+                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+                description.style.width = "300px";
+                break;
+            case "router":
+                var gradeComponent = new Component("div", {
+                        id: "grade",
+                        classList: ["attribute", "svelte-181npts"],
+                        innerText: `${grade} / 10 dFI`,
+                        style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                })
+                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+                description.style.width = "300px";
+                break;
+            default:
+                return -1;
+        }
     });
 
     const updateCountryWarsCountry = () => {
@@ -1056,20 +1189,18 @@ const stats = {
             return;
         message.innerHTML = message.innerHTML
             .replace("System started.<br>", "")
-            .replace("s0urceOS 2023", "✨ Prettier d0urceOS 2024 ✨")
-	    .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Forked by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😈.</span>")
-            .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>");
-
+            .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.4 ✨")
+            .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
+            .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
+        sendLog(`
+            <a href="https://www.buymeacoffee.com/doteki">Buy me a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
+        `)
         sendLog(`
             <div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
                 <img class="icon" src="https://www.svgrepo.com/show/523341/cpu.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                Running d0t's CPU Index (dCI)
-            </div>
-        `)
-	sendLog(`
-            <div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
                 <img class="icon" src="https://www.svgrepo.com/show/532313/firewall.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                Running d0t's FIREWALL Index (dFI)
+                <img class="icon" src="https://www.svgrepo.com/show/533150/power-bank.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                Running d0t's Indexes (dTI)
             </div>
         `)
     }
@@ -1156,7 +1287,7 @@ const stats = {
                             style: { color: "cornflowerblue", textShadow: "0 0 3px pink", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
                         }),
                         new Component("span", {
-                            innerText: "Made with ❤️ by Xen0o2 (& d0t)",
+                            innerText: "Running Version 1.4.2",
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         })
                     ]
@@ -1187,17 +1318,30 @@ const stats = {
             return;
         }
         loadingScreen("create");
-        const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']").closest(".window.svelte-1hjm43z").querySelector(".window-content > #wrapper");
-        logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
-        windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-        windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-        itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
-        editFilaments();
-        editProgressBar();
-        await editCountryWarWindow();
-        editWelcomeMessage();
-        loadingScreen("delete");
-    }  
+        while (1) {
+            var i = 1
+            try {
+                const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']").closest(".window.svelte-1hjm43z").querySelector(".window-content > #wrapper");
+                logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+                windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+                editFilaments();
+                editProgressBar();
+                await editCountryWarWindow();
+                editWelcomeMessage();
+                loadingScreen("delete");
+                break
+            }
+            catch {
+                if (i) {
+                    i--;
+                    loadingScreen("delete");
+                }
+                await sleep(5000)
+            }
+        }
+    }
 })();
 
 
