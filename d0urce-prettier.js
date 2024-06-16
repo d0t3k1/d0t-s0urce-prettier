@@ -975,6 +975,7 @@ const stats = {
             const isHackingYou = player.hacksInProgress.find(e => e.hacker == hacked);
             if (!isHackingYou)
                 return;
+            console.log("you're countering")
             counterHack(isHackingYou);
         }
 
@@ -1081,9 +1082,10 @@ const stats = {
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
         if (hasHackedSomeoneWindow) {
             const hacked = newWindow.addedNodes[0].querySelector(".window-content > div > .el:nth-child(1) > .wrapper > .username")?.innerText
-            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked);
+            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
             if (!wasHackingYou)
                 return;
+            console.log("bro was hacking you")
             wasHackingYou.hackLabel.innerText = "Successfully counter " + wasHackingYou.hackLabel.innerText.replace(/is hacking you \(\d+%\) on port \d+/, "")
             wasHackingYou.message.style.backgroundColor = "transparent";
             wasHackingYou.message.onclick = null;
