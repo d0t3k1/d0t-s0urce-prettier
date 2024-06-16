@@ -4,7 +4,7 @@ So, I learnt javascript for like 2 days and brought this to life.
 This can be really unstable because I'm not a pro javascript programmer at all
 ## New features
 - Customizable image background
-- Fixed logs when counterhacking (kinda) (it's still a bit glitched but it works better at least)
+- Fixed logs when counterhacking (kinda)
 - That's it
 - For now at least
 - I swear I will code in more things
