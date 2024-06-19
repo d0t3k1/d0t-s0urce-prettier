@@ -20,6 +20,10 @@ Go to s0urce settings, then scroll down to "Edit background image".
 You can upload your own image or import it from a URL (press enter when putting a URL).  
 The background image will save inbetween sessions.
 
+# Known issues
+### Background settings doesn't appear
+This is due to how d0urce works. Try opening the log, then wait until it shows "Running Prettier d0urceOS".
+
 # TODO
 - Colors for background
 - ~~Fix counterhacking's log modification working like once out of 16587867468 times~~
