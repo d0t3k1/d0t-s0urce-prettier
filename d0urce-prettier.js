@@ -989,7 +989,7 @@ const stats = {
             <div style="font-size: 14px;">Upload a file</div>
             <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
             </div>
-            <div style="font-size: 14px;"> Or import from URL</div>
+            <div style="font-size: 14px; margin-top: 4px;"> Or import from URL</div>
             <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
             </div>
             <div style="display: flex; gap: 5px; justify-content: center; margin-top: 4px;">
