@@ -9,6 +9,11 @@ This can be really unstable because I'm not a pro javascript programmer at all
 - For now at least
 - I swear I will code in more things
 
+## How to install on TemperMonkey ?
+1. Copy the raw link of the script : `https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js`
+2. Go to your TemperMonkey's utilities
+3. Paste the link in "Import from URL", then click Install
+
 ## TODO
 - Colors for background
 - ~~Fix counterhacking's log modification working like once out of 16587867468 times~~
