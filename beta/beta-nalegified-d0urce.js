@@ -6,8 +6,8 @@
 // @originator   d0t & Xen0o2
 // @match        https://s0urce.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
-// @downloadURL  https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js
-// @updateURL    https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js
+// @downloadURL  https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/beta/beta-nalegified-d0urce.js
+// @updateURL    https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/beta/beta-nalegified-d0urce.js
 // @grant        none
 // ==/UserScript==
 
