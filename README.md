@@ -16,6 +16,7 @@ This can be really unstable because I'm not a pro javascript programmer at all
 3. Paste the link in "Import from URL", then click Install
 
 ### ...edit my background image ?
+(it's been broken by the new update apparently :( )
 Go to s0urce settings, then scroll down to "Edit background image".  
 You can upload your own image or import it from a URL (press enter when putting a URL).  
 The background image will save inbetween sessions.
