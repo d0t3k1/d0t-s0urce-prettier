@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         nalegified-d0urce
-// @version      2024-06-19
+// @version      2024-06-20
 // @description  Get a prettier s0urce.io environment!
 // @author       Naleg
 // @originator   d0t & Xen0o2
