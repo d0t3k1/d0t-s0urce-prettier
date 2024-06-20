@@ -11,7 +11,7 @@ This can be really unstable because I'm not a pro javascript programmer at all
 
 # How to ...
 ### ...install on TemperMonkey ?
-1. Copy the raw link of the script : `https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/d0urce-prettier.js`
+1. Copy the raw link of the script : `https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/nalegified-d0urce.js`
 2. Go to your TemperMonkey's utilities
 3. Paste the link in "Import from URL", then click Install
 
