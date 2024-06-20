@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         beta-nalegified-d0urce
-// @version      b2024-06-20:1
+// @version      b2024-06-20:2
 // @description  Nalegified d0urce, even more unstable !
 // @author       Naleg
 // @originator   d0t & Xen0o2
@@ -1311,8 +1311,8 @@ const stats = {
     const updateMythicOnly = () => {
         try {
             const filaments = document.querySelectorAll(".filament-el");
-            const [cf, uf, rf, ef, lf, mf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
-            const mythics = ((cf + (uf * 3) + (rf * 9) + (ef * 27) + (lf * 135) + (mf * 405)) / 12150 * 30).toFixed(4);
+            const [cf, uf, rf, ef, lf, mf, ef] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
+            const mythics = ((cf + (uf * 3) + (rf * 9) + (ef * 27) + (lf * 135) + (mf * 405) + (ef * 2025)) / 60750 * 30).toFixed(4);
             const element = document.querySelector("#mythicOnly");
             if (element)
                 element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, mythics);
@@ -1348,7 +1348,7 @@ const stats = {
             mythicOnly.style.fontSize = "1.5rem";
             mythicOnly.style.paddingLeft = "10px";
 
-            mythicIcon.src = "icons/filament-mythic.svg"
+            mythicIcon.src = "icons/filament-ethereal.svg"
             mythicIcon.classList.add("icon", "icon-in-text");
             mythicIcon.style.transform = "translateY(-1px)";
 
