@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      2024-06-15
-// @description  Get a prettier s0urce.io environment!
+// @version      2024-06-20
+// @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
-// @originator   Xen0o2
 // @match        https://s0urce.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
 // @downloadURL  https://raw.githubusercontent.com/d0t3k1/d0t-s0urce-prettier/main/d0urce-prettier.js
@@ -95,18 +94,25 @@ const stats = {
             dam: [8.25, 15]
         },
         {
-            hack: [70.75, 84.75],
+            hack: [68.75, 84.75],
             trueDam: [0, 40],
-            pen: [14.5, 25],
-            chance: [6.625, 7.5],
-            dam: [18, 25]
+            pen: [13, 25],
+            chance: [6.5, 7.5],
+            dam: [17, 25]
         },
         {
-            hack: [99, 105],
-            trueDam: [47, 50],
-            pen: [25.5, 30],
-            chance: [9.25, 10],
-            dam: [25.5, 30]
+            hack: [91, 105],
+            trueDam: [43, 50],
+            pen: [19.5, 30],
+            chance: [8.25, 10],
+            dam: [19.5, 30]
+        },
+        {
+            hack: [125.5,135.5],
+            trueDam: [55,60],
+            pen: [32.5,35],
+            chance: [11.25,12.5],
+            dam: [32.5,35]
         }
     ],
 	firewall: [
@@ -135,23 +141,30 @@ const stats = {
             hp: [172,217],
             rd: [0,12.5],
             regen: [0,7.5],
-            medium: [20,40],
+            medium: [22,40],
             long: [0,25]
         },
         {
-            hp: [219,269],
+            hp: [234,269],
             rd: [0,15],
-            regen: [9.25,10],
-            medium: [44,0],
-            long: [27,30]
+            regen: [8,10],
+            medium: [34,0],
+            long: [22,30]
         },
         {
-            hp: [305,320],
-            rd: [13.5,15],
-            regen: [11.75,12.5],
-            medium: [65,57.5],
-            long: [32,35]
+            hp: [285,320],
+            rd: [11.5,15],
+            regen: [10.75,12.5],
+            medium: [65,47.5],
+            long: [28,35]
         },
+        {
+            hp: [372,397],
+            rd: [16.25,17.5],
+            regen: [13.75,15],
+            medium: [70,80],
+            long: [37.5,45]
+        }
     ],
 	gpu: [
         {
@@ -184,6 +197,11 @@ const stats = {
             bart: [21.25,25],
             crip: [21.25,25],
         },
+        {
+            idle: [0.000077,0.000094],
+            bart: [22.5,30],
+            crip: [22.5,30],
+        }
     ],
     psu: [
         {
@@ -204,6 +222,9 @@ const stats = {
         {
             boost: [38.5, 40]
         },
+        {
+            boost: [50, 55]
+        }
     ],	
 	port: [
 		{ hp: 1000+3*60, rd: 0 },
@@ -211,19 +232,20 @@ const stats = {
 		{ hp: 1000+3*166, rd: 3*0.1 },
 		{ hp: 1000+3*217, rd: 3*0.125 },
 		{ hp: 1000+3*269, rd: 3*0.15 },
-		{ hp: 1000+3*320, rd: 3*0.15 }
+		{ hp: 1000+3*320, rd: 3*0.15 },
+                { hp: 1000+3*397, rd: 3*0.175}
     ],
     cputerm: [
-        3, 3.5, 4, 4.25, 4.75, 5
+        3, 3.5, 4, 4.25, 4.75, 5, 5.5
     ],
 	fireterm: [
-	    12, 14, 16, 17, 19, 20
+	    12, 14, 16, 17, 19, 20, 22
     ],
 	gpu_term: [
-	    0.0000042*0.6, 0.0000042*0.7, 0.0000042*0.8, 0.0000042*0.85, 0.0000042*0.95, 0.0000042
+	    0.0000042*0.6, 0.0000042*0.7, 0.0000042*0.8, 0.0000042*0.85, 0.0000042*0.95, 0.0000042, 0.0000042*1.1
     ],
 	psu_term: [
-    	1.2, 1.4, 1.6, 1.7, 1.9, 2
+    	1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
     ],
 };
 
@@ -788,7 +810,7 @@ const stats = {
         }
     }
 
-    const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
+    const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "ethereal"];
     const itemHoverObserver = new MutationObserver(function(mutations) {
 		const description = mutations.find(e => {
 			return e.addedNodes.length == 1 && e.addedNodes[0].id == "desc"
@@ -980,7 +1002,8 @@ const stats = {
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
         if (hasHackedSomeoneWindow) {
             const hacked = newWindow.addedNodes[0].querySelector(".window-content > div > .el:nth-child(1) > .wrapper > .username")?.innerText
-            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked);
+	    // Naleg clutch
+            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
             if (!wasHackingYou)
                 return;
             wasHackingYou.hackLabel.innerText = "Successfully counter " + wasHackingYou.hackLabel.innerText.replace(/is hacking you \(\d+%\) on port \d+/, "")
@@ -1189,7 +1212,7 @@ const stats = {
             return;
         message.innerHTML = message.innerHTML
             .replace("System started.<br>", "")
-            .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.4 ✨")
+            .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.5 ✨")
             .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
             .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
         sendLog(`
@@ -1287,7 +1310,7 @@ const stats = {
                             style: { color: "cornflowerblue", textShadow: "0 0 3px pink", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
                         }),
                         new Component("span", {
-                            innerText: "Running Version 1.4.2",
+                            innerText: "Running Version 1.5.1",
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         })
                     ]
