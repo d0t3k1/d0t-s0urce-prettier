@@ -1010,8 +1010,8 @@ const stats = {
         const isParamWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/settings.svg']")?.parentNode?.parentNode;
         console.log(isParamWindow)
         if (isParamWindow) {
-            var currImage = localstorage.getItem("bg_image")
-            var currColor = JSON.parse(localstorage.getItem("bg_color"))
+            var currImage = localStorage.getItem("bg_image")
+            var currColor = JSON.parse(localStorage.getItem("bg_color"))
 
             void function updateBackground() {
                 addOrUpdateStyle(`
