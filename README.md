@@ -5,7 +5,6 @@ This can be really unstable because I'm not a pro javascript programmer at all
 **This is currently made on version 1.5.1 of prettier d0urce**
 ## New features
 - Customizable image background
-- Fixed logs when counterhacking (kinda)
 - That's it
 - For now at least
 - I swear I will code in more things
@@ -28,7 +27,6 @@ This is due to how d0urce works. Try opening the log, then wait until it shows "
 
 # TODO
 - Colors for background
-- ~~Fix counterhacking's log modification working like once out of 16587867468 times~~
 - Definitely fix counterhacking
 - NPC Editor (change locally NPC's name, descriptions, and PFPs) (how am I gonna do that)
 - More things when I'll get the idea
