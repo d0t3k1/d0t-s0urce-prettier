@@ -2,6 +2,7 @@
 I just wondered how I could code in some features I wanted in prettier or prettier d0urce.
 So, I learnt javascript for like 2 days and brought this to life.
 This can be really unstable because I'm not a pro javascript programmer at all
+**This is currently made on version 1.5.1 of prettier d0urce**
 ## New features
 - Customizable image background
 - Fixed logs when counterhacking (kinda)
@@ -31,5 +32,3 @@ This is due to how d0urce works. Try opening the log, then wait until it shows "
 - Definitely fix counterhacking
 - NPC Editor (change locally NPC's name, descriptions, and PFPs) (how am I gonna do that)
 - More things when I'll get the idea
-
-**This is currently made on version 1.4.2 of prettier d0urce**
