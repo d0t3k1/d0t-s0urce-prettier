@@ -1,7 +1,7 @@
 # d0urce, but modified
 I just wondered how I could code in some features I wanted in prettier or prettier d0urce.
 So, I learnt javascript for like 2 days and brought this to life.
-This can be really unstable because I'm not a pro javascript programmer at all
+This can be really unstable because I'm not a pro javascript programmer at all  
 **This is currently made on version 1.5.1 of prettier d0urce**
 ## New features
 - Customizable image background
