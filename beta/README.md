@@ -1,4 +1,5 @@
 # THIS VERSION IS UNSTABLE
+**This version has not been merged yet with the new version of prettier d0urce, it will be done in around 3 hours**
 The beta version mostly adds bases to new features
 Current beta only features are :
 - Bases for RGB edit
