@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         beta-nalegified-d0urce
-// @version      b2024-06-20:2
+// @version      b2024-06-21
 // @description  Nalegified d0urce, even more unstable !
 // @author       Naleg
 // @originator   d0t & Xen0o2
