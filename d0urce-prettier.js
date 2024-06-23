@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      2024-06-15
+// @version      2024-06-22
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -1249,7 +1249,7 @@ const stats = {
             return;
         message.innerHTML = message.innerHTML
             .replace("System started.<br>", "")
-            .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.5 ✨")
+            .replace("s0urceOS 2023", "✨ Prettier d0urceOS V1.6 ✨")
             .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
             .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
         sendLog(`
@@ -1347,7 +1347,7 @@ const stats = {
                             style: { color: "cornflowerblue", textShadow: "0 0 3px pink", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
                         }),
                         new Component("span", {
-                            innerText: "Running Version 1.5.1",
+                            innerText: "Running Version 1.6.1",
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         })
                     ]
