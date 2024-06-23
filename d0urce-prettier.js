@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      2024-06-20
+// @version      2024-06-15
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -233,7 +233,7 @@ const stats = {
 		{ hp: 1000+3*217, rd: 3*0.125 },
 		{ hp: 1000+3*269, rd: 3*0.15 },
 		{ hp: 1000+3*320, rd: 3*0.15 },
-                { hp: 1000+3*397, rd: 3*0.175}
+        { hp: 1000+3*397, rd: 3*0.175}
     ],
     cputerm: [
         3, 3.5, 4, 4.25, 4.75, 5, 5.5
@@ -246,6 +246,10 @@ const stats = {
     ],
 	psu_term: [
     	1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
+    ],
+    // Last updated as of 6/21/2024
+    filament_price: [
+        0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 45
     ],
 };
 
@@ -705,6 +709,36 @@ const stats = {
         return idle + barter + crypto;
     }
 
+    const dPS = (dTI,level,rarity,type) => {
+        var basePrice = stats.filament_price[rarity];
+        const value = (level-1)*3*basePrice + basePrice;
+        if (type != "cpu" && type != "router") basePrice /= 2
+        console.log(basePrice)
+        if (rarity < 5) {
+            if (dTI < 7) return (value).toFixed(4);
+            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice/3).toFixed(4);
+            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice/3*2 + basePrice/3).toFixed(4);
+            else if (dTI < 9.9) return "~" + (value + (dTI-9)*basePrice + basePrice).toFixed(4);
+        } else if (rarity < 6) {
+            if (dTI < 5) return (value).toFixed(4);
+            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3).toFixed(4);
+            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/3*2 + basePrice/3).toFixed(4);
+            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice).toFixed(4);
+            else if (dTI < 9) return "~" + (value + (dTI-7)*basePrice*5/3 + basePrice*2).toFixed(4);
+            else if (dTI < 9.7) return "~" + (value + (dTI-7)*basePrice*10/3 + basePrice*11/3).toFixed(4);
+        } else {
+            if (dTI < 4) return (value).toFixed(4);
+            else if (dTI < 5) return "~" + (value + (dTI-4)*basePrice/6).toFixed(4);
+            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3 + basePrice/6).toFixed(4);
+            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/2 + basePrice/2).toFixed(4);
+            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice).toFixed(4);
+            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice*2 + basePrice*2).toFixed(4);
+            else if (dTI < 9.5) return "~" + (value + (dTI-8)*basePrice*5 + basePrice*4).toFixed(4);
+        }
+        // If there's no estimated price for it, chances are it's worth a lot
+        return "Invaluable";
+    }
+
     const dGI = (idle,barter,crypto,level,rarity) => {
         const item = stats.gpu[rarity];
         const bestGPU = netBTCperHour(item.idle[1]+stats.gpu_term[rarity]*level,item.bart[1],item.crip[1]);
@@ -846,44 +880,47 @@ const stats = {
                     id: "grade",
                     classList: ["attribute", "svelte-181npts"],
                     innerText: `${grade} / 10 dCI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
                 })
-                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-                description.style.width = "300px";
                 break;
             case "gpu":
                 var gradeComponent = new Component("div", {
                     id: "grade",
                     classList: ["attribute", "svelte-181npts"],
                     innerText: `${grade} / 10 dGI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
                 })
-                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-                description.style.width = "300px";
                 break;
             case "psu":
                 var gradeComponent = new Component("div", {
                     id: "grade",
                     classList: ["attribute", "svelte-181npts"],
                     innerText: `${grade} / 10 dPI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
                 })
-                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-                description.style.width = "300px";
                 break;
             case "router":
                 var gradeComponent = new Component("div", {
                         id: "grade",
                         classList: ["attribute", "svelte-181npts"],
                         innerText: `${grade} / 10 dFI`,
-                        style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+                        style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
                 })
-                description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
-                description.style.width = "300px";
                 break;
             default:
                 return -1;
         }
+        const price = dPS(grade,level,index,type)
+        description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+        description.style.width = "300px";
+        var priceStandard = new Component("div", {
+            id: "price",
+            classList: ["attribute", "svelte-181npts"],
+            innerHTML: `<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">${price}`,
+            style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", background: "linear-gradient(112deg, #edca3d 4%, #ffdf81 34%, #edca3d 66%, #ffdf81 100%)" }
+        })
+        description.querySelector(".level")?.parentNode.insertBefore(priceStandard.element, description.querySelector(".effect"));
+        description.style.width = "300px";
     });
 
     const updateCountryWarsCountry = () => {
@@ -1002,7 +1039,7 @@ const stats = {
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
         if (hasHackedSomeoneWindow) {
             const hacked = newWindow.addedNodes[0].querySelector(".window-content > div > .el:nth-child(1) > .wrapper > .username")?.innerText
-	    // Naleg clutch
+            // Naleg Clutch
             const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
             if (!wasHackingYou)
                 return;
