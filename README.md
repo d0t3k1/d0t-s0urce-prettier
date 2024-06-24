@@ -25,7 +25,9 @@ The background image will save inbetween sessions.
 This is due to how d0urce works. Try opening the log, then wait until it shows "Running Prettier d0urceOS".
 
 # TODO
+- Update to new d0urce version
+- Display BTC amount on profile instead of username
 - Colors for background
-- Definitely fix counterhacking
+- ~~Definitely fix counterhacking~~ done in new prettier version
 - NPC Editor (change locally NPC's name, descriptions, and PFPs) (how am I gonna do that)
 - More things when I'll get the idea
