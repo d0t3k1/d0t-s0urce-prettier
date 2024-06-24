@@ -10,6 +10,14 @@
 // @grant        none
 // ==/UserScript==
 
+const themes = {
+    "No Theme": "",
+    "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}",
+    "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#f8f8f2}.hljs-subst,.hljs-tag{color:#f8f8f2}.hljs-emphasis,.hljs-strong{color:#a8a8a2}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ae81ff}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#a6e22e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#f92672}.hljs-attribute,.hljs-symbol{color:#66d9ef}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#f8f8f2}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#e6db74}.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}",
+    "Github": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#c9d1d9;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}",
+    "Night Owl": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
+}
+
 class Component {
 	prepend;
 	element;
@@ -34,8 +42,22 @@ class Component {
 			element.innerHTML = options.innerHTML;
 		if (options.placeholder)
 			element.placeholder = options.placeholder;
+		if (options.value)
+			element.value = options.value;
 		if (options.onclick)
 			element.onclick = options.onclick;
+		if (options.onchange)
+			element.onchange = options.onchange;
+		if (options.selected)
+			element.selected = options.selected;
+		if (options.onfocusout)
+			element.onfocusout = options.onfocusout;
+		if (options.onblur)
+			element.onblur = options.onblur;
+		if (options.onmouseenter)
+			element.onmouseenter = options.onmouseenter;
+		if (options.onmouseleave)
+			element.onmouseleave = options.onmouseleave;
 
 		options.children?.forEach(child => {
 			child.prepend ? element.prepend(child.element) : element.append(child.element)
@@ -50,181 +72,59 @@ const player = {
     hacksInProgress: [],
     currentlyHacking: null,
     lastHacked: null,
-    countryWars: {
-        countryPoint: 0,
-        playerPoint: 0
-    },
-    currentCountry: {
-        code: null,
-        name: null
-    },
     configuration: {
-        displayCustomFilament: true
-    }
+        displayCustomFilament: true,
+        currentTheme: localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0],
+    },
+    autoloot: localStorage.getItem("prettier-autoloot") ? 
+        JSON.parse(localStorage.getItem("prettier-autoloot")) :
+        {
+            common: "shred",
+            uncommon: "shred",
+            rare: "shred",
+            epic: "shred",
+            legendary: "take",
+            mythic: "take",
+            ethereal: "take",
+        },
 }
 
 const stats = {
 	cpu: [
-        {
-            hack: [8, 18],
-            trueDam: [0, 0],
-            pen: [0, 0],
-            chance: [0, 0],
-            dam: [0, 0]
-        },
-        {
-            hack: [18.5, 33.5],
-            trueDam: [0, 10],
-            pen: [0, 5],
-            chance: [0, 2.5],
-            dam: [1, 5]
-        },
-        {
-            hack: [34, 54],
-            trueDam: [0, 20],
-            pen: [0, 15],
-            chance: [2.5, 3.25],
-            dam: [5, 7.5]
-        },
-        {
-            hack: [55, 64.25],
-            trueDam: [0, 30],
-            pen: [0, 20],
-            chance: [4, 6.25],
-            dam: [8.25, 15]
-        },
-        {
-            hack: [68.75, 84.75],
-            trueDam: [0, 40],
-            pen: [13, 25],
-            chance: [6.5, 7.5],
-            dam: [17, 25]
-        },
-        {
-            hack: [91, 105],
-            trueDam: [43, 50],
-            pen: [19.5, 30],
-            chance: [8.25, 10],
-            dam: [19.5, 30]
-        },
-        {
-            hack: [125.5,135.5],
-            trueDam: [55,60],
-            pen: [32.5,35],
-            chance: [11.25,12.5],
-            dam: [32.5,35]
-        }
+        { hack: [8, 18], trueDam: [0, 0], pen: [0, 0], chance: [0, 0], dam: [0, 0] },
+        { hack: [18.5, 33.5], trueDam: [0, 10], pen: [0, 5], chance: [0, 2.5], dam: [1, 5] },
+        { hack: [34, 54], trueDam: [0, 20], pen: [0, 15], chance: [2.5, 3.25], dam: [5, 7.5] },
+        { hack: [55, 64.25], trueDam: [0, 30], pen: [0, 20], chance: [4, 6.25], dam: [8.25, 15] },
+        { hack: [68.75, 84.75], trueDam: [0, 40], pen: [13, 25], chance: [6.5, 7.5], dam: [17, 25] },
+        { hack: [91, 105], trueDam: [43, 50], pen: [19.5, 30], chance: [8.25, 10], dam: [19.5, 30] },
+        { hack: [125.5,135.5], trueDam: [55,60], pen: [32.5,35], chance: [11.25,12.5], dam: [32.5,35] }
     ],
 	firewall: [
-        {
-            hp: [22,62],
-            rd: [0,0],
-            regen: [0,0],
-            medium: [0,0],
-            long: [0,0]
-        },
-        {
-            hp: [64,114],
-            rd: [0,7.5],
-            regen: [0,2.5],
-            medium: [0,0],
-            long: [0,0]
-        },
-        {
-            hp: [116,166],
-            rd: [0,10],
-            regen: [0,5],
-            medium: [0,30],
-            long: [0,0]
-        },
-        {
-            hp: [172,217],
-            rd: [0,12.5],
-            regen: [0,7.5],
-            medium: [22,40],
-            long: [0,25]
-        },
-        {
-            hp: [234,269],
-            rd: [0,15],
-            regen: [8,10],
-            medium: [34,0],
-            long: [22,30]
-        },
-        {
-            hp: [285,320],
-            rd: [11.5,15],
-            regen: [10.75,12.5],
-            medium: [65,47.5],
-            long: [28,35]
-        },
-        {
-            hp: [372,397],
-            rd: [16.25,17.5],
-            regen: [13.75,15],
-            medium: [70,80],
-            long: [37.5,45]
-        }
+        { hp: [22,62], rd: [0,0], regen: [0,0], medium: [0,0], long: [0,0] },
+        { hp: [64,114], rd: [0,7.5], regen: [0,2.5], medium: [0,0], long: [0,0] },
+        { hp: [116,166], rd: [0,10], regen: [0,5], medium: [0,30], long: [0,0] },
+        { hp: [172,217], rd: [0,12.5], regen: [0,7.5], medium: [22,40], long: [0,25] },
+        { hp: [234,269], rd: [0,15], regen: [8,10], medium: [34,0], long: [22,30] },
+        { hp: [285,320], rd: [11.5,15], regen: [10.75,12.5], medium: [65,47.5], long: [28,35] },
+        { hp: [372,397], rd: [16.25,17.5], regen: [13.75,15], medium: [70,80], long: [37.5,45] }
     ],
 	gpu: [
-        {
-            idle: [0.000010,0.000014],
-            bart: [0,0],
-            crip: [0,0],
-        },
-        {
-            idle: [0.000011,0.000024],
-            bart: [0,10],
-            crip: [2.5,10],
-        },
-        {
-            idle: [0.000016,0.000033],
-            bart: [0,12.5],
-            crip: [2.5,12.5],
-        },
-        {
-            idle: [0.0000223,0.000043],
-            bart: [0,15],
-            crip: [6,15],
-        },
-        {
-            idle: [0.0000372,0.000054],
-            bart: [0,20],
-            crip: [11.25,20],
-        },
-        {
-            idle: [0.0000644,0.000074],
-            bart: [21.25,25],
-            crip: [21.25,25],
-        },
-        {
-            idle: [0.000077,0.000094],
-            bart: [22.5,30],
-            crip: [22.5,30],
-        }
+        { idle: [0.000010,0.000014], bart: [0,0], crip: [0,0], },
+        { idle: [0.000011,0.000024], bart: [0,10], crip: [2.5,10], },
+        { idle: [0.000016,0.000033], bart: [0,12.5], crip: [2.5,12.5], },
+        { idle: [0.0000223,0.000043], bart: [0,15], crip: [6,15], },
+        { idle: [0.0000372,0.000054], bart: [0,20], crip: [11.25,20], },
+        { idle: [0.0000644,0.000074], bart: [21.25,25], crip: [21.25,25], },
+        { idle: [0.000077,0.000094], bart: [22.5,30], crip: [22.5,30], }
     ],
     psu: [
-        {
-            boost: [1, 5],
-        },
-        {
-            boost: [5, 10], 
-        },
-        {
-            boost: [10, 15],
-        },
-        {
-            boost: [16, 25], 
-        },
-        {
-            boost: [28, 35], 
-        },
-        {
-            boost: [38.5, 40]
-        },
-        {
-            boost: [50, 55]
-        }
+        { boost: [1, 5], },
+        { boost: [5, 10], },
+        { boost: [10, 15], },
+        { boost: [16, 25], },
+        { boost: [28, 35], },
+        { boost: [38.5, 40], },
+        { boost: [50, 55], },
     ],	
 	port: [
 		{ hp: 1000+3*60, rd: 0 },
@@ -255,164 +155,216 @@ const stats = {
 
 (function() {
     'use strict';
+    let hideOnOpen = false;
+
     const sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
-    let hideOnOpen = false;
-    
-    const icons = {
-        VALID: "icons/check.svg",
-        HACK: "icons/hack-red.svg"
+
+    const editProgressBar = () => {
+        const progressBar = (document.querySelectorAll(".topbar-value") || [])[2]
+        if (!progressBar)
+            return;
+        progressBar.style.resize = "horizontal";
     }
 
-    const sendLog = async (HTMLContent, toDelete) => {
+    const prettierLoadFails = (code) => {
+        hideOnOpen = false;
+        alert(`Prettier-s0urce loading failed, please contact Xen0o2 on Discord (error code: ${code})`);
+    }
+
+    const sendLog = async (HTMLContent) => {
         const wrapper = document.querySelector("#wrapper.svelte-182ewru");
         if (!wrapper)
             return;
 
-        const message = document.createElement("div")
-        const separator = document.createElement("div")
+        const message = new Component("div", {
+            innerHTML: HTMLContent,
+            style: { padding: "5px 0" },
+            classList: ["message"],
+        })
 
-        message.innerHTML = HTMLContent
-        message.style.padding = "5px 0 5px 0"
-        message.classList.add("message")
+        const separator = new Component("div", {
+            style: { margin: "10px 0" },
+            classList: ["line", "svelte-182ewru"]
+        })
         
-        separator.classList.add("line", "svelte-182ewru")
-        separator.style.margin = "10px 0px";
-        
-        wrapper.append(message);
-        wrapper.append(separator);
+        wrapper.append(message.element);
+        wrapper.append(separator.element);
         await sleep(100);
         wrapper.scrollTop = wrapper.scrollHeight;
-
-        if (toDelete)
-            setTimeout(() => {
-                message?.remove();
-                separator?.remove();
-            }, 60 * 1000);
     }
     
     const manageMessagesToDelete = (message) => {
         const deleteSample = [
             "Hack successful",
-            "to reach level"
+            "to reach level",
+            "earned",
         ]
         if (deleteSample.some(sample => message.innerText.includes(sample)))
             message.remove();
     }
+
+    const colorizeTerminal = async () => {
+        const codeElement = document.querySelector("#code-list");
+        const codeSection = document.querySelector("#section-code");
+        if (!codeElement || !codeSection) return;
+        document.querySelector("#highlighted")?.remove();
+
+        codeElement.style.display = "none";
+        const codeContent = codeElement.innerHTML
+            .replace(/<br(\/)?>/g, "\n")
+            .replace(/<span style="margin-left: 30px;">/g, "\t");
+
+        const highlighted = new Component("pre", {
+            id: "highlighted",
+            children: [
+                new Component("code", {
+                    innerHTML: codeContent,
+                    classList: ["language-python"],
+                    style: { tabSize: "30px" }
+                })
+            ]
+        })
+        codeSection.appendChild(highlighted.element);
+        hljs.highlightAll();
+        await sleep(100);
+        codeSection.scrollTop = codeSection.scrollHeight;
+    }
+
+    const customTerminal = () => {
+        const wrapper = document.querySelector("#section-target > div");
+        if (!wrapper) return;
+
+        const component = new Component("div", {
+            classList: ["svelte-1fdvo7g"],
+            style: { height: "30px", width: "59%", display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "10px" },
+            children: [
+                new Component("span", {
+                    innerText: "Theme",
+                }),
+                new Component("div", {
+                    style: { textAlign: "left", position: "relative", height: "100%", width: "200px", display: "flex", justifyContent: "center", alignItems: "center", border: "1px solid var(--color-terminal)", borderRadius: "2px", fontFamily: "var(--font-family-2)", color: "var(--color-terminal)", fontWeight: 500 },
+                    children: [
+                        new Component("div", {
+                            style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%" },
+                            children: [
+                                new Component("span", {
+                                    id: "selected-theme",
+                                    innerText: player.configuration.currentTheme,
+                                }),
+                                new Component("img", {
+                                    src: "https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png",
+                                    style: { height: "10px", opacity: "0.8" }
+                                }),
+                            ]
+                        }),
+                        new Component("select", {
+                            style: { position: "absolute", left: 0, height: "100%", width: "100%", opacity: "0" },
+                            onchange: (e) => {
+                                player.configuration.currentTheme = e.target.value;
+                                localStorage.setItem("prettier-currentTheme", e.target.value);
+                                document.querySelector("#selected-theme").innerText = e.target.value;
+                                updateThemeStyle();
+                            },
+                            children: Object.keys(themes).map(theme => {
+                                return new Component("option", {
+                                    value: theme,
+                                    innerText: theme,
+                                    selected: theme === player.configuration.currentTheme
+                                })
+                            })
+                        })
+                    ]
+                })
+            ]
+        })
+
+        wrapper.appendChild(component.element);
+    }
     
     const counterHack = (hackInProgress) => {
         hackInProgress.footer?.remove();
-        const inalProgressBar = document.querySelector(".target-bar-progress");
+        const terminalProgressBar = document.querySelector(".target-bar-progress");
         const wrapper = document.querySelector("#wrapper.svelte-182ewru");
-        if (!inalProgressBar || !wrapper)
+        if (!terminalProgressBar || !wrapper)
             return;
-        const counterLabel = document.createElement("span");
-        const counterProgressBar = document.createElement("div");
-        const counterProgressBarValue = document.createElement("div");
+
+        const counterLabel = new Component("span", {
+            innerText: "Counter hack progression (0%)",
+        })
+        const counterProgressBar = new Component("div", {
+            style: { width: "100%", height: "15px", background: "var(--color-grey)", borderRadius: "4px", margin: "5px 0", display: "flex", justifyContent: "space-between", alignItems: "center" },
+        })
+
+        const counterProgressBarValue = new Component("div", {
+            style: { width: terminalProgressBar.style.width, height: "15px", background: "var(--color-red)", borderRadius: "4px", transitionDuration: "0.3s" }
+        })
     
-        counterLabel.innerText = "Counter hack progression (0%)";
-    
-        counterProgressBar.style.width = "100%";
-        counterProgressBar.style.height = "15px";
-        counterProgressBar.style.background = "var(--color-grey)";
-        counterProgressBar.style.borderRadius = "4px";
-        counterProgressBar.style.margin = "5px 0 5px 0";
-        counterProgressBar.style.display = "flex";
-        counterProgressBar.style.justifyContent = "space-between";
-        counterProgressBar.style.alignItems = "center";
-        
-        counterProgressBarValue.style.width = inalProgressBar.style.width;
-        counterProgressBarValue.style.height = "15px";
-        counterProgressBarValue.style.background = "var(--color-red)";
-        counterProgressBarValue.style.borderRadius = "4px";
-        counterProgressBarValue.style.transitionDuration = "0.3s";
-    
-        hackInProgress.message?.append(counterLabel);
-        hackInProgress.message?.append(counterProgressBar);
-        counterProgressBar.append(counterProgressBarValue);
+        hackInProgress.message?.append(counterLabel.element);
+        hackInProgress.message?.append(counterProgressBar.element);
+        counterProgressBar.element.append(counterProgressBarValue.element);
 
         wrapper.scrollTop = wrapper.scrollHeight;
     
-        hackInProgress.counterLabel = counterLabel;
-        hackInProgress.counterProgressBar = counterProgressBar;
-        hackInProgress.counterProgressBarValue = counterProgressBarValue;
+        hackInProgress.counterLabel = counterLabel.element;
+        hackInProgress.counterProgressBar = counterProgressBar.element;
+        hackInProgress.counterProgressBarValue = counterProgressBarValue.element;
     
         const hackObserver = new MutationObserver(function(mutations) {
             const value = parseInt(mutations[0].target.style.width.slice(0, -1));
-            counterLabel.innerText = counterLabel.innerText.replace(/\d{1,3}%/, value + "%");
-            counterProgressBarValue.style.width = value + "%";
+            counterLabel.element.innerText = counterLabel.element.innerText.replace(/\d{1,3}%/, value + "%");
+            counterProgressBarValue.element.style.width = value + "%";
         });
-        hackObserver.observe(inalProgressBar, { attributes: true, attributeFilter: ["style"] });
+        hackObserver.observe(terminalProgressBar, { attributes: true, attributeFilter: ["style"] });
         hackInProgress.hackObserver = hackObserver;
     }
     
     const manageBeingHacked = (message) => {
-        console.log(message.querySelectorAll(".tag"));
-        console.log(message.innerText);
-        const hacker = message.querySelectorAll(".tag")[0]?.innerText || message.innerText.match(/by .+ on/)[0].slice(3, -3);
-        const port = message.innerText.match(/on port \d+\./)[0].slice(8, -1);
+        const hacker = message.querySelectorAll(".tag")[0]?.innerText || (message.innerText.match(/by .+ on/) || [])[0]?.slice(3, -3);
+        const port = (message.innerText.match(/on port \d+\./) || [])[0]?.slice(8, -1);
         const already = player.hacksInProgress.find(e => e.hacker == hacker);
         const progression = parseInt((message.innerText.match(/\d{1,3}(\.\d{1,2})?%/) || ["100%"])[0].slice(0, -1));
         if (already) {
             if (progression == 100) {
-                already.hackLabel.innerText = already.hackLabel.innerText.replace(/is hacking you \(\d+%\) on port \d+/, "has hacked you")
-                already.message.style.backgroundColor = "transparent";
-                already.message.onclick = null;
-                already.message.onmouseenter = null;
-                already.message.onmouseleave = null;
+                already.separator?.remove();
+                already.message?.remove();
                 player.hacksInProgress.splice(player.hacksInProgress.indexOf(already), 1);
-                already.progressBar.remove();
-                already.counterLabel?.remove();
-                already.counterProgressBar?.remove();
-                already.footer.remove();
             } else {
                 already.hackLabel.innerText = already.hackLabel.innerText.replace(/\d+%/, progression + "%");
                 already.progressBarValue.style.width = progression + "%";
             }
-    
             message.remove();
-        } else {
+        } else if (port) {
             const redButtons = message.querySelectorAll(".tag");
             redButtons[0].remove();
             message.innerText = ""
     
-            const iconElement = document.createElement("img");
-            const hackLabel = document.createElement("span");
-            const progressBar = document.createElement("div");
-            const progressBarValue = document.createElement("div");
-            const separator = document.createElement("div");
+            const iconElement = new Component("img", {
+                src: "icons/hack-red.svg",
+                classList: ["icon"],
+                style: { marginRight: "9px" }
+            })
+            const hackLabel = new Component("span", {
+                innerText: `${hacker} is hacking you (${progression}%) on port ${port}`,
+
+            })
+            const progressBar = new Component("div", {
+                style: { width: "100%", height: "15px", background: "var(--color-grey)", borderRadius: "4px", margin: "5px 0", display: "flex", justifyContent: "space-between", alignItems: "center" },
+
+            })
+            const progressBarValue = new Component("div", {
+                style: { width: `${progression}%`, height: "15px", background: "var(--color-red)", borderRadius: "4px", transitionDuration: "0.3s" },
+            })
+            const separator = new Component("div", {
+                style: { margin: "10px 0" },
+                classList: ["line", "svelte-182ewru"]
+            })
             
-            iconElement.classList.add("icon")
-            iconElement.style.marginRight = "9px"
-            iconElement.src = icons.HACK
-            
-            hackLabel.innerText = hacker + " is hacking you (" + progression + "%) on port " + port
-            
-            progressBar.style.width = "100%";
-            progressBar.style.height = "15px";
-            progressBar.style.background = "var(--color-grey)";
-            progressBar.style.borderRadius = "4px";
-            progressBar.style.margin = "5px 0 5px 0";
-            progressBar.style.display = "flex";
-            progressBar.style.justifyContent = "space-between";
-            progressBar.style.alignItems = "center";
-            
-            progressBarValue.style.width = progression + "%";
-            progressBarValue.style.height = "15px";
-            progressBarValue.style.background = "var(--color-red)";
-            progressBarValue.style.borderRadius = "4px";
-            progressBarValue.style.transitionDuration = "0.3s";
-            
-            
-            separator.classList.add("line", "svelte-182ewru")
-            separator.style.margin = "10px 0px";
-            
-            message.append(iconElement);
-            message.append(hackLabel);
-            message.append(progressBar);
-            progressBar.append(progressBarValue);
+            message.append(iconElement.element);
+            message.append(hackLabel.element);
+            message.append(progressBar.element);
+            progressBar.element.append(progressBarValue.element);
     
             const alreadyCounterHacking = hacker == player.currentlyHacking;
             if (alreadyCounterHacking) {
@@ -420,32 +372,34 @@ const stats = {
                     hacker: hacker,
                     counterButton: redButtons[1],
                     message,
-                    hackLabel,
+                    hackLabel: hackLabel.element,
                     progression,
-                    progressBar,
-                    progressBarValue
+                    progressBar: progressBar.element,
+                    progressBarValue: progressBarValue.element,
+                    separator: separator.element,
                 })
                 counterHack(player.hacksInProgress[player.hacksInProgress.length - 1])
             } else {
-                const footer = document.createElement("span");
-                footer.innerText = "Click to counter";
-                footer.style.fontSize = "0.7rem";
-                footer.style.color = "var(--color-lightgrey)";
-                message.append(footer);
+                const footer = new Component("span", {
+                    innerText: "Click to counter",
+                    style: { fontSize: "0.7rem", color: "var(--color-lightgrey)" }
+                })
+                message.append(footer.element);
     
                 player.hacksInProgress.push({
                     hacker: hacker,
                     counterButton: redButtons[1],
                     message,
-                    footer,
-                    hackLabel,
+                    hackLabel: hackLabel.element,
                     progression,
-                    progressBar,
-                    progressBarValue
+                    progressBar: progressBar.element,
+                    progressBarValue: progressBarValue.element,
+                    separator: separator.element,
+                    footer: footer.element
                 })
             }
     
-            message.parentNode.append(separator);
+            message.parentNode.append(separator.element);
     
             message.style.cursor = "pointer";
             message.style.padding = " 5px 5px 5px 0";
@@ -454,7 +408,6 @@ const stats = {
                 redButtons[1].click();
                 await sleep(300);
                 counterHack(message);
-    
             };
             message.onmouseenter = () => message.style.backgroundColor = "#ffffff1a";
             message.onmouseleave = () => message.style.backgroundColor = "transparent";
@@ -534,7 +487,7 @@ const stats = {
                                                             classList: ["scanline", "svelte-w2dcq9"]
                                                         }),
                                                         new Component("div", {
-                                                            classList: ["inal", "svelte-w2dcq9"],
+                                                            classList: ["terminal", "svelte-w2dcq9"],
                                                             children: [
                                                                 new Component("div", {
                                                                     id: "ascii",
@@ -565,7 +518,7 @@ const stats = {
 				}),
                 new Component("div", {
                     id: "hacked-progress",
-                    style: { position: "absolute", backgroundColor: "var(--color-green)", height: "3px", width: "100%", borderRadius: "4px", transform: "translateY(-1px)", transitionDuration: "0.3s" }
+                    style: { position: "absolute", backgroundColor: "var(--color-terminal)", height: "3px", width: "100%", borderRadius: "4px", transform: "translateY(-1px)", transitionDuration: "0.3s" }
                 })
 			]
 		})
@@ -586,15 +539,6 @@ const stats = {
                     clearInterval(loop);
             }
         }, interval);
-
-    }
-
-    const manageCountryWarPoints = (message) => {
-        const pointGained = (message.innerText.match(/\d+/) || [0])[0];
-        player.countryWars.countryPoint += parseInt(pointGained);
-        player.countryWars.playerPoint += parseInt(pointGained);
-        updateCountryWarsPoint(pointGained);
-        message.remove();
     }
     
     const logObserver = new MutationObserver(function(mutations) {
@@ -610,26 +554,7 @@ const stats = {
             manageMessagesToDelete(message);
             if (message.innerText.includes("being hacked") || message.innerText.includes("been hacked"))
                 manageBeingHacked(message);
-            if (message.innerText.includes("earned"))
-                manageCountryWarPoints(message);
         })
-    });
-
-    const targetObserver = new MutationObserver(function(mutations) {
-        const botAvailable = mutations.find(e => 
-            e.removedNodes.length == 1 &&
-            e.removedNodes[0]?.classList?.contains("timer") &&
-            e.target.textContent.includes("NPC  "))
-        if (!botAvailable)
-            return;
-        sendLog(`
-            <div style="color: #fdd81f">
-                <img class="icon" src="icons/loot.svg" style="filter: brightness(0) saturate(100%) invert(90%) sepia(93%) saturate(2593%) hue-rotate(334deg) brightness(100%) contrast(99%);">
-                New
-                <div class='badge'>NPC</div>
-                appeared
-            </div>
-        `)
     });
     
     const windowCloseObserver = new MutationObserver(async function(mutations) {
@@ -641,33 +566,23 @@ const stats = {
         if (!windowClosed)
             return;
 
-        const isVPNWindow = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/vpn.svg']")
-        if (isVPNWindow && !hideOnOpen) {
-            vpnChangeObserver.disconnect();
-            await getCountryWarsPlayerInformation();
-            updateCountryWarsPoint();
-        }
-
         const isLogWindow = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/log.svg']")
         if (isLogWindow)
             logObserver.disconnect();
 
-        const isTargetWindow = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/targetList.svg']")
-        if (isTargetWindow)
-            targetObserver.disconnect();
-
-        const wasHackingSomeone = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/inal.svg']");
+        const wasHackingSomeone = windowClosed.removedNodes[0].querySelector(".window-title > img[src='icons/terminal.svg']");
         if (wasHackingSomeone) {
             const currentHackingBy = player.hacksInProgress.find(e => e.hacker == player.currentlyHacking);
             if (currentHackingBy) {
-                const footer = document.createElement("span");
-                footer.innerText = "Click to counter";
-                footer.style.fontSize = "0.7rem";
-                footer.style.color = "var(--color-lightgrey)";
+                const footer = new Component("span", {
+                    innerText: "Click to counter",
+                    style: { fontSize: "0.7rem", color: "var(--color-lightgrey)" }
+                })
+
                 currentHackingBy.counterLabel?.remove();
                 currentHackingBy.counterProgressBar?.remove();
-                currentHackingBy.message.append(footer);
-                currentHackingBy.footer = footer;
+                currentHackingBy.message.append(footer.element);
+                currentHackingBy.footer = footer.element;
             }
             player.lastHacked = player.currentlyHacking
             player.currentlyHacking = null;
@@ -852,6 +767,7 @@ const stats = {
 		})?.addedNodes[0]
 		if (!description)
 			return;
+
 		const type = (description.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -5);
 		const rarity = description.querySelector(".rarity")?.innerText;
 		const level = (description.querySelector(".level")?.innerText.match(/\d+/) || [])[0];
@@ -863,53 +779,29 @@ const stats = {
             effects[name] = Number(value);
         });
         if (!type || !level || effects.length == 0)
-            return
-		// console.log(Array.from(effects).map(effect => {
-		// 	const name = effect.querySelector("div > div")?.innerText.split("  ")[1].trim();
-		// 	const value = effect.querySelector("div > span > span")?.innerText;
-		// 	return name + " : " + value;
-		// }).join("\n"))
+            return;
 
         const index = rarities.indexOf(rarity.toLowerCase());
         const grade = getItemGrade(type, level, index, effects);
         if (grade == -1)
             return
-        switch(type) {
-            case "cpu":
-                var gradeComponent = new Component("div", {
-                    id: "grade",
-                    classList: ["attribute", "svelte-181npts"],
-                    innerText: `${grade} / 10 dCI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
-                })
-                break;
-            case "gpu":
-                var gradeComponent = new Component("div", {
-                    id: "grade",
-                    classList: ["attribute", "svelte-181npts"],
-                    innerText: `${grade} / 10 dGI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
-                })
-                break;
-            case "psu":
-                var gradeComponent = new Component("div", {
-                    id: "grade",
-                    classList: ["attribute", "svelte-181npts"],
-                    innerText: `${grade} / 10 dPI`,
-                    style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
-                })
-                break;
-            case "router":
-                var gradeComponent = new Component("div", {
-                        id: "grade",
-                        classList: ["attribute", "svelte-181npts"],
-                        innerText: `${grade} / 10 dFI`,
-                        style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", marginInlineEnd: "4px", backgroundColor: "black" }
-                })
-                break;
-            default:
-                return -1;
+
+        const unitiesByType = {
+            "cpu": "dCI",
+            "gpu": "dGI",
+            "psu": "dPI",
+            "router": "dFI",
         }
+         
+        const gradeComponent = new Component("div", {
+            id: "grade",
+            classList: ["attribute", "svelte-181npts"],
+            innerText: `${grade} / 10 ${unitiesByType[type]}`,
+            style: { paddingBlock: "4px", paddingInline: "9px", borderRadius: "2px", backgroundColor: "black" }
+        })
+        description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
+        description.style.width = "300px";
+
         const price = dPS(grade,level,index,type)
         description.querySelector(".level")?.parentNode.insertBefore(gradeComponent.element, description.querySelector(".effect"));
         description.style.width = "300px";
@@ -923,38 +815,45 @@ const stats = {
         description.style.width = "300px";
     });
 
-    const updateCountryWarsCountry = () => {
-        const countryName = document.querySelector("#countryName");
-        countryName.innerHTML = countryName.innerHTML
-            .replace(/\/\w+\.svg/, `/${player.currentCountry.code}.svg`)
-            .replace(/>.+$/, `>${player.currentCountry.name}`);
+    const raritiesVariables = {
+        "var(--color-SS)": "mythic",
+        "var(--color-S)" : "legendary",
+        "var(--color-A)" : "epic",
+        "var(--color-B)" : "rare",
+        "var(--color-C)" : "uncommon",
+        "var(--color-D)" : "common"
     }
-
-    const updateCountryWarsPoint = async (pointGained) => {
-        await sleep(200);
-        const countryPoint = document.querySelector("#countryPoint");
-        countryPoint.innerHTML = countryPoint.innerHTML.replace(/\d+$/, player.countryWars.countryPoint);
-        
-        const playerPoint = document.querySelector("#playerPoint");
-        playerPoint.innerHTML = playerPoint.innerHTML.replace(/\d+$/, player.countryWars.playerPoint);
-        
-        if (pointGained) {
-            const lastHackName = document.querySelector("#lastHackName");
-            lastHackName.innerHTML = lastHackName.innerHTML.replace(/>.+$/, `>${player.currentlyHacking}`);
-            
-            const lastHackPoint = document.querySelector("#lastHackPoint");
-            lastHackPoint.innerHTML = lastHackPoint.innerHTML.replace(/\d+$/, pointGained);
+    
+    const lootButtons = {
+        "take" : "button > img[src='icons/inventory.svg']",
+        "sell" : "button > img[src='icons/btc.svg']",
+        "shred": "button > img[src='icons/filament.svg']"
+    }
+    let manageLoot = async () => {
+        let item = document.querySelector(".window-loot > div > div > div > div > div > .item")
+        if (item) {
+            console.log("item")
+            let background = item.style.background
+            let rarity = raritiesVariables[background];
+            if (!rarity) rarity = raritiesVariables[background + ")"];
+            let color = getComputedStyle(item).getPropertyValue(background.toString().slice(4, background.endsWith(")") ? -1 : background.length))
+            if (rarity){
+                await sleep(200);
+                const button = document.querySelector(lootButtons[player.autoloot[rarity]])
+                button?.click();
+                sendLog(`
+                    <img class="icon" src="icons/check.svg"/>
+                    Successfully ${player.autoloot[rarity]} a
+                    <span style='background: ${color}; border-radius: 5px; padding: 2px 5px 2px 5px;'>${rarity}</span>
+                    item
+                `);
+                await sleep(100);
+                let isInventoryOpen = document.querySelector(".window-title > img[src='icons/inventory.svg']")?.closest(".window-title")?.querySelector(".window-close")
+                isInventoryOpen?.click();
+                await sleep(500);
+            }
         }
     }
-
-    const vpnChangeObserver = new MutationObserver(function(mutations) {
-        const [code, name] = document.querySelector(".element > div:nth-child(2) > div:nth-child(2)")?.innerText?.split(" • ") || [];
-        if (!code || !name)
-            return;
-        player.currentCountry.code = code;
-        player.currentCountry.name = name;
-        updateCountryWarsCountry();
-    })
     
     const windowOpenObserver = new MutationObserver(async function(mutations) {
         const newWindow = mutations.find(e => {
@@ -964,68 +863,222 @@ const stats = {
         })
         if (!newWindow)
             return;
-        
+
+        const isItem = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/loot.svg']")
+        if (isItem)
+            await manageLoot();
+
         const isFilamentWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/filament.svg']")?.parentNode?.parentNode;
         if (isFilamentWindow) {
             const upgrader = isFilamentWindow.querySelectorAll("h3")[1];
             if (!upgrader)
                 return;
-            const container = document.createElement("a");
-            container.style.width = "311px";
-            container.style.display = "inline-block";
-            container.style.margin = "0px";
-            container.style.marginTop = "10px";
-            container.style.flex = "0 1 auto";
-
-            const button = document.createElement("button");
             const isAnyGreen = Array.from(isFilamentWindow.querySelectorAll("button.green:not(.cantClick)")).slice(1).length
-            button.innerText = "Trade all"
-            button.classList.add("green", "svelte-ec9kqa");
-            if (!isAnyGreen)
-                button.classList.add("cantClick");
-            button.style.height = "auto";
-            button.style.padding = "6px 14px";
-            button.style.fontFamily = "var(--font-family-1)";
-            button.style.fontSize = "16px";
-            button.style.boxShadow = "0 10px 15px var(--color-shadow)";
-            
-            container.onclick = async () => {
-                for (let i = 0; i < 5; i++) {
-                    let button = Array.from(isFilamentWindow.querySelectorAll("button.green")).filter(e => e.innerText == "Max")[i];
-                    button?.click();
-                    await sleep(100);
+            const container = new Component("a", {
+                style: { width: "311px", display: "inline-block", margin: "0", marginTop: "10px", flex: "0 1 auto" },
+                children: [
+                    new Component("button", {
+                        innerText: "Trade all",
+                        classList: ["green", "svelte-ec9kqa", (isAnyGreen ? "can" : "cantClick")],
+                        style: { height: "auto", padding: "6px 14px", fontFamily: "var(--font-family-1)", fontSize: "16px", boxShadow: "0 10px 15px var(--color-shadow)" }
+                    })
+                ],
+                onclick: async () => {
+                    for (let i = 0; i < 6; i++) {
+                        let button = Array.from(isFilamentWindow.querySelectorAll("button.green")).filter(e => e.innerText == "Max")[i];
+                        button?.click();
+                        await sleep(100);
+                    }
                 }
-            }
+            })
 
-            container.append(button);
-            upgrader.after(container);
+            upgrader.after(container.element);
         }
 
-        const isCountryWarsWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/countryWars.svg']")
-        if (isCountryWarsWindow && hideOnOpen)
-            isCountryWarsWindow.parentNode.parentNode.style.display = "none";
+        const isTerminalWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/terminal.svg']");
+        if (isTerminalWindow) {
+            const terminalProgressBar = document.querySelector(".target-bar-progress");
+            if (!terminalProgressBar) return
+            customTerminal();
+            if (player.configuration.currentTheme !== Object.keys(themes)[0]){
+                const hackObserver = new MutationObserver(function(_) {
+                    colorizeTerminal();
+                });
+                hackObserver.observe(terminalProgressBar, { attributes: true, attributeFilter: ["style"] });
+            }
+        }
 
-        const isVPNWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/vpn.svg']")
-        const target = document.querySelector(".element > div:nth-child(2) > div");
-        if (isVPNWindow && hideOnOpen)
-            isVPNWindow.parentNode.parentNode.style.display = "none";
-        if (isVPNWindow && target && !hideOnOpen)
-            vpnChangeObserver.observe(target, { attributes: true, childList: true, characterData: false, subtree: true });
+        const lootRarity = [
+            { name: "common",    color: "linear-gradient(211deg, #585d66 0%, #7d848f 100%)" },
+            { name: "uncommon",  color: "linear-gradient(211deg, #007c37 0%, #83b200 100%)" },
+            { name: "rare",      color: "linear-gradient(211deg, #00427c 0%, #0092ed 100%)" },
+            { name: "epic",      color: "linear-gradient(211deg, #5c045a 0%, #a90052 100%)" },
+            { name: "legendary", color: "linear-gradient(112deg, #a95300 4%, #ff9605 34%, #a95300 66%, #ff9605 100%)" },
+            { name: "mythic",    color: "linear-gradient(112deg, #40f5ff 4%, #05a8ff 34%, #40f5ff 66%, #05a8ff 100%)" },
+            { name: "ethereal",    color: "linear-gradient(112deg, #ffb74e 4%, #ffe6a2 34%, #ffb74e 66%, #ffe6a2 100%)" },
+        ];
+        const isParamWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/settings.svg']")?.parentNode?.parentNode;
+        if (isParamWindow) {
+            let currImage = localStorage.getItem("prettier-backgroundImage");
+            const wrapper = isParamWindow.querySelector(".window-content > div");
+            const shredder = wrapper.querySelector("div:nth-child(4)");
+            shredder.querySelectorAll("button.green").forEach(button => button.click());
+            shredder.style.display = "none";
+            wrapper.querySelector("div:nth-child(1)").innerHTML = wrapper.querySelector("div:nth-child(1)").innerHTML.replace(/You're currently logged in as .+\./, "");
+            wrapper.querySelector("div:nth-child(1) > div > div").style.marginTop = 0;
+            wrapper.querySelector("button.red").style.height = "30px"
+
+            function updateBackground() {
+                document.querySelector("body").style.backgroundImage = currImage || "url(../../../img/bg-tile.png),radial-gradient(at center bottom,#273541,#0b0b0c)";
+                if (currImage)
+                    localStorage.setItem("prettier-backgroundImage", currImage)
+                else
+                    localStorage.removeItem("prettier-backgroundImage")
+            }
+
+            const backgroundSetting = new Component("div", {
+                classList: ["el", "svelte-176ijne"],
+                children: [
+                    new Component("h4", {
+                        innerText: "Edit background image",
+                    }),
+                    new Component("div", {
+                        style: { marginTop: "10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "5px" },
+                        children: [
+                            new Component("button", {
+                                innerText: "Upload",
+                                classList: ["grey", "svelte-ec9kqa"],
+                                style: { height: "35px", width: "85px" },
+                                onclick: () => {
+                                    const input = new Component("input", {
+                                        type: "file",
+                                        onchange: (e) => {
+                                            const file = e.target.files[0];
+                                            const fileReader = new FileReader();
+                                            fileReader.onload = function() {
+                                                currImage = `url(${fileReader.result})`;
+                                                document.querySelector("body").style.backgroundSize = "cover";
+                                                updateBackground();
+                                            }
+                                            fileReader.readAsDataURL(file)
+                                        }
+                                    })
+                                    input.element.click();
+                                }
+                            }),
+                            new Component("div", {
+                                innerText: "or"
+                            }),
+                            new Component("input", {
+                                type: "text",
+                                placeholder: "Import from url",
+                                style: { width: "200px", padding: "10px", borderRadius: "2px", textAlign: "left", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", zIndex: "60" },
+                                onblur: (e) => {
+                                    currImage = `url(${e.target.value})`;
+                                    e.target.value = "";
+                                    document.querySelector("body").style.backgroundSize = "cover";
+                                    updateBackground();
+                                }
+                            }),
+                            new Component("button", {
+                                innerText: "Reset",
+                                classList: ["red", "svelte-ec9kqa"],
+                                style: { height: "35px", width: "85px" },
+                                onclick: () => {
+                                    currImage = null;
+                                    document.querySelector("body").style.backgroundSize = "auto";
+                                    updateBackground();
+                                }
+                            })
+                        ]
+                    })
+                ]
+            })
+
+            const autolootSetting = new Component("div", {
+                classList: ["el", "svelte-176ijne"],
+                children: [
+                    new Component("h4", {
+                        innerText: "Auto loot"
+                    }),
+                    new Component("div", {
+                        style: { display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" },
+                        children: lootRarity.map(rarity => {
+                            return new Component("div", {
+                                style: { display: "flex", justifyContent: "space-between", alignItems: "center", height: "30px", fontFamily: "var(--font-family-2)", fontSize: "14px" },
+                                children: [
+                                    new Component("p", {
+                                        innerText: rarity.name[0].toUpperCase() + rarity.name.slice(1),
+                                        style: { background: rarity.color, width: "90px", fontWeight: "bold", padding: "6px", borderRadius: "5px" }
+                                    }),
+                                    new Component("div", {
+                                        style: { display: "flex", border: "1px solid #91aabd", borderRadius: "3px" },
+                                        children: [
+                                            new Component("div", {
+                                                classList: ["button-autoloot-" + rarity.name, "button-take"],
+                                                innerText: "Take",
+                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "take" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                onmouseenter: (e) => {if (player.autoloot[rarity.name] != "take") e.target.style.background = "#91aabd2d";},
+                                                onmouseleave: (e) => {if (player.autoloot[rarity.name] != "take") e.target.style.background = "transparent";},
+                                                onclick: (e) => {
+                                                    player.autoloot[rarity.name] = "take";
+                                                    document.querySelectorAll(".button-autoloot-" + rarity.name).forEach(button => button.style.backgroundColor = "transparent");
+                                                    e.target.style.backgroundColor = "#91aabd4d";
+                                                    localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
+                                                }
+                                            }),
+                                            new Component("div", {
+                                                classList: ["button-autoloot-" + rarity.name, "button-sell"],
+                                                innerText: "Sell",
+                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "sell" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                onmouseenter: (e) => {if (player.autoloot[rarity.name] != "sell") e.target.style.background = "#91aabd2d";},
+                                                onmouseleave: (e) => {if (player.autoloot[rarity.name] != "sell") e.target.style.background = "transparent";},
+                                                onclick: (e) => {
+                                                    player.autoloot[rarity.name] = "sell";
+                                                    document.querySelectorAll(".button-autoloot-" + rarity.name).forEach(button => button.style.backgroundColor = "transparent");
+                                                    e.target.style.backgroundColor = "#91aabd4d";
+                                                    localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
+                                                }
+                                            }),
+                                            new Component("div", {
+                                                classList: ["button-autoloot-" + rarity.name, "button-shred"],
+                                                innerText: "Shred",
+                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "shred" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                onmouseenter: (e) => {if (player.autoloot[rarity.name] != "shred") e.target.style.background = "#91aabd2d";},
+                                                onmouseleave: (e) => {if (player.autoloot[rarity.name] != "shred") e.target.style.background = "transparent";},
+                                                onclick: (e) => {
+                                                    player.autoloot[rarity.name] = "shred";
+                                                    document.querySelectorAll(".button-autoloot-" + rarity.name).forEach(button => button.style.backgroundColor = "transparent");
+                                                    e.target.style.backgroundColor = "#91aabd4d";
+                                                    localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
+                                                }
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        })
+                    })
+                ]
+            })
+
+            wrapper.insertBefore(backgroundSetting.element, wrapper.querySelector("div:nth-child(2)"));
+            wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
+        }
+
 
         const hasBeenHackedWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/hack.svg']") && newWindow.addedNodes[0].querySelector(".window-title")?.innerText?.trim() == "Hacked"
         if (hasBeenHackedWindow)
             hasBeenHacked(newWindow.addedNodes[0]);
 
         const isLogWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/log.svg']")
-        if (isLogWindow)
+        if (isLogWindow) {
+            editWelcomeMessage();
             logObserver.observe(isLogWindow?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper"), {attributes: false, childList: true, characterData: false, subtree: true});
-
-        const isTargetWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/targetList.svg']")
-        if (isTargetWindow)
-            targetObserver.observe(isTargetWindow.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > div > #list"), { attributes: false, childList: true, characterData: false, subtree: true });
+        }
 
 
-        const isHackingSomeoneWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/inal.svg']")?.parentNode?.parentNode
+        const isHackingSomeoneWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/terminal.svg']")?.parentNode?.parentNode
         if (isHackingSomeoneWindow) {
             const hacked = isHackingSomeoneWindow.querySelector(".username")?.innerText;
             if (hacked)
@@ -1039,8 +1092,7 @@ const stats = {
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
         if (hasHackedSomeoneWindow) {
             const hacked = newWindow.addedNodes[0].querySelector(".window-content > div > .el:nth-child(1) > .wrapper > .username")?.innerText
-            // Naleg Clutch
-            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
+            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked);
             if (!wasHackingYou)
                 return;
             wasHackingYou.hackLabel.innerText = "Successfully counter " + wasHackingYou.hackLabel.innerText.replace(/is hacking you \(\d+%\) on port \d+/, "")
@@ -1057,191 +1109,6 @@ const stats = {
             wasHackingYou.hackObserver.disconnect();
         }
     });
-        
-    const editProgressBar = () => {
-        const progressBar = (document.querySelectorAll(".topbar-value") || [])[2]
-        if (!progressBar)
-            return;
-        progressBar.style.resize = "horizontal";
-    }
-
-    const getCountryPlayerInformation = () => {
-        return new Promise(async resolve => {
-            hideOnOpen = true;
-            const vpnButton = document.querySelector("#desktop-container > div > div > div > img[src='icons/vpn.svg']")?.parentNode?.parentNode?.parentNode
-            if (!vpnButton)
-                return;
-            vpnButton.click();
-            await sleep(200);
-            const [code, name] = document.querySelector(".element > div:nth-child(2) > div:nth-child(2)")?.innerText?.split(" • ") || [];
-            if (!code || !name)
-                return;
-            player.currentCountry.code = code;
-            player.currentCountry.name = name;
-            document.querySelector(".window-title > img[src='icons/vpn.svg']")?.parentNode?.querySelector(".window-close")?.click()
-            hideOnOpen = false;
-            resolve();
-        })
-    }
-
-    const prettierLoadFails = (code) => {
-        hideOnOpen = false;
-        alert(`Prettier-s0urce loading failed, please contact Xen0o2 on Discord (error code: ${code})`);
-    }
-
-    const getCountryWarsPlayerInformation = () => {
-        return new Promise(async resolve => {
-            hideOnOpen = true;
-            await sleep(200);
-            const countryWarsButton = document.querySelector("#desktop-container > div > div > div > img[src='icons/countryWars.svg']")?.parentNode?.parentNode?.parentNode
-            if (!countryWarsButton)
-                return prettierLoadFails("1");
-            countryWarsButton.click();
-            await sleep(300);
-            const countryTab = document.querySelectorAll(".selection")[0];
-            if (!countryTab)
-                return prettierLoadFails("2");
-            countryTab.click();
-            await sleep(500);
-            const countryLine = document.querySelector(`.list > div > div > div:nth-child(2) > img[src='flags/${player.currentCountry.code}.svg']`)?.parentNode?.parentNode;
-            const countryPoint = countryLine?.querySelector("div > img[src='icons/countryWars.svg']")?.parentNode?.innerText || "0";
-            if (!countryPoint)
-                return prettierLoadFails("3");
-            player.countryWars.countryPoint = parseInt(countryPoint);
-            const playerTab = document.querySelectorAll(".selection")[1];
-            if (!playerTab)
-                return prettierLoadFails("4");
-            playerTab.click();
-            await sleep(500);
-            let playerPoint = document.querySelectorAll(".username")[20]?.parentNode?.querySelector("span > img")?.parentNode?.innerText
-            if (!playerPoint) {
-                if (!player.username) {
-                    await sleep(500);
-                    player.username = document.querySelector("img[src='icons/online.svg']")?.parentNode?.innerText?.trim();
-                }
-                console.log(player.username);
-                const players = document.querySelectorAll(".username");
-                console.log(players);
-                let playerIndex = Array.from(players).findIndex(e => e.innerText.trim() == player.username);
-                if (playerIndex == -1) playerIndex = Array.from(players).findIndex(e => e.innerText.trim() == player.username + " (you)");
-                console.log(playerIndex);
-                playerPoint = players[playerIndex]?.parentNode?.querySelector("span > img")?.parentNode?.innerText || 0;
-                if (playerPoint == undefined)
-                    return prettierLoadFails("5");
-            }
-            player.countryWars.playerPoint = parseInt(playerPoint);
-            document.querySelector(".window-title > img[src='icons/countryWars.svg']")?.parentNode?.querySelector(".window-close")?.click()
-            hideOnOpen = false;
-            resolve();
-        })
-    }
-
-    const editCountryWarWindow = async () => {
-        await getCountryPlayerInformation();
-        await getCountryWarsPlayerInformation();
-        const window = document.querySelector("body > div > main > div:nth-child(4)");
-        if (!window)
-            return;
-        window.classList.add("window", "svelte-1hjm43z");
-        window.style.overflow = "auto";
-        window.style.height = "380px";
-        window.style.resize = "both";
-        window.style.padding = null;
-
-        const countryWarTitle = window.querySelector("div");
-        if (!countryWarTitle)
-            return;
-        countryWarTitle.classList.add("window-title", "svelte-1hjm43z");
-            
-        const countryWarChart = window.querySelector("div:nth-child(2)");
-        if (!countryWarChart)
-            return;
-        countryWarChart.style.height = "200px";
-        countryWarChart.style.borderLeftWidth = null;
-        countryWarChart.style.borderLeftStyle = null;
-        countryWarChart.style.borderLeftColor = null;
-        countryWarChart.style.borderBottomWidth = null;
-        countryWarChart.style.borderBottomStyle = null;
-        countryWarChart.style.borderBottomColor = null;
-
-        const separator = document.createElement("div");
-        separator.classList.add("line");
-        separator.style.width = "90%";
-        separator.style.margin = "5%";
-        window.append(separator);
-
-        const infoContainer = document.createElement("div");
-        infoContainer.style.fontFamily = "IBM Plex Mono,monospace";
-        infoContainer.style.display = "flex";
-        infoContainer.style.flexDirection = "column";
-        infoContainer.style.margin = "10px";
-        infoContainer.style.gap = "15px";
-
-        const countryInfo = document.createElement("div");
-        const countryName = document.createElement("div");
-        const countryIcon = document.createElement("img");
-        const playerInfo = document.createElement("div");
-        const playerName = document.createElement("div");
-        const playerIcon = document.createElement("img");
-        const lastHackInfo = document.createElement("div");
-        const lastHackName = document.createElement("div");
-        const lastHackIcon = document.createElement("img");
-
-        countryIcon.src = `flags/${player.currentCountry.code}.svg`;
-        countryIcon.style.height = "13px";
-        countryIcon.style.marginInline = "2px 5px";
-        playerIcon.src = `icons/countryWars.svg`;
-        playerIcon.style.height = "20px";
-        playerIcon.style.marginRight = "3px";
-        lastHackIcon.src = `icons/hack-red.svg`;
-        lastHackIcon.style.height = "16px";
-        lastHackIcon.style.marginInline = "2px 6px";
-        
-        countryInfo.innerText = player.countryWars.countryPoint;
-        countryInfo.id = "countryPoint";
-        countryInfo.style.color = "var(--color-lightgrey)";
-        countryInfo.style.display = "flex";
-        countryInfo.style.justifyContent = "space-between";
-        countryName.innerText = player.currentCountry.name;
-        countryName.id = "countryName";
-        countryName.style.fontWeight = "bold";
-        countryName.style.display = "flex";
-        countryName.style.alignItems = "center";
-        
-        playerInfo.innerText = player.countryWars.playerPoint;
-        playerInfo.id = "playerPoint";
-        playerInfo.style.color = "var(--color-lightgrey)";
-        playerInfo.style.display = "flex";
-        playerInfo.style.justifyContent = "space-between";
-        playerName.innerText = player.username;
-        playerName.style.fontWeight = "bold";
-        playerName.style.display = "flex";
-        playerName.style.alignItems = "center";
-        
-        lastHackInfo.innerText = `+0`;
-        lastHackInfo.id = `lastHackPoint`;
-        lastHackInfo.style.color = "var(--color-midgreen)";
-        lastHackInfo.style.display = "flex";
-        lastHackInfo.style.justifyContent = "space-between";
-        lastHackName.innerText = `No hack yet`;
-        lastHackName.id = `lastHackName`;
-        lastHackName.style.fontWeight = "bold";
-        lastHackName.style.display = "flex";
-        lastHackName.style.alignItems = "center";
-        
-        countryName.prepend(countryIcon);
-        countryInfo.prepend(countryName);
-        playerName.prepend(playerIcon);
-        playerInfo.prepend(playerName);
-        lastHackName.prepend(lastHackIcon);
-        lastHackInfo.prepend(lastHackName);
-
-        infoContainer.append(countryInfo);
-        infoContainer.append(playerInfo);
-        infoContainer.append(lastHackInfo);
-        
-        window.append(infoContainer);
-    }
 
     const editWelcomeMessage = () => {
         const message = document.querySelector(".window-title > img[src='icons/log.svg']").parentNode.parentNode.querySelector("#wrapper > div");
@@ -1267,18 +1134,18 @@ const stats = {
 
     const filamentObserver = new MutationObserver(function(mutations) {
         if (mutations.length == 1 && !mutations[0].target.id)
-            updateMythicOnly();
+            updateEthereal();
     })
 
-    const updateMythicOnly = () => {
+    const updateEthereal = () => {
         try {
             const filaments = document.querySelectorAll(".filament-el");
-            const [cf, uf, rf, ef, lf, mf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
-            const mythics = ((cf + (uf * 3) + (rf * 9) + (ef * 27) + (lf * 135) + (mf * 405)) / 12150 * 30).toFixed(4);
-            const element = document.querySelector("#mythicOnly");
+            const [cf, uf, rf, ef, lf, mf, etf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
+            const ethereal = (((cf + (uf * 3) + (rf * 9) + (ef * 27) + (lf * 135) + (mf * 405)) / 2025) + etf).toFixed(4);
+            const element = document.querySelector("#ethereal");
             if (element)
-                element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, mythics);
-            return mythics;
+                element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, ethereal);
+            return ethereal;
         } catch(e) {
             console.log(e);
             prettierLoadFails("7");
@@ -1294,40 +1161,35 @@ const stats = {
             container.style.rowGap = null;
             filaments.forEach(e => e.style.display = "none");
     
-            const mythics = updateMythicOnly();
-            const mythicOnly = document.createElement("div");
-            const mythicIcon = document.createElement("img");
+            const ethereals = updateEthereal();
+            const etherealOnly = new Component("div", {
+                id: "ethereal",
+                innerText: ethereals.toString(),
+                classList: ["filament-el", "svelte-1azjldn"],
+                style: { height: "100%", width: "auto", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", fontSize: "1.5rem", paddingLeft: "10px" },
+                children: [
+                    new Component("img", {
+                        src: "icons/filament-ethereal.svg",
+                        classList: ["icon", "icon-in-text"],
+                        style: { transform: "translateY(-1px)" }
+                    })
+                ]
+            })
             
-            mythicOnly.innerText = mythics;
-            mythicOnly.id = "mythicOnly";
-            mythicOnly.classList.add("filament-el","svelte-1azjldn");
-            mythicOnly.style.height = "100%";
-            mythicOnly.style.width = "auto";
-            mythicOnly.style.display = "flex";
-            mythicOnly.style.justifyContent = "center";
-            mythicOnly.style.alignItems = "center";
-            mythicOnly.style.gap = "5px";
-            mythicOnly.style.fontSize = "1.5rem";
-            mythicOnly.style.paddingLeft = "10px";
-    
-            mythicIcon.src = "icons/filament-mythic.svg"
-            mythicIcon.classList.add("icon", "icon-in-text");
-            mythicIcon.style.transform = "translateY(-1px)";
-    
-            mythicOnly.append(mythicIcon);
-            container.append(mythicOnly);
+            container.append(etherealOnly.element);
     
             container.onclick = () => {
                 if (player.configuration.displayCustomFilament) {
-                    mythicOnly.style.display = "none";
+                    etherealOnly.element.style.display = "none";
                     filaments.forEach(e => e.style.display = "block");
                 } else {
-                    mythicOnly.style.display = "flex";
+                    etherealOnly.element.style.display = "flex";
                     filaments.forEach(e => e.style.display = "none");
                 }
                 player.configuration.displayCustomFilament = !player.configuration.displayCustomFilament;
             }
 
+            filamentObserver.disconnect();
             filamentObserver.observe(container, { subtree: true, characterData: true, childList: true });
         } catch(e) {
             console.log(e);
@@ -1344,7 +1206,7 @@ const stats = {
                     children: [
                         new Component("span", {
                             innerText: "Prettier d0urce",
-                            style: { color: "cornflowerblue", textShadow: "0 0 3px pink", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
+                            style: { color: "cornflowerblue", textShadow: "0 0 3px blue", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
                         }),
                         new Component("span", {
                             innerText: "Running Version 1.6.1",
@@ -1361,54 +1223,18 @@ const stats = {
         }
     }
 
-    (async () => {
-        console.log("Sleeping before load...")
-        await sleep(1500);
-        console.log("Script loaded.")
-        start();
-    })()
-    
-    const start = async () => {
-        while (document.querySelector("#login-top"))
-            await sleep(500);
-        while (window.location.href.toLowerCase().includes("rules"))
-            await sleep(500);
-        if (document.querySelector("#login-top")) {
-            start()
-            return;
-        }
-        loadingScreen("create");
-        while (1) {
-            var i = 1
-            try {
-                const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']").closest(".window.svelte-1hjm43z").querySelector(".window-content > #wrapper");
-                logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
-                windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-                windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-                itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
-                editFilaments();
-                editProgressBar();
-                await editCountryWarWindow();
-                editWelcomeMessage();
-                loadingScreen("delete");
-                break
-            }
-            catch {
-                if (i) {
-                    i--;
-                    loadingScreen("delete");
-                }
-                await sleep(5000)
-            }
-        }
+    const createObserver = () => {
+        const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
+        if (logWindow)
+            logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+        windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+        windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+        itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
     }
-})();
 
-
-// Page Break!
-
-function addOrUpdateStyle(css) {
+    const updateThemeStyle = () => {
         const styleElement = document.getElementById('customStyles');
+        const css = themes[localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0]];
         if (styleElement) {
             styleElement.textContent = css;
         } else {
@@ -1419,95 +1245,135 @@ function addOrUpdateStyle(css) {
         }
     }
 
-    // Add custom CSS
-    addOrUpdateStyle(`
-        /* Modify background image */
-        body {
-            background-image: linear-gradient(
-    to bottom,
-    rgb(0 0 0 / 50%),
-    rgb(0 0 255 / 50%)
-),url(https://cdn.discordapp.com/attachments/714329253650366515/1226604971068231680/ezgif-6-6e6390f4d2.gif?ex=66255fe6&is=6612eae6&hm=6b590b09702787a83b6171e5870101be827ee4b2da7e6bd1e3d4118c622ca4b5&) !important;
-            background-size: cover !important;
-            background-repeat: no-repeat !important;
-            background-attachment: fixed !important;
-            background-position: center !important;
-        }`)
-var send=WebSocket.prototype.send, inboundLog=true, outboundLog=true
-function traverse(obj,fn){
-  let keys=Object.keys(obj)
-  for(let i=0;i<keys.length;i++){
-    let part=obj[keys[i]]
-    if(part && typeof part==="object") traverse(part,fn);
-    fn(part)
-  }
-}
+    const loadLocalStorage = () => {
+        if (localStorage.getItem("prettier-backgroundImage")) {
+            document.querySelector("body").style.backgroundImage = localStorage.getItem("prettier-backgroundImage");
+            document.querySelector("body").style.backgroundSize = "cover";
+        } else
+            document.querySelector("body").style.backgroundSize = "auto";
+        document.querySelector("body").style.backgroundAttachment = "fixed";
+        document.querySelector("body").style.backgroundPosition = "center";
 
-// Page Break!
-
-WebSocket.prototype.send=function(d){
-  try{
-    let index=d.indexOf('[')
-    let x=JSON.parse(d.substr(index))
-    if(!x || typeof x!=="object") throw "skip";
-    traverse(x,function(o){
-      if(o.username) o.username=o.username.split(' ')[0];
-    })
-    d=d.substring(0,index)+JSON.stringify(x)
-  }catch{}
-  if(outboundLog) console.warn(d);
-  return send.bind(this)(d);
-}
-function listen(fn){
-  fn = fn || console.log;
-
-  let property = Object.getOwnPropertyDescriptor(MessageEvent.prototype, "data");
-  
-  const data = property.get;
-
-  // wrapper that replaces getter
-  function lookAtMessage() {
-
-    let socket = this.currentTarget instanceof WebSocket;
-
-    if (!socket) {
-      return data.call(this);
+        if (!localStorage.getItem("prettier-autoloot"))
+            localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
+        if (!localStorage.getItem("prettier-currentTheme"))
+            localStorage.setItem("prettier-currentTheme", Object.keys(themes)[0])
     }
 
-    let msg = data.call(this);
+    const loadScripts = async () => {
+        const scripts = [
+            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/languages/python.min.js"
+        ];
+        for (let script of scripts) {
+            await new Promise((resolve) => {
+                fetch(script)
+                    .then(response => response.text())
+                    .then(scriptText => {
+                        const scriptElement = document.createElement('script');
+                        scriptElement.textContent = scriptText;
+                        document.head.appendChild(scriptElement);
+                        resolve();
+                    })
+                    .finally(() => resolve());
+            })   
+        }
+    }
+    
+    (async () => {
+        while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
+            await sleep(500);
+        loadingScreen("create");
+        createObserver();
+        editFilaments();
+        editProgressBar();
+        editWelcomeMessage();
+        loadLocalStorage();
+        updateThemeStyle();
+        customTerminal();
+        await loadScripts();
+        await sleep(1000);
+        loadingScreen("delete");
+    })()
 
-    Object.defineProperty(this, "data", { value:msg, writable:true } ); //anti-loop
-    fn({ data: msg, socket:this.currentTarget, event:this });
-    return this.data;
-  }
-  
-  property.get = lookAtMessage;
-  
-  Object.defineProperty(MessageEvent.prototype, "data", property);
+})();
+
+// Page Break
+
+var send=WebSocket.prototype.send, inboundLog=true, outboundLog=true
+
+function traverse(obj,fn){
+    let keys=Object.keys(obj)
+    for(let i=0;i<keys.length;i++){
+      let part=obj[keys[i]]
+      if(part && typeof part==="object") traverse(part,fn);
+      fn(part)
+    }
 }
 
-
-listen( ({data,socket,event}) => {
-  window.SOCK=socket
-  let index=data.indexOf('[')
-  try{var x=JSON.parse(data.substr(index))}
-  catch{return data}
-  if(typeof x!=="object") return console.log(data);
+WebSocket.prototype.send=function(d){
+    try{
+      let index=d.indexOf('[')
+      let x=JSON.parse(d.substr(index))
+      if(!x || typeof x!=="object") throw "skip";
+      traverse(x,function(o){
+        if(o.username) o.username=o.username.split(' ')[0];
+      })
+      d=d.substring(0,index)+JSON.stringify(x)
+    }catch{}
+    if(outboundLog) console.warn(d);
+    return send.bind(this)(d);
+  }
+  function listen(fn){
+    fn = fn || console.log;
   
-  traverse(x,function(o){
-    if(o?.btc) o.username+=` (${parseFloat(o.btc).toFixed(3)} btc)`;
-  })
-  if(x[1]?.event==="gotGlobalRoomLogs"){
-    x[1].arguments[0]=x[1].arguments[0].map(a=>{
-      a=JSON.parse(a)
-      let o=a.sender
-      if(o.btc)
-        o.username+=` (${parseFloat(o.btc).toFixed(3)} btc)`;
-      return JSON.stringify(a)
-    })
+    let property = Object.getOwnPropertyDescriptor(MessageEvent.prototype, "data");
+    
+    const data = property.get;
+  
+    // wrapper that replaces getter
+    function lookAtMessage() {
+  
+      let socket = this.currentTarget instanceof WebSocket;
+  
+      if (!socket) {
+        return data.call(this);
+      }
+  
+      let msg = data.call(this);
+  
+      Object.defineProperty(this, "data", { value:msg, writable:true } ); //anti-loop
+      fn({ data: msg, socket:this.currentTarget, event:this });
+      return this.data;
+    }
+    
+    property.get = lookAtMessage;
+    
+    Object.defineProperty(MessageEvent.prototype, "data", property);
   }
   
-  data=data.substring(0,index)+JSON.stringify(x)
-  event.data=data
-  if(inboundLog) console.log(data);
-})
+  
+  listen( ({data,socket,event}) => {
+    window.SOCK=socket
+    let index=data.indexOf('[')
+    try{var x=JSON.parse(data.substr(index))}
+    catch{return data}
+    if(typeof x!=="object") return console.log(data);
+    
+    traverse(x,function(o){
+      if(o?.btc) o.username+=` (₿${parseFloat(o.btc).toFixed(2)})`;
+    })
+    if(x[1]?.event==="gotGlobalRoomLogs"){
+      x[1].arguments[0]=x[1].arguments[0].map(a=>{
+        a=JSON.parse(a)
+        let o=a.sender
+        if(o.btc)
+            o.username += ` (₿${parseFloat(o.btc).toFixed(2)})`;
+        return JSON.stringify(a)
+      })
+    }
+    
+    data=data.substring(0,index)+JSON.stringify(x)
+    event.data=data
+    if(inboundLog) console.log(data);
+  })
