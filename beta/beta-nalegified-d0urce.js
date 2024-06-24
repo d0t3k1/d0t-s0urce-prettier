@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         beta-nalegified-d0urce
-// @version      b2024-06-21
+// @version      2024-06-24
 // @description  Nalegified d0urce, even more unstable !
-// @author       Naleg
-// @originator   d0t & Xen0o2
+// @author       Naleg, d0t, Xen0o2
 // @match        https://s0urce.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=s0urce.io
 // @downloadURL  https://raw.githubusercontent.com/NalegFR/nalegified-d0urce/main/beta/beta-nalegified-d0urce.js
