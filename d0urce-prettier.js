@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      2024-06-22
+// @version      1.6.3
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -10,12 +10,15 @@
 // @grant        none
 // ==/UserScript==
 
+const VERSION = "1.6.3"
+
 const themes = {
     "No Theme": "",
     "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}",
     "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#f8f8f2}.hljs-subst,.hljs-tag{color:#f8f8f2}.hljs-emphasis,.hljs-strong{color:#a8a8a2}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ae81ff}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#a6e22e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#f92672}.hljs-attribute,.hljs-symbol{color:#66d9ef}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#f8f8f2}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#e6db74}.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}",
     "Github": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#c9d1d9;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}",
     "Night Owl": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
+    "Flashbang": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffffff}.hljs-keyword{color:#ffffff;font-style:italic}.hljs-built_in{color:#ffffff;font-style:italic}.hljs-type{color:#ffffff}.hljs-literal{color:#ffffff}.hljs-number{color:#ffffff}.hljs-regexp{color:#ffffff}.hljs-string{color:#ffffff}.hljs-subst{color:#ffffff}.hljs-symbol{color:#ffffff}.hljs-class{color:#ffffff}.hljs-function{color:#ffffff}.hljs-title{color:#ffffff;font-style:italic}.hljs-params{color:#ffffff}.hljs-comment{color:#ffffff;font-style:italic}.hljs-doctag{color:#ffffff}.hljs-meta,.hljs-meta .hljs-keyword{color:#ffffff}.hljs-meta .hljs-string{color:#ffffff}.hljs-section{color:#ffffff}.hljs-attr,.hljs-name,.hljs-tag{color:#ffffff}.hljs-attribute{color:#ffffff}.hljs-variable{color:#ffffff}.hljs-bullet{color:#ffffff}.hljs-code{color:#ffffff}.hljs-emphasis{color:#ffffff;font-style:italic}.hljs-strong{color:#ffffff;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ffffff}.hljs-quote{color:#ffffff;font-style:italic}.hljs-selector-tag{color:#ffffff}.hljs-selector-id{color:#ffffff}.hljs-selector-class{color:#ffffff;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#ffffff;font-style:italic}.hljs-template-tag{color:#ffffff}.hljs-template-variable{color:#ffffff}.hljs-addition{color:#ffffff;font-style:italic}.hljs-deletion{color:#ffffff;font-style:italic}",
 }
 
 class Component {
@@ -73,6 +76,7 @@ const player = {
     currentlyHacking: null,
     lastHacked: null,
     configuration: {
+        openInSilent: [],
         displayCustomFilament: true,
         currentTheme: localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0],
     },
@@ -244,6 +248,7 @@ const stats = {
                     innerText: "Theme",
                 }),
                 new Component("div", {
+                    id: "themes",
                     style: { textAlign: "left", position: "relative", height: "100%", width: "200px", display: "flex", justifyContent: "center", alignItems: "center", border: "1px solid var(--color-terminal)", borderRadius: "2px", fontFamily: "var(--font-family-2)", color: "var(--color-terminal)", fontWeight: 500 },
                     children: [
                         new Component("div", {
@@ -279,7 +284,7 @@ const stats = {
                 })
             ]
         })
-
+        try {changeColors()} catch {}
         wrapper.appendChild(component.element);
     }
     
@@ -814,21 +819,7 @@ const stats = {
         description.querySelector(".level")?.parentNode.insertBefore(priceStandard.element, description.querySelector(".effect"));
         description.style.width = "300px";
     });
-
-    const raritiesVariables = {
-        "var(--color-SS)": "mythic",
-        "var(--color-S)" : "legendary",
-        "var(--color-A)" : "epic",
-        "var(--color-B)" : "rare",
-        "var(--color-C)" : "uncommon",
-        "var(--color-D)" : "common"
-    }
     
-    const lootButtons = {
-        "take" : "button > img[src='icons/inventory.svg']",
-        "sell" : "button > img[src='icons/btc.svg']",
-        "shred": "button > img[src='icons/filament.svg']"
-    }
     let manageLoot = async () => {
         let item = document.querySelector(".window-loot > div > div > div > div > div > .item")
         if (item) {
@@ -839,6 +830,8 @@ const stats = {
             let color = getComputedStyle(item).getPropertyValue(background.toString().slice(4, background.endsWith(")") ? -1 : background.length))
             if (rarity){
                 await sleep(200);
+                if (player.autoloot[rarity] === "take")
+                    await openWindow("Inventory", true);
                 const button = document.querySelector(lootButtons[player.autoloot[rarity]])
                 button?.click();
                 sendLog(`
@@ -848,8 +841,7 @@ const stats = {
                     item
                 `);
                 await sleep(100);
-                let isInventoryOpen = document.querySelector(".window-title > img[src='icons/inventory.svg']")?.closest(".window-title")?.querySelector(".window-close")
-                isInventoryOpen?.click();
+                closeWindow("Inventory", true);
                 await sleep(500);
             }
         }
@@ -908,15 +900,6 @@ const stats = {
             }
         }
 
-        const lootRarity = [
-            { name: "common",    color: "linear-gradient(211deg, #585d66 0%, #7d848f 100%)" },
-            { name: "uncommon",  color: "linear-gradient(211deg, #007c37 0%, #83b200 100%)" },
-            { name: "rare",      color: "linear-gradient(211deg, #00427c 0%, #0092ed 100%)" },
-            { name: "epic",      color: "linear-gradient(211deg, #5c045a 0%, #a90052 100%)" },
-            { name: "legendary", color: "linear-gradient(112deg, #a95300 4%, #ff9605 34%, #a95300 66%, #ff9605 100%)" },
-            { name: "mythic",    color: "linear-gradient(112deg, #40f5ff 4%, #05a8ff 34%, #40f5ff 66%, #05a8ff 100%)" },
-            { name: "ethereal",    color: "linear-gradient(112deg, #ffb74e 4%, #ffe6a2 34%, #ffb74e 66%, #ffe6a2 100%)" },
-        ];
         const isParamWindow = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/settings.svg']")?.parentNode?.parentNode;
         if (isParamWindow) {
             let currImage = localStorage.getItem("prettier-backgroundImage");
@@ -1083,10 +1066,12 @@ const stats = {
             const hacked = isHackingSomeoneWindow.querySelector(".username")?.innerText;
             if (hacked)
                 player.currentlyHacking = hacked;
-            const isHackingYou = player.hacksInProgress.find(e => e.hacker == hacked);
-            if (!isHackingYou)
-                return;
-            counterHack(isHackingYou);
+            // Naleg Clutch
+            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
+            try {
+                if (!isHackingYou) return;
+                counterHack(isHackingYou);
+            } catch {}
         }
 
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
@@ -1209,7 +1194,7 @@ const stats = {
                             style: { color: "cornflowerblue", textShadow: "0 0 3px blue", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "3rem", opacity: "1" }
                         }),
                         new Component("span", {
-                            innerText: "Running Version 1.6.1",
+                            innerText: "Running Version " + VERSION,
                             style: { color: "var(--color-lightgrey)", fontFamily: "var(--font-family-2)", fontWeight: "500", fontSize: "2rem", marginTop: "20px" }
                         })
                     ]
@@ -1223,19 +1208,27 @@ const stats = {
         }
     }
 
-    const createObserver = () => {
-        const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
-        if (logWindow)
-            logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
-        windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-        windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-        itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+    const createObserver = async () => {
+            while (1) {
+                try {
+                    const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
+                    logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+                    windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                    windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                    itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+                    break
+                }
+                catch {
+                    await sleep(5000)
+                }
+            }
     }
 
     const updateThemeStyle = () => {
         const styleElement = document.getElementById('customStyles');
         const css = themes[localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0]];
         if (styleElement) {
+            changeColors();
             styleElement.textContent = css;
         } else {
             const newStyleElement = document.createElement('style');
@@ -1279,23 +1272,186 @@ const stats = {
             })   
         }
     }
+
+    const openWindow = async (windowName, openInSilent = false) => {
+        if (!windowNames.includes(windowName)) return;
+        if (openInSilent && !player.configuration.openInSilent.includes(windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join("")))
+            player.configuration.openInSilent.push(windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join(""))
+        const desktopIcon = document.querySelector(`img[alt='${windowName} Desktop Icon']`);
+        desktopIcon?.click();
+
+        await sleep(200);
+        const window = document.querySelector(`.window-title > img[src='icons/${windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join("")}.svg']`)?.parentNode.parentNode;
+        return window;
+    }
+
+    const closeWindow = (windowName, onlyIfSilent = false) => {
+        if (!windowNames.includes(windowName)) return;
+        const index = player.configuration.openInSilent.indexOf(windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join(""));
+        if (index >= 0) player.configuration.openInSilent.splice(index, 1);
+
+        const windowToClose = document.querySelector(`.window-title > img[src='icons/${windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join("")}.svg']`).parentNode.parentNode;
+
+        if (onlyIfSilent && windowToClose.classList.contains("openInSilent"))
+            windowToClose.querySelector(".window-close")?.click();
+        else if (!onlyIfSilent)
+            windowToClose.querySelector(".window-close")?.click();
+
+    }
+
+    const moveItem = async (item, slot) => {
+        item.dispatchEvent(new MouseEvent("mousedown"));
+        item.parentNode.dispatchEvent(new MouseEvent("dragstart"));
+        slot.parentNode.dispatchEvent(new MouseEvent("drop"));
+        await sleep(50);
+    }
+
+    const shredFromContextMenu = async (item) => {
+        const background = item.style.background;
+        const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];
+        if (["mythic", "ethereal"].includes(rarity) && 
+            !confirm(`You're about to shred a ${rarity} item ! Are you sure about that ?`)
+        ) return;
+        const filamentWindow = await openWindow("Filament", true);
+        if (!filamentWindow) return;
+        const slot = filamentWindow.querySelector(".item-slot");
+        const color = lootRarity.find(e => e.name === rarity)?.color;
+        await moveItem(item, slot);
+        filamentWindow.querySelector("button.green")?.click();
+        sendLog(`
+            <img class="icon" src="icons/check.svg"/>
+            Successfully shred a
+            <span style='background: ${color}; border-radius: 5px; padding: 2px 5px 2px 5px;'>${rarity}</span>
+            item
+        `);
+        closeWindow("Filament", true);
+    }
+
+    const sellFromContextMenu = async (item) => {
+        const background = item.style.background;
+        const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];
+        if (["mythic", "ethereal"].includes(rarity) && 
+            !confirm(`You're about to sell a ${rarity} item ! Are you sure about that ?`)
+        ) return;
+        const itemSeller = await openWindow("Item Seller", true);
+        if (!itemSeller) return;
+        const slot = itemSeller.querySelector(".item-slot");
+        await moveItem(item, slot);
+        itemSeller.querySelector("button.green")?.click();
+        closeWindow("Item Seller", true);
+    }
+
+    const unequipItem = async (item) => {
+        await openWindow("Inventory", true);
+        item.parentNode.dispatchEvent(new MouseEvent("dblclick"));
+        await sleep(100);
+        closeWindow("Inventory", true);
+    }
+
+    const equipBasicItem = async (item) => {
+        await openWindow("Computer", true);
+        item.parentNode.dispatchEvent(new MouseEvent("dblclick"));
+        await sleep(100);
+        closeWindow("Computer", true);
+    }
+
+    const manageClickOnItem = (item, pointer) => {
+        const src = item.closest(".window").querySelector(".window-title > img")?.src
+        const windowName = src?.split("/")[src.split("/").length - 1].slice(0, -4);
+        if (!windowName) return;
+        const popup = new Popup(pointer);
+        const type = (item.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -7);
+        if (["cpu", "gpu", "psu"].includes(type)) {
+            if (windowName === "computer")
+                popup.addAction("Unequip", () => unequipItem(item));
+            else
+                popup.addAction("Equip", () => equipBasicItem(item));
+        }
+        popup
+            .addAction("Shred", () => shredFromContextMenu(item), true)
+            .addAction("Sell", () => sellFromContextMenu(item), true)
+            .create();
+
+        item.parentNode.parentNode.classList.add("item-selected")
+        item.parentNode.parentNode.style.outline = "2px solid var(--color-terminal)"
+    }
+
+    const manageClickOnDesktop = (pointer) => {
+        new Popup(pointer)
+        .addAction("Edit background", async () => {
+            document.querySelectorAll(".topbar-clickable")[1].click()
+            await sleep(150);
+            const settings = document.querySelector(".window-title > img[src='icons/settings.svg']").parentNode.parentNode;
+            settings.querySelector(".window-content > div").scrollTop = 300
+        })
+        .create();
+    }
+
+    const manageClickOnPlayer = (player, pointer) => {
+        new Popup(pointer)
+        .addAction("Send message", async () => {
+            player.click();
+            await sleep(100);
+            document.querySelector("button.blue")?.click();
+            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+        })
+        .create();
+    }
+
+    const manageClick = (target, pointer) => {
+        const windowClicked = target.closest(".window")
+        if (target.parentNode
+            && target.parentNode.classList.contains("item")
+            && ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt))
+                manageClickOnItem(target.parentNode, pointer);
+        if (target.id == "desktop-container" || target.classList.contains("empty"))
+            manageClickOnDesktop(pointer);
+        if (target.classList.contains("message-name"))
+            manageClickOnPlayer(target, pointer);
+    }
     
     (async () => {
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
-        loadingScreen("create");
-        createObserver();
-        editFilaments();
-        editProgressBar();
-        editWelcomeMessage();
-        loadLocalStorage();
-        updateThemeStyle();
-        customTerminal();
-        await loadScripts();
-        await sleep(1000);
-        loadingScreen("delete");
-    })()
 
+        document.body.addEventListener("mousedown", (e) => {
+            if (e.target.classList.contains("context-menu")) return;
+            removeContextMenu();
+        })
+        document.body.oncontextmenu = (e) => {
+            e.preventDefault();
+            manageClick(e.target, { clientX: e.clientX, clientY: e.clientY });
+        }
+
+        loadingScreen("create");
+        while (1) {
+            try {
+                createObserver();
+                editFilaments();
+                editProgressBar();
+                editWelcomeMessage();
+                loadLocalStorage();
+                updateThemeStyle();
+                customTerminal();
+                await loadScripts();
+                break;
+            }
+            catch {
+                try {loadingScreen("delete");}
+                catch {}
+                finally {await sleep(1000);}
+            }
+        }
+        try {
+            await sleep(1000);
+            loadingScreen("delete");
+        }
+        catch {}
+        while (1) {
+            await sleep(1000);
+            try {changeColors()} catch {}
+        }
+    })()
 })();
 
 // Page Break
@@ -1377,3 +1533,147 @@ WebSocket.prototype.send=function(d){
     event.data=data
     if(inboundLog) console.log(data);
   })
+
+// Function to change colors
+function changeColors() {
+    const terminalDiv = document.querySelector('#section-code');
+    const themeDiv = document.querySelector('#themes');
+    const borderDiv = document.querySelector('div.window.svelte-1hjm43z.window-selected') || document.querySelector('body > div > main > div:nth-child(6)');
+    const barDiv = document.querySelector('#section-target > div:nth-child(1) > div:nth-child(2) > div.target-bar.svelte-1fdvo7g');
+    const currentTheme = player.configuration.currentTheme;
+    var itsColor = "#5be22e"
+    if (currentTheme === "Atom One") {
+        itsColor = "#8e00ff";
+    } else if (currentTheme == "Monokai") {
+        itsColor = '#e22e2e';
+    } else if (currentTheme == "Github") {
+        itsColor = '#2f2ee2';
+    } else if (currentTheme == "Night Owl") {
+        itsColor = '#825f00'
+    } else if (currentTheme == "Flashbang") {
+        itsColor = '#ffffff'
+    }
+    try {
+        document.documentElement.style.setProperty('--color-terminal', itsColor);
+        document.documentElement.style.setProperty('--color-darkgreen', itsColor + '2f');
+        terminalDiv.style.background = "linear-gradient(180deg, #000000 3%, " + itsColor + "40 123%)";
+        themeDiv.style.border = "1px solid " + itsColor;
+        barDiv.style.outline = "1px solid " + itsColor;
+        if (!borderDiv.textContent.includes("Terminal")) return;
+        borderDiv.style.borderColor = itsColor;
+    } catch {}
+} 
+
+// Call the function to change colors
+try {changeColors()} catch {}
+
+/*
+Below are all upgrades introduced by
+Xen's Prettier Version 06/27/2024
+*/
+
+const removeContextMenu = () => {
+    document.querySelector(".context-menu-container")?.remove();
+    const selectedItem = document.querySelector(".item-selected")
+    if (selectedItem) {
+        selectedItem.style.outline = null;
+        selectedItem.classList.remove("item-selected")
+    }
+}
+
+class Popup {
+    #popup;
+    #dimensions = {
+        width: 150,
+        height: 0,
+    }
+    #pointer;
+    constructor (pointer) {
+        this.#pointer = pointer;
+        const popup = new Component("div", {
+            classList: ["context-menu", "context-menu-container"],
+            style: {
+                position: "absolute", width: `${this.#dimensions.width}px`,
+
+                backgroundColor: "#000000E6", borderRadius: "8px", display: "flex", flexDirection: "column", gap: "5px", zIndex: "1000", padding: "5px",
+                boxShadow: "5px 5px 15px 5px #000000",
+                border: "1px solid #ffffff66"
+            }
+        })
+        this.#popup = popup.element;
+        return this;
+    }
+
+    #getPosition = (pointer, dimensions) => {
+        const finalPosition = {...pointer};
+        const windowDimensions = { height: document.body.clientHeight, width: document.body.clientWidth };
+
+        if (pointer.clientY > windowDimensions.height - (dimensions.height + 20))
+            finalPosition.clientY -= (dimensions.height + 10);
+        else
+            finalPosition.clientY += 10;
+        if (pointer.clientX > windowDimensions.width - (dimensions.width + 20))
+            finalPosition.clientX -= (dimensions.width + 10);
+        else
+            finalPosition.clientX += 10;
+        return finalPosition;
+    }
+
+    addAction(text, action, isDangerous) {
+        const component = new Component("div", {
+            classList: ["context-menu", "context-menu-option"],
+            innerText: text,
+            style: { width: "100%", borderRadius: "4px", padding: "5px", cursor: "pointer", color: isDangerous ? "var(--color-red)" : "white" },
+            onmouseenter: (e) => e.target.style.backgroundColor = "#5be22e66",
+            onmouseleave: (e) => e.target.style.backgroundColor = "unset",
+            onclick: () => {
+                removeContextMenu();
+                if (action)
+                    action();
+            },
+        })
+        this.#popup.appendChild(component.element);
+        this.#dimensions.height += 40;
+        return this;
+    }
+
+    create() {
+        const position = this.#getPosition(this.#pointer, this.#dimensions);
+        this.#popup.style.top = `${position.clientY}px`;
+        this.#popup.style.left = `${position.clientX}px`,
+        document.body.appendChild(this.#popup);
+    }
+}
+
+const windowNames = [
+    "Filament",
+    "Inventory",
+    "Item Seller",
+    "Computer",
+]
+
+const lootRarity = [
+    { name: "common",    color: "linear-gradient(211deg, #585d66 0%, #7d848f 100%)" },
+    { name: "uncommon",  color: "linear-gradient(211deg, #007c37 0%, #83b200 100%)" },
+    { name: "rare",      color: "linear-gradient(211deg, #00427c 0%, #0092ed 100%)" },
+    { name: "epic",      color: "linear-gradient(211deg, #5c045a 0%, #a90052 100%)" },
+    { name: "legendary", color: "linear-gradient(112deg, #a95300 4%, #ff9605 34%, #a95300 66%, #ff9605 100%)" },
+    { name: "mythic",    color: "linear-gradient(112deg, #40f5ff 4%, #05a8ff 34%, #40f5ff 66%, #05a8ff 100%)" },
+    { name: "ethereal",    color: "linear-gradient(112deg, #ffb74e 4%, #ffe6a2 34%, #ffb74e 66%, #ffe6a2 100%)" },
+];
+
+const raritiesVariables = {
+    "var(--color-SSS)": "ethereal",
+    "var(--color-SS)": "mythic",
+    "var(--color-S)" : "legendary",
+    "var(--color-A)" : "epic",
+    "var(--color-B)" : "rare",
+    "var(--color-C)" : "uncommon",
+    "var(--color-D)" : "common"
+}
+
+const lootButtons = {
+    "take" : "button > img[src='icons/inventory.svg']",
+    "sell" : "button > img[src='icons/btc.svg']",
+    "shred": "button > img[src='icons/filament.svg']"
+}
