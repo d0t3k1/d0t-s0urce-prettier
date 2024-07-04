@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.6.3
+// @version      1.6.4
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -10,15 +10,17 @@
 // @grant        none
 // ==/UserScript==
 
-const VERSION = "1.6.3"
+const VERSION = "1.6.4"
 
+// .window.svelte-1hjm43z{background: linear-gradient(200deg, #3f0000 0%, #180505 100%)};
 const themes = {
-    "No Theme": "",
-    "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}",
-    "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#f8f8f2}.hljs-subst,.hljs-tag{color:#f8f8f2}.hljs-emphasis,.hljs-strong{color:#a8a8a2}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ae81ff}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#a6e22e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#f92672}.hljs-attribute,.hljs-symbol{color:#66d9ef}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#f8f8f2}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#e6db74}.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}",
-    "Github": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#c9d1d9;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}",
-    "Night Owl": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#d6deeb}.hljs-keyword{color:#c792ea;font-style:italic}.hljs-built_in{color:#addb67;font-style:italic}.hljs-type{color:#82aaff}.hljs-literal{color:#ff5874}.hljs-number{color:#f78c6c}.hljs-regexp{color:#5ca7e4}.hljs-string{color:#ecc48d}.hljs-subst{color:#d3423e}.hljs-symbol{color:#82aaff}.hljs-class{color:#ffcb8b}.hljs-function{color:#82aaff}.hljs-title{color:#dcdcaa;font-style:italic}.hljs-params{color:#7fdbca}.hljs-comment{color:#637777;font-style:italic}.hljs-doctag{color:#7fdbca}.hljs-meta,.hljs-meta .hljs-keyword{color:#82aaff}.hljs-meta .hljs-string{color:#ecc48d}.hljs-section{color:#82b1ff}.hljs-attr,.hljs-name,.hljs-tag{color:#7fdbca}.hljs-attribute{color:#80cbc4}.hljs-variable{color:#addb67}.hljs-bullet{color:#d9f5dd}.hljs-code{color:#80cbc4}.hljs-emphasis{color:#c792ea;font-style:italic}.hljs-strong{color:#addb67;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ff869a}.hljs-quote{color:#697098;font-style:italic}.hljs-selector-tag{color:#ff6363}.hljs-selector-id{color:#fad430}.hljs-selector-class{color:#addb67;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#c792ea;font-style:italic}.hljs-template-tag{color:#c792ea}.hljs-template-variable{color:#addb67}.hljs-addition{color:#addb67ff;font-style:italic}.hljs-deletion{color:#ef535090;font-style:italic}",
-    "Flashbang": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffffff}.hljs-keyword{color:#ffffff;font-style:italic}.hljs-built_in{color:#ffffff;font-style:italic}.hljs-type{color:#ffffff}.hljs-literal{color:#ffffff}.hljs-number{color:#ffffff}.hljs-regexp{color:#ffffff}.hljs-string{color:#ffffff}.hljs-subst{color:#ffffff}.hljs-symbol{color:#ffffff}.hljs-class{color:#ffffff}.hljs-function{color:#ffffff}.hljs-title{color:#ffffff;font-style:italic}.hljs-params{color:#ffffff}.hljs-comment{color:#ffffff;font-style:italic}.hljs-doctag{color:#ffffff}.hljs-meta,.hljs-meta .hljs-keyword{color:#ffffff}.hljs-meta .hljs-string{color:#ffffff}.hljs-section{color:#ffffff}.hljs-attr,.hljs-name,.hljs-tag{color:#ffffff}.hljs-attribute{color:#ffffff}.hljs-variable{color:#ffffff}.hljs-bullet{color:#ffffff}.hljs-code{color:#ffffff}.hljs-emphasis{color:#ffffff;font-style:italic}.hljs-strong{color:#ffffff;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ffffff}.hljs-quote{color:#ffffff;font-style:italic}.hljs-selector-tag{color:#ffffff}.hljs-selector-id{color:#ffffff}.hljs-selector-class{color:#ffffff;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#ffffff;font-style:italic}.hljs-template-tag{color:#ffffff}.hljs-template-variable{color:#ffffff}.hljs-addition{color:#ffffff;font-style:italic}.hljs-deletion{color:#ffffff;font-style:italic}",
+    "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important}",
+    "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#b270ff;}.hljs-comment,.hljs-quote{color:#b270ff;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#b270ff}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#b270ff}.hljs-literal{color:#b270ff}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#b270ff}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#b270ff}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#b270ff}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#b270ff}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}:root{--color-terminal:#b270ff;--color-darkgreen:#b270ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #b270ff} #section-code{background: linear-gradient(180deg, #000000 3%, #b270ff40 123%)} #themes{border: 1px solid #b270ff} .target-bar{outline: 1px solid #b270ff !important}",
+    "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ff3838}.hljs-subst,.hljs-tag{color:#ff3838}.hljs-emphasis,.hljs-strong{color:#ff3838}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ff3838}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ff3838}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ff3838}.hljs-attribute,.hljs-symbol{color:#ff3838}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ff3838}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ff3838}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ff3838}:root{--color-terminal:#ff3838;--color-darkgreen:#ff38382f} .window:has(img[src='icons/terminal.svg']){border-color: #ff3838} #section-code{background: linear-gradient(180deg, #000000 3%, #ff383840 123%)} #themes{border: 1px solid #ff3838} .target-bar{outline: 1px solid #ff3838 !important}",
+    "The Deep": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#3d8566}.hljs-keyword{color:#3d8566;font-style:italic}.hljs-built_in{color:#3d8566;font-style:italic}.hljs-type{color:#3d8566}.hljs-literal{color:#3d8566}.hljs-number{color:#3d8566}.hljs-regexp{color:#3d8566}.hljs-string{color:#3d8566}.hljs-subst{color:#3d8566}.hljs-symbol{color:#3d8566}.hljs-class{color:#3d8566}.hljs-function{color:#3d8566}.hljs-title{color:#3d8566;font-style:italic}.hljs-params{color:#3d8566}.hljs-comment{color:#3d8566;font-style:italic}.hljs-doctag{color:#3d8566}.hljs-meta,.hljs-meta .hljs-keyword{color:#3d8566}.hljs-meta .hljs-string{color:#3d8566}.hljs-section{color:#3d8566}.hljs-attr,.hljs-name,.hljs-tag{color:#3d8566}.hljs-attribute{color:#3d8566}.hljs-variable{color:#3d8566}.hljs-bullet{color:#3d8566}.hljs-code{color:#3d8566}.hljs-emphasis{color:#3d8566;font-style:italic}.hljs-strong{color:#3d8566;font-weight:700}.hljs-formula{color:#3d8566}.hljs-link{color:#3d8566}.hljs-quote{color:#3d8566;font-style:italic}.hljs-selector-tag{color:#3d8566}.hljs-selector-id{color:#3d8566}.hljs-selector-class{color:#3d8566;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#3d8566;font-style:italic}.hljs-template-tag{color:#3d8566}.hljs-template-variable{color:#3d8566}.hljs-addition{color:#3d8566;font-style:italic}.hljs-deletion{color:#3d8566;font-style:italic}:root{--color-terminal:#3d8566;--color-darkgreen:#3d85662f} .window:has(img[src='icons/terminal.svg']){border-color: #3d8566} #section-code{background: linear-gradient(180deg, #000000 3%, #3d856640 123%)} #themes{border: 1px solid #3d8566} .target-bar{outline: 1px solid #3d8566 !important}",
+    "Light Mode": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffffff}.hljs-keyword{color:#ffffff;font-style:italic}.hljs-built_in{color:#ffffff;font-style:italic}.hljs-type{color:#ffffff}.hljs-literal{color:#ffffff}.hljs-number{color:#ffffff}.hljs-regexp{color:#ffffff}.hljs-string{color:#ffffff}.hljs-subst{color:#ffffff}.hljs-symbol{color:#ffffff}.hljs-class{color:#ffffff}.hljs-function{color:#ffffff}.hljs-title{color:#ffffff;font-style:italic}.hljs-params{color:#ffffff}.hljs-comment{color:#ffffff;font-style:italic}.hljs-doctag{color:#ffffff}.hljs-meta,.hljs-meta .hljs-keyword{color:#ffffff}.hljs-meta .hljs-string{color:#ffffff}.hljs-section{color:#ffffff}.hljs-attr,.hljs-name,.hljs-tag{color:#ffffff}.hljs-attribute{color:#ffffff}.hljs-variable{color:#ffffff}.hljs-bullet{color:#ffffff}.hljs-code{color:#ffffff}.hljs-emphasis{color:#ffffff;font-style:italic}.hljs-strong{color:#ffffff;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ffffff}.hljs-quote{color:#ffffff;font-style:italic}.hljs-selector-tag{color:#ffffff}.hljs-selector-id{color:#ffffff}.hljs-selector-class{color:#ffffff;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#ffffff;font-style:italic}.hljs-template-tag{color:#ffffff}.hljs-template-variable{color:#ffffff}.hljs-addition{color:#ffffff;font-style:italic}.hljs-deletion{color:#ffffff;font-style:italic}:root{--color-terminal:#ffffff;--color-darkgreen:#ffffff2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffffff} #section-code{background: linear-gradient(180deg, #000000 3%, #ffffff40 123%)} #themes{border: 1px solid #ffffff} .target-bar{outline: 1px solid #ffffff !important}",
+    "Mythic Myer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#05a8ff;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#05a8ff}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#05a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#05a8ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#05a8ff}.hljs-built_in,.hljs-symbol{color:#05a8ff}.hljs-code,.hljs-comment,.hljs-formula{color:#05a8ff}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#05a8ff}.hljs-subst{color:#05a8ff}.hljs-section{color:#05a8ff;font-weight:700}.hljs-bullet{color:#05a8ff}.hljs-emphasis{color:#05a8ff;font-style:italic}.hljs-strong{color:#05a8ff;font-weight:700}.hljs-addition{color:#05a8ff;background-color:#05a8ff}.hljs-deletion{color:#05a8ff;background-color:#05a8ff}:root{--color-terminal:#05a8ff;--color-darkgreen:#05a8ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #05a8ff} #section-code{background: linear-gradient(180deg, #000000 3%, #05a8ff40 123%)} #themes{border: 1px solid #05a8ff} .target-bar{outline: 1px solid #05a8ff !important}",
+    "Ethereal Enjoyer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffb74e}.hljs-subst,.hljs-tag{color:#ffb74e}.hljs-emphasis,.hljs-strong{color:#ffb74e}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ffb74e}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ffb74e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ffb74e}.hljs-attribute,.hljs-symbol{color:#ffb74e}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ffb74e}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ffb74e}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ffb74e}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important}",
 }
 
 class Component {
@@ -70,6 +72,130 @@ class Component {
 	}
 }
 
+const removeContextMenu = (removeSelection) => {
+    document.querySelector(".context-menu-container")?.remove();
+    const selectedItem = document.querySelectorAll(".item-selected")
+    selectedItem.forEach(item => {
+        item.style.outline = null;
+        item.classList.remove("item-selected")
+    })
+    if (removeSelection)
+        player.selectedItems = [];
+}
+
+class Popup {
+    #popup;
+    #dimensions = {
+        width: 150,
+        height: 0,
+    }
+    #pointer;
+    constructor (pointer) {
+        this.#pointer = pointer;
+        const popup = new Component("div", {
+            classList: ["context-menu", "context-menu-container"],
+            style: {
+                position: "absolute", width: `${this.#dimensions.width}px`,
+                backgroundColor: "#000000E6", borderRadius: "8px", display: "flex", flexDirection: "column", gap: "5px", zIndex: "1000", padding: "5px",
+                boxShadow: "5px 5px 15px 5px #000000",
+                border: "1px solid #ffffff66"
+            },
+            children: [
+                new Component("div", {
+                    classList: ["context-menu", "context-menu-title"],
+                    style: { color: "var(--color-lightgrey)", padding: "7px", order: 1, fontSize: "10px", borderTop: "1px solid var(--color-lightgrey)", display: "none" }
+                })
+            ]
+        })
+        this.#popup = popup.element;
+        return this;
+    }
+
+    #getPosition = (pointer, dimensions) => {
+        const finalPosition = {...pointer};
+        const windowDimensions = { height: document.body.clientHeight, width: document.body.clientWidth };
+        
+        if (pointer.clientY > windowDimensions.height - (dimensions.height + 20))
+            finalPosition.clientY -= (dimensions.height + 10);
+        else
+            finalPosition.clientY += 10;
+        if (pointer.clientX > windowDimensions.width - (dimensions.width + 20))
+            finalPosition.clientX -= (dimensions.width + 10);
+        else
+            finalPosition.clientX += 10;
+        return finalPosition;
+    }
+
+    setTitle(text) {
+        this.#popup.querySelector(".context-menu-title").innerText = text;
+        this.#popup.querySelector(".context-menu-title").style.display = "flex";
+    }
+
+    addAction(text, action, option = {isDangerous: false, selectionLimit: 0}) {
+        const component = new Component("div", {
+            classList: [
+                "context-menu",
+                "context-menu-option",
+                "context-menu-option-" + (this.#dimensions.height / 40 + 1),
+                "context-menu-option-limit-" + option.selectionLimit,
+            ],
+            innerText: text,
+            style: { width: "100%", borderRadius: "4px", padding: "5px", cursor: "pointer", color: option.isDangerous ? "var(--color-red)" : "white" },
+            onmouseenter: (e) => e.target.style.backgroundColor = "#5be22e66",
+            onmouseleave: (e) => e.target.style.backgroundColor = "unset",
+            onclick: async () => {
+                removeContextMenu();
+                if (action)
+                    await action();
+                player.selectedItems = [];
+            },
+        })
+        this.#popup.appendChild(component.element);
+        this.#dimensions.height += 40;
+        return this;
+    }
+
+    create() {
+        const position = this.#getPosition(this.#pointer, this.#dimensions);
+        this.#popup.style.top = `${position.clientY}px`;
+        this.#popup.style.left = `${position.clientX}px`,
+        document.body.appendChild(this.#popup);
+    }
+}
+
+const windowNames = [
+    "Filament",
+    "Inventory",
+    "Item Seller",
+    "Computer",
+]
+
+const lootRarity = [
+    { name: "common",    color: "linear-gradient(211deg, #585d66 0%, #7d848f 100%)" },
+    { name: "uncommon",  color: "linear-gradient(211deg, #007c37 0%, #83b200 100%)" },
+    { name: "rare",      color: "linear-gradient(211deg, #00427c 0%, #0092ed 100%)" },
+    { name: "epic",      color: "linear-gradient(211deg, #5c045a 0%, #a90052 100%)" },
+    { name: "legendary", color: "linear-gradient(112deg, #a95300 4%, #ff9605 34%, #a95300 66%, #ff9605 100%)" },
+    { name: "mythic",    color: "linear-gradient(112deg, #40f5ff 4%, #05a8ff 34%, #40f5ff 66%, #05a8ff 100%)" },
+    { name: "ethereal",    color: "linear-gradient(112deg, #ffb74e 4%, #ffe6a2 34%, #ffb74e 66%, #ffe6a2 100%)" },
+];
+
+const raritiesVariables = {
+    "var(--color-SSS)": "ethereal",
+    "var(--color-SS)": "mythic",
+    "var(--color-S)" : "legendary",
+    "var(--color-A)" : "epic",
+    "var(--color-B)" : "rare",
+    "var(--color-C)" : "uncommon",
+    "var(--color-D)" : "common"
+}
+
+const lootButtons = {
+    "take" : "button > img[src='icons/inventory.svg']",
+    "sell" : "button > img[src='icons/btc.svg']",
+    "shred": "button > img[src='icons/filament.svg']"
+}
+
 const player = {
     username: document.querySelector("img[src='icons/online.svg']")?.parentNode?.innerText?.trim(),
     hacksInProgress: [],
@@ -77,19 +203,23 @@ const player = {
     lastHacked: null,
     configuration: {
         openInSilent: [],
-        displayCustomFilament: true,
+        displayCustomFilament: "ethereal",
         currentTheme: localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0],
+        codeSyntaxing: !!localStorage.getItem("prettier-codeSyntaxing")
     },
+    input: {
+        isShiftDown: false,
+    },
+    selectedItems: [],
     autoloot: localStorage.getItem("prettier-autoloot") ? 
         JSON.parse(localStorage.getItem("prettier-autoloot")) :
         {
-            common: "shred",
-            uncommon: "shred",
-            rare: "shred",
-            epic: "shred",
+            common: "take",
+            uncommon: "take",
+            rare: "take",
+            epic: "take",
             legendary: "take",
             mythic: "take",
-            ethereal: "take",
         },
 }
 
@@ -110,15 +240,15 @@ const stats = {
         { hp: [172,217], rd: [0,12.5], regen: [0,7.5], medium: [22,40], long: [0,25] },
         { hp: [234,269], rd: [0,15], regen: [8,10], medium: [34,0], long: [22,30] },
         { hp: [285,320], rd: [11.5,15], regen: [10.75,12.5], medium: [65,47.5], long: [28,35] },
-        { hp: [372,397], rd: [16.25,17.5], regen: [13.75,15], medium: [70,80], long: [37.5,45] }
+        { hp: [372,397], rd: [16.25,17.5], regen: [13.75,15], medium: [80,70], long: [37.5,45] }
     ],
 	gpu: [
         { idle: [0.000010,0.000014], bart: [0,0], crip: [0,0], },
         { idle: [0.000011,0.000024], bart: [0,10], crip: [2.5,10], },
         { idle: [0.000016,0.000033], bart: [0,12.5], crip: [2.5,12.5], },
         { idle: [0.0000223,0.000043], bart: [0,15], crip: [6,15], },
-        { idle: [0.0000372,0.000054], bart: [0,20], crip: [11.25,20], },
-        { idle: [0.0000644,0.000074], bart: [21.25,25], crip: [21.25,25], },
+        { idle: [0.0000348,0.000054], bart: [0,20], crip: [10,20], },
+        { idle: [0.0000516,0.000074], bart: [16.25,25], crip: [16.25,25], },
         { idle: [0.000077,0.000094], bart: [22.5,30], crip: [22.5,30], }
     ],
     psu: [
@@ -126,8 +256,8 @@ const stats = {
         { boost: [5, 10], },
         { boost: [10, 15], },
         { boost: [16, 25], },
-        { boost: [28, 35], },
-        { boost: [38.5, 40], },
+        { boost: [27, 35], },
+        { boost: [36.5, 40], },
         { boost: [50, 55], },
     ],	
 	port: [
@@ -151,15 +281,14 @@ const stats = {
 	psu_term: [
     	1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
     ],
-    // Last updated as of 6/21/2024
+    // Last updated as of 7/4/2024
     filament_price: [
-        0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 45
+        0.01, 0.03, 0.1, 0.3, 1.5, 4.5, 67.5
     ],
 };
 
 (function() {
     'use strict';
-    let hideOnOpen = false;
 
     const sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -173,7 +302,6 @@ const stats = {
     }
 
     const prettierLoadFails = (code) => {
-        hideOnOpen = false;
         alert(`Prettier-s0urce loading failed, please contact Xen0o2 on Discord (error code: ${code})`);
     }
 
@@ -284,7 +412,6 @@ const stats = {
                 })
             ]
         })
-        try {changeColors()} catch {}
         wrapper.appendChild(component.element);
     }
     
@@ -303,7 +430,7 @@ const stats = {
         })
 
         const counterProgressBarValue = new Component("div", {
-            style: { width: terminalProgressBar.style.width, height: "15px", background: "var(--color-red)", borderRadius: "4px", transitionDuration: "0.3s" }
+            style: { width: terminalProgressBar.style.width, height: "15px", background: "var(--color-terminal)", borderRadius: "4px", transitionDuration: "0.3s" }
         })
     
         hackInProgress.message?.append(counterLabel.element);
@@ -596,24 +723,24 @@ const stats = {
 
     const firewallEncryption = (hp, rd, regen, ad, ms) => {
     	rd /= 100;
-	const cShort = [3.7027,100];
-	const cMed = [8.2857,ad*3];
-	const cLong = [13.421,ms*3];
-	return [1000+hp*3, rd*3, regen*3*.3, (cShort[0]*cShort[1]+cMed[0]*cMed[1]+cLong[0]*cLong[1])/(cShort[1]+cMed[1]+cLong[1])];
+        const cShort = [3.7027,100];
+        const cMed = [8.2857,ad*3];
+        const cLong = [13.421,ms*3];
+	    return [1000+hp*3, rd*3, regen*3*.3, (cShort[0]*cShort[1]+cMed[0]*cMed[1]+cLong[0]*cLong[1])/(cShort[1]+cMed[1]+cLong[1])];
     }
 
     const penTest = (port, cpu, aTPH) => {
-	var t = 0;
-	while (1) {
-		const damage = cpu[0]*(1+cpu[1]-port[1])+cpu[2];
-		if (port[0] - damage + port[2]*aTPH <= 0) {
-			return t + aTPH*(port[0]+port[2]*aTPH)/damage;
-		} else {
-			port[0] -= damage;
-			port[0] += port[2]*aTPH;
-			t += aTPH;
-		}
-	}
+        var t = 0;
+        while (1) {
+            const damage = cpu[0]*(1+cpu[1]-port[1])+cpu[2];
+            if (port[0] - damage + port[2]*aTPH <= 0) {
+                return t + aTPH*(port[0]+port[2]*aTPH)/damage;
+            } else {
+                port[0] -= damage;
+                port[0] += port[2]*aTPH;
+                t += aTPH;
+            }
+        }
     }
 
     const netBTCperHour = (idle, barter, crypto) => {
@@ -647,13 +774,13 @@ const stats = {
             else if (dTI < 9) return "~" + (value + (dTI-7)*basePrice*5/3 + basePrice*2).toFixed(4);
             else if (dTI < 9.7) return "~" + (value + (dTI-7)*basePrice*10/3 + basePrice*11/3).toFixed(4);
         } else {
-            if (dTI < 4) return (value).toFixed(4);
-            else if (dTI < 5) return "~" + (value + (dTI-4)*basePrice/6).toFixed(4);
-            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3 + basePrice/6).toFixed(4);
-            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/2 + basePrice/2).toFixed(4);
-            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice).toFixed(4);
-            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice*2 + basePrice*2).toFixed(4);
-            else if (dTI < 9.5) return "~" + (value + (dTI-8)*basePrice*5 + basePrice*4).toFixed(4);
+            if (dTI < 5) return (value).toFixed(4);
+            //else if (dTI < 5) return "~" + (value + (dTI-4)*basePrice/6).toFixed(4);
+            else if (dTI < 6) return "~" + (value + (dTI-5)*basePrice/3).toFixed(4);
+            else if (dTI < 7) return "~" + (value + (dTI-6)*basePrice/2 + basePrice/3).toFixed(4);
+            else if (dTI < 8) return "~" + (value + (dTI-7)*basePrice + basePrice*5/6).toFixed(4);
+            else if (dTI < 9) return "~" + (value + (dTI-8)*basePrice*2 + basePrice*11/6).toFixed(4);
+            else if (dTI < 9.5) return "~" + (value + (dTI-8)*basePrice*5 + basePrice*23/6).toFixed(4);
         }
         // If there's no estimated price for it, chances are it's worth a lot
         return "Invaluable";
@@ -724,8 +851,8 @@ const stats = {
         const actual = port.hp/(raw*(1+pen-port.rd) + trueDam)
         const qualityRange = worst - best;
         const qualityActually = worst - actual;
-	var cpuRank = 1+((qualityActually/qualityRange)*9);
-	if (cpuRank < 1) cpuRank = 1;
+        var cpuRank = 1+((qualityActually/qualityRange)*9);
+        if (cpuRank < 1) cpuRank = 1;
         return cpuRank;
     }
     // hack = Hack Damage
@@ -823,13 +950,14 @@ const stats = {
     let manageLoot = async () => {
         let item = document.querySelector(".window-loot > div > div > div > div > div > .item")
         if (item) {
-            console.log("item")
             let background = item.style.background
             let rarity = raritiesVariables[background];
             if (!rarity) rarity = raritiesVariables[background + ")"];
             let color = getComputedStyle(item).getPropertyValue(background.toString().slice(4, background.endsWith(")") ? -1 : background.length))
             if (rarity){
                 await sleep(200);
+                if (player.autoloot[rarity] === "nothing")
+                    return;
                 if (player.autoloot[rarity] === "take")
                     await openWindow("Inventory", true);
                 const button = document.querySelector(lootButtons[player.autoloot[rarity]])
@@ -856,6 +984,12 @@ const stats = {
         if (!newWindow)
             return;
 
+        const src = newWindow.addedNodes[0].querySelector(".window-title > img").src
+        const name = src.split("/")[src.split("/").length - 1].slice(0, -4);
+        if (player.configuration.openInSilent.includes(name)) {
+            newWindow.addedNodes[0].style.display = "none";
+            newWindow.addedNodes[0].classList.add("openInSilent");
+        }
         const isItem = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/loot.svg']")
         if (isItem)
             await manageLoot();
@@ -986,13 +1120,13 @@ const stats = {
                     }),
                     new Component("div", {
                         style: { display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" },
-                        children: lootRarity.map(rarity => {
+                        children: lootRarity.filter(e => e.name !== "ethereal").map(rarity => {
                             return new Component("div", {
-                                style: { display: "flex", justifyContent: "space-between", alignItems: "center", height: "30px", fontFamily: "var(--font-family-2)", fontSize: "14px" },
+                                style: { display: "flex", justifyContent: "space-evenly", alignItems: "center", height: "30px", fontFamily: "var(--font-family-2)", fontSize: "12px" },
                                 children: [
                                     new Component("p", {
                                         innerText: rarity.name[0].toUpperCase() + rarity.name.slice(1),
-                                        style: { background: rarity.color, width: "90px", fontWeight: "bold", padding: "6px", borderRadius: "5px" }
+                                        style: { background: rarity.color, width: "85px", fontWeight: "bold", padding: "6px", borderRadius: "5px", fontSize: "12px" }
                                     }),
                                     new Component("div", {
                                         style: { display: "flex", border: "1px solid #91aabd", borderRadius: "3px" },
@@ -1000,7 +1134,7 @@ const stats = {
                                             new Component("div", {
                                                 classList: ["button-autoloot-" + rarity.name, "button-take"],
                                                 innerText: "Take",
-                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "take" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                style: { width: "60px", backgroundColor: (player.autoloot[rarity.name] == "take" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
                                                 onmouseenter: (e) => {if (player.autoloot[rarity.name] != "take") e.target.style.background = "#91aabd2d";},
                                                 onmouseleave: (e) => {if (player.autoloot[rarity.name] != "take") e.target.style.background = "transparent";},
                                                 onclick: (e) => {
@@ -1013,7 +1147,7 @@ const stats = {
                                             new Component("div", {
                                                 classList: ["button-autoloot-" + rarity.name, "button-sell"],
                                                 innerText: "Sell",
-                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "sell" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                style: { width: "60px", backgroundColor: (player.autoloot[rarity.name] == "sell" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
                                                 onmouseenter: (e) => {if (player.autoloot[rarity.name] != "sell") e.target.style.background = "#91aabd2d";},
                                                 onmouseleave: (e) => {if (player.autoloot[rarity.name] != "sell") e.target.style.background = "transparent";},
                                                 onclick: (e) => {
@@ -1026,11 +1160,24 @@ const stats = {
                                             new Component("div", {
                                                 classList: ["button-autoloot-" + rarity.name, "button-shred"],
                                                 innerText: "Shred",
-                                                style: { width: "85px", backgroundColor: (player.autoloot[rarity.name] == "shred" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                style: { width: "60px", backgroundColor: (player.autoloot[rarity.name] == "shred" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
                                                 onmouseenter: (e) => {if (player.autoloot[rarity.name] != "shred") e.target.style.background = "#91aabd2d";},
                                                 onmouseleave: (e) => {if (player.autoloot[rarity.name] != "shred") e.target.style.background = "transparent";},
                                                 onclick: (e) => {
                                                     player.autoloot[rarity.name] = "shred";
+                                                    document.querySelectorAll(".button-autoloot-" + rarity.name).forEach(button => button.style.backgroundColor = "transparent");
+                                                    e.target.style.backgroundColor = "#91aabd4d";
+                                                    localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
+                                                }
+                                            }),
+                                            new Component("div", {
+                                                classList: ["button-autoloot-" + rarity.name, "button-nothing"],
+                                                innerText: "Nothing",
+                                                style: { width: "65px", backgroundColor: (player.autoloot[rarity.name] == "nothing" ? "#91aabd4d" : "transparent"), padding: "5px", cursor: "pointer" },
+                                                onmouseenter: (e) => {if (player.autoloot[rarity.name] != "nothing") e.target.style.background = "#91aabd2d";},
+                                                onmouseleave: (e) => {if (player.autoloot[rarity.name] != "nothing") e.target.style.background = "transparent";},
+                                                onclick: (e) => {
+                                                    player.autoloot[rarity.name] = "nothing";
                                                     document.querySelectorAll(".button-autoloot-" + rarity.name).forEach(button => button.style.backgroundColor = "transparent");
                                                     e.target.style.backgroundColor = "#91aabd4d";
                                                     localStorage.setItem("prettier-autoloot", JSON.stringify(player.autoloot))
@@ -1066,12 +1213,10 @@ const stats = {
             const hacked = isHackingSomeoneWindow.querySelector(".username")?.innerText;
             if (hacked)
                 player.currentlyHacking = hacked;
-            // Naleg Clutch
-            const wasHackingYou = player.hacksInProgress.find(e => e.hacker === hacked.split(' ')[0]);
-            try {
-                if (!isHackingYou) return;
-                counterHack(isHackingYou);
-            } catch {}
+            const isHackingYou = player.hacksInProgress.find(e => e.hacker == hacked);
+            if (!isHackingYou)
+                return;
+            counterHack(isHackingYou);
         }
 
         const hasHackedSomeoneWindow = newWindow.addedNodes[0].querySelectorAll(".window-content > div > .el").length == 4;
@@ -1118,19 +1263,29 @@ const stats = {
     }
 
     const filamentObserver = new MutationObserver(function(mutations) {
-        if (mutations.length == 1 && !mutations[0].target.id)
-            updateEthereal();
+        if (mutations.length == 1 && !mutations[0].target.id && player.configuration.displayCustomFilament != "default")
+            updateFilaments();
     })
 
-    const updateEthereal = () => {
+    const formulas = {
+        "common"   : "cf",
+        "uncommon" : "uf + (cf / 3)",
+        "rare"     : "rf + (uf / 3) + (cf / 9)",
+        "epic"     : "ef + (rf / 3) + (uf / 9) + (cf / 27)",
+        "legendary": "lf + (ef / 5) + (rf / 15) + (uf / 45) + (cf / 135)",
+        "mythic"   : "mf + (lf / 3) + (ef / 15) + (rf / 45) + (uf / 145) + (cf / 405)",
+        "ethereal" : "etf + (mf / 5) + (lf / 15) + (ef / 75) + (rf / 225) + (uf / 675) + (cf / 2025)",
+    }
+
+    const updateFilaments = () => {
         try {
             const filaments = document.querySelectorAll(".filament-el");
             const [cf, uf, rf, ef, lf, mf, etf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
-            const ethereal = (((cf + (uf * 3) + (rf * 9) + (ef * 27) + (lf * 135) + (mf * 405)) / 2025) + etf).toFixed(4);
-            const element = document.querySelector("#ethereal");
+            const total = eval(formulas[player.configuration.displayCustomFilament]).toFixed(4);
+            const element = document.querySelector("#customFilament");
             if (element)
-                element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, ethereal);
-            return ethereal;
+                element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, total);
+            return total;
         } catch(e) {
             console.log(e);
             prettierLoadFails("7");
@@ -1144,35 +1299,50 @@ const stats = {
             const parent = filaments[0].parentNode;
             const container = parent.parentNode;
             container.style.rowGap = null;
+            container.style.position = "relative";
             filaments.forEach(e => e.style.display = "none");
     
-            const ethereals = updateEthereal();
-            const etherealOnly = new Component("div", {
-                id: "ethereal",
-                innerText: ethereals.toString(),
+            const total = updateFilaments();
+            const totalFilament = new Component("div", {
+                id: "customFilament",
+                innerText: total.toString(),
                 classList: ["filament-el", "svelte-1azjldn"],
                 style: { height: "100%", width: "auto", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", fontSize: "1.5rem", paddingLeft: "10px" },
                 children: [
                     new Component("img", {
-                        src: "icons/filament-ethereal.svg",
-                        classList: ["icon", "icon-in-text"],
+                        src: `icons/filament-${player.configuration.displayCustomFilament}.svg`,
+                        classList: ["icon", "icon-in-text", "totalFilamentIcon"],
                         style: { transform: "translateY(-1px)" }
                     })
                 ]
             })
-            
-            container.append(etherealOnly.element);
-    
-            container.onclick = () => {
-                if (player.configuration.displayCustomFilament) {
-                    etherealOnly.element.style.display = "none";
-                    filaments.forEach(e => e.style.display = "block");
-                } else {
-                    etherealOnly.element.style.display = "flex";
-                    filaments.forEach(e => e.style.display = "none");
+
+            const select = new Component("select", {
+                style: { position: "absolute", height: "100%", width: "100%", opacity: 0 },
+                children: ["Default", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Ethereal"].map(rarity => (
+                    new Component("option", {
+                        value: rarity.toLowerCase(),
+                        innerText: rarity,
+                        selected: player.configuration.displayCustomFilament === rarity.toLowerCase(),
+                    })
+                )),
+                onchange: (e) => {
+                    player.configuration.displayCustomFilament = e.target.value;
+                    console.log(e.target.value);
+                    if (e.target.value === "default") {
+                        totalFilament.element.style.display = "none";
+                        filaments.forEach(e => e.style.display = "block");
+                    } else {
+                        totalFilament.element.style.display = "flex";
+                        filaments.forEach(e => e.style.display = "none");
+                        document.querySelector(".totalFilamentIcon").src = `icons/filament-${e.target.value}.svg`
+                        updateFilaments();
+                    }
                 }
-                player.configuration.displayCustomFilament = !player.configuration.displayCustomFilament;
-            }
+            })
+            
+            container.append(totalFilament.element);
+            container.append(select.element);
 
             filamentObserver.disconnect();
             filamentObserver.observe(container, { subtree: true, characterData: true, childList: true });
@@ -1209,26 +1379,25 @@ const stats = {
     }
 
     const createObserver = async () => {
-            while (1) {
-                try {
-                    const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
-                    logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
-                    windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-                    windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
-                    itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
-                    break
-                }
-                catch {
-                    await sleep(5000)
-                }
+        while (1) {
+            try {
+                const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
+                logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+                windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+                itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+                break
             }
+            catch {
+                await sleep(5000)
+            }
+        }
     }
 
     const updateThemeStyle = () => {
         const styleElement = document.getElementById('customStyles');
         const css = themes[localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0]];
         if (styleElement) {
-            changeColors();
             styleElement.textContent = css;
         } else {
             const newStyleElement = document.createElement('style');
@@ -1290,54 +1459,69 @@ const stats = {
         const index = player.configuration.openInSilent.indexOf(windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join(""));
         if (index >= 0) player.configuration.openInSilent.splice(index, 1);
 
-        const windowToClose = document.querySelector(`.window-title > img[src='icons/${windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join("")}.svg']`).parentNode.parentNode;
+        const windowToClose = document.querySelector(`.window-title > img[src='icons/${windowName.split(/ /g).map((e, i) => i == 0 ? e.toLowerCase() : e).join("")}.svg']`)?.parentNode.parentNode;
+        if (!windowToClose) return;
 
         if (onlyIfSilent && windowToClose.classList.contains("openInSilent"))
             windowToClose.querySelector(".window-close")?.click();
         else if (!onlyIfSilent)
             windowToClose.querySelector(".window-close")?.click();
-
+            
     }
 
-    const moveItem = async (item, slot) => {
+    const moveItem = async (item, slot) => {  
         item.dispatchEvent(new MouseEvent("mousedown"));
         item.parentNode.dispatchEvent(new MouseEvent("dragstart"));
         slot.parentNode.dispatchEvent(new MouseEvent("drop"));
         await sleep(50);
     }
 
-    const shredFromContextMenu = async (item) => {
-        const background = item.style.background;
-        const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];
-        if (["mythic", "ethereal"].includes(rarity) && 
-            !confirm(`You're about to shred a ${rarity} item ! Are you sure about that ?`)
+    const shredFromContextMenu = async () => {
+        const rarities = player.selectedItems.map(item => raritiesVariables[item.style.background] || raritiesVariables[item.style.background + ")"]);
+        if (
+            rarities.some(rarity => ["legendary", "mythic", "ethereal"].includes(rarity)) &&
+            !confirm(`You're about to shred a Legendary, Mythic or Ethereal item ! Are you sure about that ?`)
         ) return;
         const filamentWindow = await openWindow("Filament", true);
         if (!filamentWindow) return;
-        const slot = filamentWindow.querySelector(".item-slot");
-        const color = lootRarity.find(e => e.name === rarity)?.color;
-        await moveItem(item, slot);
+        for (let index in player.selectedItems) {
+            const item = player.selectedItems[index];
+            const background = item.style.background;
+            const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];
+            const slot = filamentWindow.querySelectorAll(".item-slot")[index % 5];
+            const color = lootRarity.find(e => e.name === rarity)?.color;
+            await moveItem(item, slot);
+            sendLog(`
+                <img class="icon" src="icons/check.svg"/>
+                Successfully shred a
+                <span style='background: ${color}; border-radius: 5px; padding: 2px 5px 2px 5px;'>${rarity}</span>
+                item
+            `);
+            if ((Number(index) + 1) % 5 == 0) {
+                filamentWindow.querySelector("button.green")?.click();
+                await sleep(200);
+            }
+        }
+        await sleep(200);
         filamentWindow.querySelector("button.green")?.click();
-        sendLog(`
-            <img class="icon" src="icons/check.svg"/>
-            Successfully shred a
-            <span style='background: ${color}; border-radius: 5px; padding: 2px 5px 2px 5px;'>${rarity}</span>
-            item
-        `);
         closeWindow("Filament", true);
     }
-
+    
     const sellFromContextMenu = async (item) => {
-        const background = item.style.background;
-        const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];
-        if (["mythic", "ethereal"].includes(rarity) && 
-            !confirm(`You're about to sell a ${rarity} item ! Are you sure about that ?`)
+        const rarities = player.selectedItems.map(item => raritiesVariables[item.style.background] || raritiesVariables[item.style.background + ")"]);
+        if (
+            rarities.some(rarity => ["legendary", "mythic", "ethereal"].includes(rarity)) &&
+            !confirm(`You're about to sell a Legendary, Mythic or Ethereal item ! Are you sure about that ?`)
         ) return;
-        const itemSeller = await openWindow("Item Seller", true);
-        if (!itemSeller) return;
-        const slot = itemSeller.querySelector(".item-slot");
-        await moveItem(item, slot);
-        itemSeller.querySelector("button.green")?.click();
+        const itemSellerWindow = await openWindow("Item Seller", true);
+        if (!itemSellerWindow) return;
+        for (let item of player.selectedItems) {
+            const slot = itemSellerWindow.querySelector(".item-slot");
+            await moveItem(item, slot);
+            await sleep(100);
+            itemSellerWindow.querySelector("button.green")?.click();
+            await sleep(400);
+        }
         closeWindow("Item Seller", true);
     }
 
@@ -1347,7 +1531,7 @@ const stats = {
         await sleep(100);
         closeWindow("Inventory", true);
     }
-
+    
     const equipBasicItem = async (item) => {
         await openWindow("Computer", true);
         item.parentNode.dispatchEvent(new MouseEvent("dblclick"));
@@ -1355,28 +1539,48 @@ const stats = {
         closeWindow("Computer", true);
     }
 
-    const manageClickOnItem = (item, pointer) => {
+    const manageRightClickOnItem = (item, pointer) => {
         const src = item.closest(".window").querySelector(".window-title > img")?.src
         const windowName = src?.split("/")[src.split("/").length - 1].slice(0, -4);
         if (!windowName) return;
+
+        if (!player.selectedItems.includes(item)) {
+            removeContextMenu();
+            player.selectedItems = [item]
+        }
+
+        item.parentNode.parentNode.classList.add("item-selected");
+        item.parentNode.parentNode.style.outline = "3px solid var(--color-terminal)";
         const popup = new Popup(pointer);
         const type = (item.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -7);
-        if (["cpu", "gpu", "psu"].includes(type)) {
+        if (player.selectedItems.length > 1)
+            popup.setTitle(`${player.selectedItems.length} items selected`)
+        if (["cpu", "gpu", "psu"].includes(type) && player.selectedItems.length == 1) {
             if (windowName === "computer")
-                popup.addAction("Unequip", () => unequipItem(item));
+                popup.addAction("Unequip", () => unequipItem(item), {selectionLimit: 1});
             else
-                popup.addAction("Equip", () => equipBasicItem(item));
+                popup.addAction("Equip", () => equipBasicItem(item), {selectionLimit: 1});
+        }
+        const tradeWindow = document.querySelector(".window:has(.window-title > img[src='icons/trade.svg']");
+        if (tradeWindow) {
+            const alreadyInTrade = tradeWindow.querySelector(".offer-wrapper")?.querySelectorAll(".item").length;
+            popup.addAction("Trade", async () => {
+                const slots = tradeWindow.querySelector(".offer-wrapper").querySelectorAll(".item-slot:not(.item-slot-hasitem");
+                for (let index in player.selectedItems) {
+                    const item = player.selectedItems[index];
+                    const slot = slots[index];
+                    moveItem(item, slot);
+                    await sleep(1000);
+                }
+            }, {selectionLimit: 6 - alreadyInTrade});
         }
         popup
-            .addAction("Shred", () => shredFromContextMenu(item), true)
-            .addAction("Sell", () => sellFromContextMenu(item), true)
+            .addAction("Shred", shredFromContextMenu, {isDangerous: true})
+            .addAction("Sell", sellFromContextMenu, {isDangerous: true})
             .create();
-
-        item.parentNode.parentNode.classList.add("item-selected")
-        item.parentNode.parentNode.style.outline = "2px solid var(--color-terminal)"
     }
 
-    const manageClickOnDesktop = (pointer) => {
+    const manageRightClickOnDesktop = (pointer) => {
         new Popup(pointer)
         .addAction("Edit background", async () => {
             document.querySelectorAll(".topbar-clickable")[1].click()
@@ -1387,7 +1591,7 @@ const stats = {
         .create();
     }
 
-    const manageClickOnPlayer = (player, pointer) => {
+    const manageRightClickOnPlayer = (player, pointer) => {
         new Popup(pointer)
         .addAction("Send message", async () => {
             player.click();
@@ -1395,63 +1599,95 @@ const stats = {
             document.querySelector("button.blue")?.click();
             document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
         })
+        .addAction("Trade", async () => {
+            player.click();
+            await sleep(100);
+            document.querySelector("button.yellow")?.click();
+            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+        })
         .create();
     }
 
-    const manageClick = (target, pointer) => {
+    const manageRightClick = (target, pointer) => {
+        if (document.querySelector(".context-menu"))
+            removeContextMenu();
         const windowClicked = target.closest(".window")
         if (target.parentNode
             && target.parentNode.classList.contains("item")
             && ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt))
-                manageClickOnItem(target.parentNode, pointer);
+                manageRightClickOnItem(target.parentNode, pointer);
         if (target.id == "desktop-container" || target.classList.contains("empty"))
-            manageClickOnDesktop(pointer);
+            manageRightClickOnDesktop(pointer);
         if (target.classList.contains("message-name"))
-            manageClickOnPlayer(target, pointer);
+            manageRightClickOnPlayer(target, pointer);
     }
-    
-    (async () => {
-        while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
-            await sleep(500);
 
+    const manageItemSelection = (item) => {
+        if (player.input.isShiftDown) {
+            player.selectedItems.push(item);
+            document.querySelectorAll(`.context-menu-option-limit-${player.selectedItems.length + 1}`).forEach(e => e.remove());
+    
+            if (document.querySelector(".context-menu")) {
+                document.querySelector(".context-menu-title").innerText = `${player.selectedItems.length} items selected`;
+                document.querySelector(".context-menu-title").style.display = "flex";
+            }
+        } else player.selectedItems = [item]
+        item.parentNode.parentNode.classList.add("item-selected");
+        item.parentNode.parentNode.style.outline = "3px solid var(--color-terminal)";
+        player.selectedItems.sort((b, a) => {
+            return  ([...a.parentNode?.parentNode?.parentNode?.parentNode.children].indexOf(a.parentNode?.parentNode?.parentNode) || 0) - 
+                    ([...b.parentNode?.parentNode?.parentNode?.parentNode.children].indexOf(b.parentNode?.parentNode?.parentNode) || 0)
+        })
+    }
+
+    const loadUserInputManager = () => {
         document.body.addEventListener("mousedown", (e) => {
-            if (e.target.classList.contains("context-menu")) return;
-            removeContextMenu();
+            if (e.buttons != 1) return;
+            const windowClicked = e.target.closest(".window");
+            if (!e.target.classList.contains("context-menu") && !player.input.isShiftDown)
+                removeContextMenu();
+            if (e.target.parentNode
+                && e.target.parentNode.classList.contains("item")
+                && ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt)
+            )
+                manageItemSelection(e.target.parentNode);
+                
         })
         document.body.oncontextmenu = (e) => {
             e.preventDefault();
-            manageClick(e.target, { clientX: e.clientX, clientY: e.clientY });
+            manageRightClick(e.target, { clientX: e.clientX, clientY: e.clientY });
         }
+        document.body.onkeydown = (e) => {
+            if (e.key === "Shift")
+                player.input.isShiftDown = true;
+        }
+        document.body.onkeyup = (e) => {
+            if (e.key === "Shift")
+                player.input.isShiftDown = false;
+        }
+    }
 
-        loadingScreen("create");
+    (async () => {
+        while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
+            await sleep(500);
         while (1) {
             try {
-                createObserver();
-                editFilaments();
-                editProgressBar();
                 editWelcomeMessage();
+                loadingScreen("create");
+                editFilaments();
+                customTerminal();
+                createObserver();
+                editProgressBar();
                 loadLocalStorage();
                 updateThemeStyle();
-                customTerminal();
                 await loadScripts();
+                loadUserInputManager();
+                await sleep(1000);
+                loadingScreen("delete");
                 break;
-            }
-            catch {
-                try {loadingScreen("delete");}
-                catch {}
-                finally {await sleep(1000);}
-            }
+            } catch {await sleep(1000);}
         }
-        try {
-            await sleep(1000);
-            loadingScreen("delete");
-        }
-        catch {}
-        while (1) {
-            await sleep(1000);
-            try {changeColors()} catch {}
-        }
-    })()
+    })();
 })();
 
 // Page Break
@@ -1533,147 +1769,3 @@ WebSocket.prototype.send=function(d){
     event.data=data
     if(inboundLog) console.log(data);
   })
-
-// Function to change colors
-function changeColors() {
-    const terminalDiv = document.querySelector('#section-code');
-    const themeDiv = document.querySelector('#themes');
-    const borderDiv = document.querySelector('div.window.svelte-1hjm43z.window-selected') || document.querySelector('body > div > main > div:nth-child(6)');
-    const barDiv = document.querySelector('#section-target > div:nth-child(1) > div:nth-child(2) > div.target-bar.svelte-1fdvo7g');
-    const currentTheme = player.configuration.currentTheme;
-    var itsColor = "#5be22e"
-    if (currentTheme === "Atom One") {
-        itsColor = "#8e00ff";
-    } else if (currentTheme == "Monokai") {
-        itsColor = '#e22e2e';
-    } else if (currentTheme == "Github") {
-        itsColor = '#2f2ee2';
-    } else if (currentTheme == "Night Owl") {
-        itsColor = '#825f00'
-    } else if (currentTheme == "Flashbang") {
-        itsColor = '#ffffff'
-    }
-    try {
-        document.documentElement.style.setProperty('--color-terminal', itsColor);
-        document.documentElement.style.setProperty('--color-darkgreen', itsColor + '2f');
-        terminalDiv.style.background = "linear-gradient(180deg, #000000 3%, " + itsColor + "40 123%)";
-        themeDiv.style.border = "1px solid " + itsColor;
-        barDiv.style.outline = "1px solid " + itsColor;
-        if (!borderDiv.textContent.includes("Terminal")) return;
-        borderDiv.style.borderColor = itsColor;
-    } catch {}
-} 
-
-// Call the function to change colors
-try {changeColors()} catch {}
-
-/*
-Below are all upgrades introduced by
-Xen's Prettier Version 06/27/2024
-*/
-
-const removeContextMenu = () => {
-    document.querySelector(".context-menu-container")?.remove();
-    const selectedItem = document.querySelector(".item-selected")
-    if (selectedItem) {
-        selectedItem.style.outline = null;
-        selectedItem.classList.remove("item-selected")
-    }
-}
-
-class Popup {
-    #popup;
-    #dimensions = {
-        width: 150,
-        height: 0,
-    }
-    #pointer;
-    constructor (pointer) {
-        this.#pointer = pointer;
-        const popup = new Component("div", {
-            classList: ["context-menu", "context-menu-container"],
-            style: {
-                position: "absolute", width: `${this.#dimensions.width}px`,
-
-                backgroundColor: "#000000E6", borderRadius: "8px", display: "flex", flexDirection: "column", gap: "5px", zIndex: "1000", padding: "5px",
-                boxShadow: "5px 5px 15px 5px #000000",
-                border: "1px solid #ffffff66"
-            }
-        })
-        this.#popup = popup.element;
-        return this;
-    }
-
-    #getPosition = (pointer, dimensions) => {
-        const finalPosition = {...pointer};
-        const windowDimensions = { height: document.body.clientHeight, width: document.body.clientWidth };
-
-        if (pointer.clientY > windowDimensions.height - (dimensions.height + 20))
-            finalPosition.clientY -= (dimensions.height + 10);
-        else
-            finalPosition.clientY += 10;
-        if (pointer.clientX > windowDimensions.width - (dimensions.width + 20))
-            finalPosition.clientX -= (dimensions.width + 10);
-        else
-            finalPosition.clientX += 10;
-        return finalPosition;
-    }
-
-    addAction(text, action, isDangerous) {
-        const component = new Component("div", {
-            classList: ["context-menu", "context-menu-option"],
-            innerText: text,
-            style: { width: "100%", borderRadius: "4px", padding: "5px", cursor: "pointer", color: isDangerous ? "var(--color-red)" : "white" },
-            onmouseenter: (e) => e.target.style.backgroundColor = "#5be22e66",
-            onmouseleave: (e) => e.target.style.backgroundColor = "unset",
-            onclick: () => {
-                removeContextMenu();
-                if (action)
-                    action();
-            },
-        })
-        this.#popup.appendChild(component.element);
-        this.#dimensions.height += 40;
-        return this;
-    }
-
-    create() {
-        const position = this.#getPosition(this.#pointer, this.#dimensions);
-        this.#popup.style.top = `${position.clientY}px`;
-        this.#popup.style.left = `${position.clientX}px`,
-        document.body.appendChild(this.#popup);
-    }
-}
-
-const windowNames = [
-    "Filament",
-    "Inventory",
-    "Item Seller",
-    "Computer",
-]
-
-const lootRarity = [
-    { name: "common",    color: "linear-gradient(211deg, #585d66 0%, #7d848f 100%)" },
-    { name: "uncommon",  color: "linear-gradient(211deg, #007c37 0%, #83b200 100%)" },
-    { name: "rare",      color: "linear-gradient(211deg, #00427c 0%, #0092ed 100%)" },
-    { name: "epic",      color: "linear-gradient(211deg, #5c045a 0%, #a90052 100%)" },
-    { name: "legendary", color: "linear-gradient(112deg, #a95300 4%, #ff9605 34%, #a95300 66%, #ff9605 100%)" },
-    { name: "mythic",    color: "linear-gradient(112deg, #40f5ff 4%, #05a8ff 34%, #40f5ff 66%, #05a8ff 100%)" },
-    { name: "ethereal",    color: "linear-gradient(112deg, #ffb74e 4%, #ffe6a2 34%, #ffb74e 66%, #ffe6a2 100%)" },
-];
-
-const raritiesVariables = {
-    "var(--color-SSS)": "ethereal",
-    "var(--color-SS)": "mythic",
-    "var(--color-S)" : "legendary",
-    "var(--color-A)" : "epic",
-    "var(--color-B)" : "rare",
-    "var(--color-C)" : "uncommon",
-    "var(--color-D)" : "common"
-}
-
-const lootButtons = {
-    "take" : "button > img[src='icons/inventory.svg']",
-    "sell" : "button > img[src='icons/btc.svg']",
-    "shred": "button > img[src='icons/filament.svg']"
-}
