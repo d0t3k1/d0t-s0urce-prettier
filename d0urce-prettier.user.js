@@ -792,7 +792,7 @@ const stats = {
         switch (rarity) {
             case 5:
                 if (dPM > 50) return (value).toFixed(4);
-                else if (dPM > 1) return "~" + (value + basePrice*2 - 8.57 * basePrice / 30 * (dPM - 1) ** (1/2)).toFixed(4);
+                else if (dPM > 1) return "~" + (value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2)).toFixed(4);
             case 6:
                 if (dPM == 100) return (value).toFixed(4);
                 else if (dPM > 50) return (value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3)).toFixed(4);
