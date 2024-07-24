@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.7.1
+// @version      1.7.2
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -10,7 +10,7 @@
 // @grant        none
 // ==/UserScript==
 
-const VERSION = "1.7.1"
+const VERSION = "1.7.2"
 
 const themes = {
     "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important}",
@@ -1239,6 +1239,9 @@ const stats = {
         })
         if (!newWindow)
             return;
+
+        var pref_color = localStorage.getItem("prettier-tabPreferredColor")
+        newWindow.addedNodes[0].querySelector(".window-title").style.background = "linear-gradient(200deg,"+pref_color+" 0%,"+halfColor(pref_color)+" 100%)"
 
         const src = newWindow.addedNodes[0].querySelector(".window-title > img").src
         const name = src.split("/")[src.split("/").length - 1].slice(0, -4);
