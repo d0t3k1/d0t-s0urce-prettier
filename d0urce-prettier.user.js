@@ -1352,7 +1352,6 @@ const stats = {
                 else
                     localStorage.removeItem("prettier-backgroundImage")
             }
-
             const borderColor = "transparent"
             const autolootSetting = new Component("table", {
                 classList: ["item-manager-content"],
