@@ -1322,7 +1322,6 @@ const stats = {
                 else
                     localStorage.removeItem("prettier-backgroundImage")
             }
-
             const borderColor = "transparent"
             const autolootSetting = new Component("table", {
                 classList: ["item-manager-content"],
@@ -2318,27 +2317,19 @@ const stats = {
     (async () => {
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
-        while (1) {
-            try {
-                editWelcomeMessage();
-                loadingScreen("create");
-                editFilaments();
-                customTerminal();
-                createObserver();
-                editProgressBar();
-                loadLocalStorage();
-                updateThemeStyle();
-                await loadScripts();
-                await editTabs();
-                loadUserInputManager();
-                editInventoryWindow();
-                await sleep(Math.random()*2000+500);
-                loadingScreen("delete");
-                break;
-            } catch {
-                await sleep(1000);
-            }
-        }
+        loadingScreen("create", "Prettier s0urce");
+        editFilaments();
+        customTerminal();
+        createObserver();
+        editProgressBar();
+        loadLocalStorage();
+        updateThemeStyle();
+        await loadScripts();
+        editWelcomeMessage();
+        loadUserInputManager();
+        editInventoryWindow();
+        await sleep(Math.random()*2000+500);
+        loadingScreen("delete");
     })();
 })();
 
@@ -2416,8 +2407,26 @@ WebSocket.prototype.send=function(d){
         return JSON.stringify(a)
       })
     }
-    
-    data=data.substring(0,index)+JSON.stringify(x)
-    event.data=data
-    if(inboundLog) console.log(data);
-  })
+
+  if (typeof payload !== "object") return console.log(data);
+
+    traverse(payload, function(item) {
+        if (item && item.btc) {
+            playerData.push(item)
+            //item.username += ` (₿${parseFloat(item.btc).toFixed(2)})`;
+        }
+    });
+
+    if (payload[1]?.event === "gotGlobalRoomLogs") {
+        payload[1].arguments[0] = payload[1].arguments[0].map(log => {
+            let logObject = JSON.parse(log);
+            let sender = logObject.sender;
+            if (sender.btc) sender.username += ` (₿${parseFloat(sender.btc).toFixed(2)})`;
+            return JSON.stringify(logObject);
+        });
+    }
+
+    data = data.substring(0, index) + JSON.stringify(payload);
+    event.data = data;
+    if (inboundLog) console.log(data);
+});
