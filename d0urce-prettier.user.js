@@ -1249,36 +1249,6 @@ const stats = {
             newWindow.addedNodes[0].style.display = "none";
             newWindow.addedNodes[0].classList.add("openInSilent");
         }
-        const isProfile = newWindow.addedNodes[0].querySelector(".window-title").innerText == "Target"
-        if (isProfile) {
-                try {
-                while (1) {
-                    var added = false
-                    for (var i = 0; i < playerData.length; i++) {
-                        try {
-                            if (i == 0) newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").style.color = "white"
-                            if (playerData[i].username == newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText) {
-                                //console.log(newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)"))
-                                newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = playerData[i].btc.toFixed(4) + ' \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'
-                                added = true
-                            }
-                        }
-                        catch {
-                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").style.color = "white"
-                            newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'    
-                            added = true
-                        }    
-                    }
-                    if (!added) {
-                        try {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
-                        catch {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
-                    }
-                    if (!newWindow) break
-                    else await sleep(100)
-                }
-            } catch {return}
-        }
-
         const isItem = newWindow.addedNodes[0].querySelector(".window-title > img[src='icons/loot.svg']")
         if (isItem)
             await manageLoot();
@@ -2374,88 +2344,80 @@ const stats = {
 
 // Page Break
 
-// Backup original WebSocket send method
-var originalSend = WebSocket.prototype.send;
+var send=WebSocket.prototype.send, inboundLog=true, outboundLog=true
 
-// Log settings
-var inboundLog = true;
-var outboundLog = true;
-
-// Helper function to traverse and modify an object
-function traverse(obj, fn) {
-    let keys = Object.keys(obj);
-    for (let i = 0; i < keys.length; i++) {
-        let part = obj[keys[i]];
-        if (part && typeof part === "object") traverse(part, fn);
-        fn(part);
+function traverse(obj,fn){
+    let keys=Object.keys(obj)
+    for(let i=0;i<keys.length;i++){
+      let part=obj[keys[i]]
+      if(part && typeof part==="object") traverse(part,fn);
+      fn(part)
     }
 }
 
-// Override WebSocket send method
-WebSocket.prototype.send = function(data) {
-    try {
-        let index = data.indexOf('[');
-        let payload = JSON.parse(data.substring(index));
-        if (!payload || typeof payload !== "object") throw "skip";
-        traverse(payload, function(item) {
-            if (item && item.username) item.username = item.username.split(' ')[0];
-        });
-        data = data.substring(0, index) + JSON.stringify(payload);
-    } catch (e) {
-        // Ignoring errors silently
-    }
-    if (outboundLog) console.warn(data);
-    return originalSend.call(this, data);
-}
-
-const playerData = []
-
-// Listen for WebSocket messages
-function listen(fn = console.log) {
+WebSocket.prototype.send=function(d){
+    try{
+      let index=d.indexOf('[')
+      let x=JSON.parse(d.substr(index))
+      if(!x || typeof x!=="object") throw "skip";
+      traverse(x,function(o){
+        if(o.username) o.username=o.username.split(' ')[0];
+      })
+      d=d.substring(0,index)+JSON.stringify(x)
+    }catch{}
+    if(outboundLog) console.warn(d);
+    return send.bind(this)(d);
+  }
+  function listen(fn){
+    fn = fn || console.log;
+  
     let property = Object.getOwnPropertyDescriptor(MessageEvent.prototype, "data");
-    const originalGet = property.get;
-
-    function wrappedGetter() {
-        let socket = this.currentTarget instanceof WebSocket;
-        if (!socket) return originalGet.call(this);
-
-        let msg = originalGet.call(this);
-        Object.defineProperty(this, "data", { value: msg, writable: true });
-        fn({ data: msg, socket: this.currentTarget, event: this });
-        return this.data;
+    
+    const data = property.get;
+  
+    // wrapper that replaces getter
+    function lookAtMessage() {
+  
+      let socket = this.currentTarget instanceof WebSocket;
+  
+      if (!socket) {
+        return data.call(this);
+      }
+  
+      let msg = data.call(this);
+  
+      Object.defineProperty(this, "data", { value:msg, writable:true } ); //anti-loop
+      fn({ data: msg, socket:this.currentTarget, event:this });
+      return this.data;
     }
-
-    property.get = wrappedGetter;
+    
+    property.get = lookAtMessage;
+    
     Object.defineProperty(MessageEvent.prototype, "data", property);
-}
-
-listen(({ data, socket, event }) => {
-    window.SOCK = socket;
-    let index = data.indexOf('[');
-    try {
-        var payload = JSON.parse(data.substring(index));
-    } catch (e) {
-        return data;
+  }
+  
+  
+  listen( ({data,socket,event}) => {
+    window.SOCK=socket
+    let index=data.indexOf('[')
+    try{var x=JSON.parse(data.substr(index))}
+    catch{return data}
+    if(typeof x!=="object") return console.log(data);
+    
+    traverse(x,function(o){
+      if(o?.btc) o.username+=` (₿${parseFloat(o.btc).toFixed(2)})`;
+    })
+    if(x[1]?.event==="gotGlobalRoomLogs"){
+      x[1].arguments[0]=x[1].arguments[0].map(a=>{
+        a=JSON.parse(a)
+        let o=a.sender
+        if(o.btc)
+            o.username += ` (₿${parseFloat(o.btc).toFixed(2)})`;
+        return JSON.stringify(a)
+      })
     }
-    if (typeof payload !== "object") return console.log(data);
-
-    traverse(payload, function(item) {
-        if (item && item.btc) {
-            playerData.push(item)
-            //item.username += ` (₿${parseFloat(item.btc).toFixed(2)})`;
-        }
-    });
-
-    if (payload[1]?.event === "gotGlobalRoomLogs") {
-        payload[1].arguments[0] = payload[1].arguments[0].map(log => {
-            let logObject = JSON.parse(log);
-            let sender = logObject.sender;
-            if (sender.btc) sender.username += ` (₿${parseFloat(sender.btc).toFixed(2)})`;
-            return JSON.stringify(logObject);
-        });
-    }
-
-    data = data.substring(0, index) + JSON.stringify(payload);
-    event.data = data;
-    if (inboundLog) console.log(data);
-});
+    
+    data=data.substring(0,index)+JSON.stringify(x)
+    event.data=data
+    if(inboundLog) console.log(data);
+  })
