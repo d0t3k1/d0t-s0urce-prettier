@@ -2348,27 +2348,19 @@ const stats = {
     (async () => {
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
-        while (1) {
-            try {
-                editWelcomeMessage();
-                loadingScreen("create");
-                editFilaments();
-                customTerminal();
-                createObserver();
-                editProgressBar();
-                loadLocalStorage();
-                updateThemeStyle();
-                await loadScripts();
-                await editTabs();
-                loadUserInputManager();
-                editInventoryWindow();
-                await sleep(Math.random()*2000+500);
-                loadingScreen("delete");
-                break;
-            } catch {
-                await sleep(1000);
-            }
-        }
+        loadingScreen("create", "Prettier s0urce");
+        editFilaments();
+        customTerminal();
+        createObserver();
+        editProgressBar();
+        loadLocalStorage();
+        updateThemeStyle();
+        await loadScripts();
+        editWelcomeMessage();
+        loadUserInputManager();
+        editInventoryWindow();
+        await sleep(Math.random()*2000+500);
+        loadingScreen("delete");
     })();
 })();
 
@@ -2437,7 +2429,8 @@ listen(({ data, socket, event }) => {
     } catch (e) {
         return data;
     }
-    if (typeof payload !== "object") return console.log(data);
+
+  if (typeof payload !== "object") return console.log(data);
 
     traverse(payload, function(item) {
         if (item && item.btc) {
