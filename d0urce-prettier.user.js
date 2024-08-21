@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.7.2
+// @version      1.7.3
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -10,17 +10,17 @@
 // @grant        none
 // ==/UserScript==
 
-const VERSION = "1.7.2"
+const VERSION = "1.7.3"
 
 const themes = {
-    "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important}",
-    "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#b270ff;}.hljs-comment,.hljs-quote{color:#b270ff;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#b270ff}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#b270ff}.hljs-literal{color:#b270ff}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#b270ff}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#b270ff}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#b270ff}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#b270ff}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}:root{--color-terminal:#b270ff;--color-darkgreen:#b270ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #b270ff} #section-code{background: linear-gradient(180deg, #000000 3%, #b270ff40 123%)} #themes{border: 1px solid #b270ff} .target-bar{outline: 1px solid #b270ff !important}",
-    "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ff3838}.hljs-subst,.hljs-tag{color:#ff3838}.hljs-emphasis,.hljs-strong{color:#ff3838}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ff3838}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ff3838}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ff3838}.hljs-attribute,.hljs-symbol{color:#ff3838}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ff3838}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ff3838}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ff3838}:root{--color-terminal:#ff3838;--color-darkgreen:#ff38382f} .window:has(img[src='icons/terminal.svg']){border-color: #ff3838} #section-code{background: linear-gradient(180deg, #000000 3%, #ff383840 123%)} #themes{border: 1px solid #ff3838} .target-bar{outline: 1px solid #ff3838 !important}",
-    "The Deep": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#3d8566}.hljs-keyword{color:#3d8566;font-style:italic}.hljs-built_in{color:#3d8566;font-style:italic}.hljs-type{color:#3d8566}.hljs-literal{color:#3d8566}.hljs-number{color:#3d8566}.hljs-regexp{color:#3d8566}.hljs-string{color:#3d8566}.hljs-subst{color:#3d8566}.hljs-symbol{color:#3d8566}.hljs-class{color:#3d8566}.hljs-function{color:#3d8566}.hljs-title{color:#3d8566;font-style:italic}.hljs-params{color:#3d8566}.hljs-comment{color:#3d8566;font-style:italic}.hljs-doctag{color:#3d8566}.hljs-meta,.hljs-meta .hljs-keyword{color:#3d8566}.hljs-meta .hljs-string{color:#3d8566}.hljs-section{color:#3d8566}.hljs-attr,.hljs-name,.hljs-tag{color:#3d8566}.hljs-attribute{color:#3d8566}.hljs-variable{color:#3d8566}.hljs-bullet{color:#3d8566}.hljs-code{color:#3d8566}.hljs-emphasis{color:#3d8566;font-style:italic}.hljs-strong{color:#3d8566;font-weight:700}.hljs-formula{color:#3d8566}.hljs-link{color:#3d8566}.hljs-quote{color:#3d8566;font-style:italic}.hljs-selector-tag{color:#3d8566}.hljs-selector-id{color:#3d8566}.hljs-selector-class{color:#3d8566;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#3d8566;font-style:italic}.hljs-template-tag{color:#3d8566}.hljs-template-variable{color:#3d8566}.hljs-addition{color:#3d8566;font-style:italic}.hljs-deletion{color:#3d8566;font-style:italic}:root{--color-terminal:#3d8566;--color-darkgreen:#3d85662f} .window:has(img[src='icons/terminal.svg']){border-color: #3d8566} #section-code{background: linear-gradient(180deg, #000000 3%, #3d856640 123%)} #themes{border: 1px solid #3d8566} .target-bar{outline: 1px solid #3d8566 !important}",
-    "Light Mode": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffffff}.hljs-keyword{color:#ffffff;font-style:italic}.hljs-built_in{color:#ffffff;font-style:italic}.hljs-type{color:#ffffff}.hljs-literal{color:#ffffff}.hljs-number{color:#ffffff}.hljs-regexp{color:#ffffff}.hljs-string{color:#ffffff}.hljs-subst{color:#ffffff}.hljs-symbol{color:#ffffff}.hljs-class{color:#ffffff}.hljs-function{color:#ffffff}.hljs-title{color:#ffffff;font-style:italic}.hljs-params{color:#ffffff}.hljs-comment{color:#ffffff;font-style:italic}.hljs-doctag{color:#ffffff}.hljs-meta,.hljs-meta .hljs-keyword{color:#ffffff}.hljs-meta .hljs-string{color:#ffffff}.hljs-section{color:#ffffff}.hljs-attr,.hljs-name,.hljs-tag{color:#ffffff}.hljs-attribute{color:#ffffff}.hljs-variable{color:#ffffff}.hljs-bullet{color:#ffffff}.hljs-code{color:#ffffff}.hljs-emphasis{color:#ffffff;font-style:italic}.hljs-strong{color:#ffffff;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ffffff}.hljs-quote{color:#ffffff;font-style:italic}.hljs-selector-tag{color:#ffffff}.hljs-selector-id{color:#ffffff}.hljs-selector-class{color:#ffffff;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#ffffff;font-style:italic}.hljs-template-tag{color:#ffffff}.hljs-template-variable{color:#ffffff}.hljs-addition{color:#ffffff;font-style:italic}.hljs-deletion{color:#ffffff;font-style:italic}:root{--color-terminal:#ffffff;--color-darkgreen:#ffffff2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffffff} #section-code{background: linear-gradient(180deg, #000000 3%, #ffffff40 123%)} #themes{border: 1px solid #ffffff} .target-bar{outline: 1px solid #ffffff !important}",
-    "Mythic Myer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#05a8ff;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#05a8ff}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#05a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#05a8ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#05a8ff}.hljs-built_in,.hljs-symbol{color:#05a8ff}.hljs-code,.hljs-comment,.hljs-formula{color:#05a8ff}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#05a8ff}.hljs-subst{color:#05a8ff}.hljs-section{color:#05a8ff;font-weight:700}.hljs-bullet{color:#05a8ff}.hljs-emphasis{color:#05a8ff;font-style:italic}.hljs-strong{color:#05a8ff;font-weight:700}.hljs-addition{color:#05a8ff;background-color:#05a8ff}.hljs-deletion{color:#05a8ff;background-color:#05a8ff}:root{--color-terminal:#05a8ff;--color-darkgreen:#05a8ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #05a8ff} #section-code{background: linear-gradient(180deg, #000000 3%, #05a8ff40 123%)} #themes{border: 1px solid #05a8ff} .target-bar{outline: 1px solid #05a8ff !important}",
-    "Ethereal Enjoyer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffb74e}.hljs-subst,.hljs-tag{color:#ffb74e}.hljs-emphasis,.hljs-strong{color:#ffb74e}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ffb74e}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ffb74e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ffb74e}.hljs-attribute,.hljs-symbol{color:#ffb74e}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ffb74e}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ffb74e}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ffb74e}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important}",
-}
+    "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #85ff49 0%, #427f24 100%)}",
+    "Atom One": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#b270ff;}.hljs-comment,.hljs-quote{color:#b270ff;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#b270ff}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#b270ff}.hljs-literal{color:#b270ff}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#b270ff}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#b270ff}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#b270ff}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#b270ff}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}:root{--color-terminal:#b270ff;--color-darkgreen:#b270ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #b270ff} #section-code{background: linear-gradient(180deg, #000000 3%, #b270ff40 123%)} #themes{border: 1px solid #b270ff} .target-bar{outline: 1px solid #b270ff !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #b270ff 0%, #59387f 100%)}",
+    "Monokai": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ff3838}.hljs-subst,.hljs-tag{color:#ff3838}.hljs-emphasis,.hljs-strong{color:#ff3838}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ff3838}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ff3838}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ff3838}.hljs-attribute,.hljs-symbol{color:#ff3838}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ff3838}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ff3838}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ff3838}:root{--color-terminal:#ff3838;--color-darkgreen:#ff38382f} .window:has(img[src='icons/terminal.svg']){border-color: #ff3838} #section-code{background: linear-gradient(180deg, #000000 3%, #ff383840 123%)} #themes{border: 1px solid #ff3838} .target-bar{outline: 1px solid #ff3838 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #ff3838 0%, #7f1c1c 100%)}",
+    "The Deep": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#3d8566}.hljs-keyword{color:#3d8566;font-style:italic}.hljs-built_in{color:#3d8566;font-style:italic}.hljs-type{color:#3d8566}.hljs-literal{color:#3d8566}.hljs-number{color:#3d8566}.hljs-regexp{color:#3d8566}.hljs-string{color:#3d8566}.hljs-subst{color:#3d8566}.hljs-symbol{color:#3d8566}.hljs-class{color:#3d8566}.hljs-function{color:#3d8566}.hljs-title{color:#3d8566;font-style:italic}.hljs-params{color:#3d8566}.hljs-comment{color:#3d8566;font-style:italic}.hljs-doctag{color:#3d8566}.hljs-meta,.hljs-meta .hljs-keyword{color:#3d8566}.hljs-meta .hljs-string{color:#3d8566}.hljs-section{color:#3d8566}.hljs-attr,.hljs-name,.hljs-tag{color:#3d8566}.hljs-attribute{color:#3d8566}.hljs-variable{color:#3d8566}.hljs-bullet{color:#3d8566}.hljs-code{color:#3d8566}.hljs-emphasis{color:#3d8566;font-style:italic}.hljs-strong{color:#3d8566;font-weight:700}.hljs-formula{color:#3d8566}.hljs-link{color:#3d8566}.hljs-quote{color:#3d8566;font-style:italic}.hljs-selector-tag{color:#3d8566}.hljs-selector-id{color:#3d8566}.hljs-selector-class{color:#3d8566;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#3d8566;font-style:italic}.hljs-template-tag{color:#3d8566}.hljs-template-variable{color:#3d8566}.hljs-addition{color:#3d8566;font-style:italic}.hljs-deletion{color:#3d8566;font-style:italic}:root{--color-terminal:#3d8566;--color-darkgreen:#3d85662f} .window:has(img[src='icons/terminal.svg']){border-color: #3d8566} #section-code{background: linear-gradient(180deg, #000000 3%, #3d856640 123%)} #themes{border: 1px solid #3d8566} .target-bar{outline: 1px solid #3d8566 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #3d8566 0%, #1e4233 100%)}",
+    "Light Mode": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffffff}.hljs-keyword{color:#ffffff;font-style:italic}.hljs-built_in{color:#ffffff;font-style:italic}.hljs-type{color:#ffffff}.hljs-literal{color:#ffffff}.hljs-number{color:#ffffff}.hljs-regexp{color:#ffffff}.hljs-string{color:#ffffff}.hljs-subst{color:#ffffff}.hljs-symbol{color:#ffffff}.hljs-class{color:#ffffff}.hljs-function{color:#ffffff}.hljs-title{color:#ffffff;font-style:italic}.hljs-params{color:#ffffff}.hljs-comment{color:#ffffff;font-style:italic}.hljs-doctag{color:#ffffff}.hljs-meta,.hljs-meta .hljs-keyword{color:#ffffff}.hljs-meta .hljs-string{color:#ffffff}.hljs-section{color:#ffffff}.hljs-attr,.hljs-name,.hljs-tag{color:#ffffff}.hljs-attribute{color:#ffffff}.hljs-variable{color:#ffffff}.hljs-bullet{color:#ffffff}.hljs-code{color:#ffffff}.hljs-emphasis{color:#ffffff;font-style:italic}.hljs-strong{color:#ffffff;font-weight:700}.hljs-formula{color:#c792ea}.hljs-link{color:#ffffff}.hljs-quote{color:#ffffff;font-style:italic}.hljs-selector-tag{color:#ffffff}.hljs-selector-id{color:#ffffff}.hljs-selector-class{color:#ffffff;font-style:italic}.hljs-selector-attr,.hljs-selector-pseudo{color:#ffffff;font-style:italic}.hljs-template-tag{color:#ffffff}.hljs-template-variable{color:#ffffff}.hljs-addition{color:#ffffff;font-style:italic}.hljs-deletion{color:#ffffff;font-style:italic}:root{--color-terminal:#ffffff;--color-darkgreen:#ffffff2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffffff} #section-code{background: linear-gradient(180deg, #000000 3%, #ffffff40 123%)} #themes{border: 1px solid #ffffff} .target-bar{outline: 1px solid #ffffff !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #ffffff 0%, #7f7f7f 100%)}",
+    "Mythic Myer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#05a8ff;}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#05a8ff}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#05a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#05a8ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#05a8ff}.hljs-built_in,.hljs-symbol{color:#05a8ff}.hljs-code,.hljs-comment,.hljs-formula{color:#05a8ff}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#05a8ff}.hljs-subst{color:#05a8ff}.hljs-section{color:#05a8ff;font-weight:700}.hljs-bullet{color:#05a8ff}.hljs-emphasis{color:#05a8ff;font-style:italic}.hljs-strong{color:#05a8ff;font-weight:700}.hljs-addition{color:#05a8ff;background-color:#05a8ff}.hljs-deletion{color:#05a8ff;background-color:#05a8ff}:root{--color-terminal:#05a8ff;--color-darkgreen:#05a8ff2f} .window:has(img[src='icons/terminal.svg']){border-color: #05a8ff} #section-code{background: linear-gradient(180deg, #000000 3%, #05a8ff40 123%)} #themes{border: 1px solid #05a8ff} .target-bar{outline: 1px solid #05a8ff !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #05a8ff 0%, #02547f 100%)}",
+    "Ethereal Enjoyer": "pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#ffb74e}.hljs-subst,.hljs-tag{color:#ffb74e}.hljs-emphasis,.hljs-strong{color:#ffb74e}.hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{color:#ffb74e}.hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{color:#ffb74e}.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}.hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#ffb74e}.hljs-attribute,.hljs-symbol{color:#ffb74e}.hljs-class .hljs-title,.hljs-params,.hljs-title.class_{color:#ffb74e}.hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{color:#ffb74e}.hljs-comment,.hljs-deletion,.hljs-meta{color:#ffb74e}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important}:root{--color-terminal:#ffb74e;--color-darkgreen:#ffb74e2f} .window:has(img[src='icons/terminal.svg']){border-color: #ffb74e} #section-code{background: linear-gradient(180deg, #000000 3%, #ffb74e40 123%)} #themes{border: 1px solid #ffb74e} .target-bar{outline: 1px solid #ffb74e !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #ffb74e 0%, #7f5b27 100%)}",
+};
 
 class Component {
 	prepend;
@@ -30,38 +30,15 @@ class Component {
 		const element = document.createElement(type);
 		if (options.classList)
 			element.classList.add(...options.classList);
-		
-		for (let attribute of Object.keys(options.style || {}))
-			element.style[attribute] = options.style[attribute];
 
-		if (options.id)
-			element.id = options.id;
-		if (options.src)
-			element.src = options.src;
-		if (options.type)
-			element.type = options.type;
-		if (options.innerText)
-			element.innerText = options.innerText
-		if (options.innerHTML)
-			element.innerHTML = options.innerHTML;
-		if (options.placeholder)
-			element.placeholder = options.placeholder;
-		if (options.value)
-			element.value = options.value;
-		if (options.onclick)
-			element.onclick = options.onclick;
-		if (options.onchange)
-			element.onchange = options.onchange;
-		if (options.selected)
-			element.selected = options.selected;
-		if (options.onfocusout)
-			element.onfocusout = options.onfocusout;
-		if (options.onblur)
-			element.onblur = options.onblur;
-		if (options.onmouseenter)
-			element.onmouseenter = options.onmouseenter;
-		if (options.onmouseleave)
-			element.onmouseleave = options.onmouseleave;
+        const propertiesToAssign = {
+            ...options
+        };
+        delete propertiesToAssign.children;
+        delete propertiesToAssign.style;
+        delete propertiesToAssign.classList;
+        Object.assign(element, propertiesToAssign);
+        Object.assign(element.style, options.style);
 
 		options.children?.filter(child => child).forEach(child => {
 			child.prepend ? element.prepend(child.element) : element.append(child.element)
@@ -209,6 +186,12 @@ const lootButtons = {
     "shred": "button > img[src='icons/filament.svg']"
 }
 
+const defaultColors = {
+    windowBorder: "#91aabd3b",
+    windowTabLight: "#1f1e23",
+    windowTabDark: "#131317",
+}
+
 const player = {
     username: document.querySelector("img[src='icons/online.svg']")?.parentNode?.innerText?.trim(),
     hacksInProgress: [],
@@ -217,9 +200,12 @@ const player = {
     configuration: {
         openInSilent: [],
         displayCustomFilament: "ethereal",
-        desktopIconColor: localStorage.getItem("prettier-tabPreferredColor") || "#383838",
+        desktopIconColor: localStorage.getItem("prettier-desktopIconColor") || "#ffffff",
         currentTheme: localStorage.getItem("prettier-currentTheme") || Object.keys(themes)[0],
-        codeSyntaxing: !!localStorage.getItem("prettier-codeSyntaxing")
+        codeSyntaxing: !!localStorage.getItem("prettier-codeSyntaxing"),
+        windowColors: localStorage.getItem("prettier-windowColors") ?
+            JSON.parse(localStorage.getItem("prettier-windowColors")) :
+            defaultColors
     },
     input: {
         isShiftDown: false,
@@ -246,6 +232,7 @@ const player = {
             mythic:     { cpu: 4.5, gpu: 4.5, psu: 4.5, firewall: 4.5, other: 4.5 },
             ethereal:   { cpu: 67.5, gpu: 67.5, psu: 67.5, firewall: 67.5, other: 67.5 },
         },
+    
 }
 
 const stats = {
@@ -315,13 +302,14 @@ const stats = {
         [1.24, 2.48, 2.76, 2.96, 3.12, 3.25, 3.37, 3.47, 3.57, 3.65, 3.74, 3.82, 3.89, 3.96, 4.03, 4.1, 4.16, 4.22, 4.28, 4.34, 4.4, 4.45, 4.51, 4.56, 4.62, 4.67, 4.72, 4.77, 4.82, 4.87, 4.92, 4.96, 5.01, 5.05, 5.1, 5.15, 5.19, 5.24, 5.29, 5.33, 5.38, 5.42, 5.47, 5.51, 5.56, 5.6, 5.65, 5.69, 5.74, 5.78, 5.83, 5.87, 5.91, 5.96, 6.0, 6.05, 6.09, 6.13, 6.18, 6.22, 6.26, 6.31, 6.35, 6.4, 6.44, 6.49, 6.53, 6.57, 6.62, 6.66, 6.71, 6.76, 6.8, 6.85, 6.89, 6.94, 6.99, 7.04, 7.09, 7.14, 7.19, 7.24, 7.29, 7.35, 7.4, 7.46, 7.52, 7.58, 7.64, 7.71, 7.78, 7.85, 7.93, 8.02, 8.11, 8.2, 8.31, 8.44, 8.6, 8.83, 9.69], 
         [1.24, 2.52, 2.8, 3.0, 3.16, 3.29, 3.41, 3.51, 3.6, 3.69, 3.77, 3.84, 3.91, 3.98, 4.05, 4.11, 4.16, 4.22, 4.28, 4.33, 4.38, 4.43, 4.48, 4.53, 4.58, 4.63, 4.67, 4.72, 4.76, 4.81, 4.85, 4.89, 4.93, 4.98, 5.02, 5.06, 5.1, 5.14, 5.18, 5.22, 5.26, 5.3, 5.33, 5.37, 5.41, 5.45, 5.49, 5.52, 5.56, 5.6, 5.64, 5.68, 5.71, 5.75, 5.79, 5.83, 5.86, 5.9, 5.94, 5.98, 6.02, 6.06, 6.1, 6.13, 6.17, 6.21, 6.25, 6.29, 6.33, 6.38, 6.42, 6.46, 6.5, 6.55, 6.59, 6.63, 6.68, 6.73, 6.77, 6.82, 6.87, 6.92, 6.98, 7.03, 7.08, 7.14, 7.2, 7.26, 7.32, 7.39, 7.46, 7.54, 7.62, 7.71, 7.81, 7.91, 8.04, 8.18, 8.36, 8.62, 9.62]
     ],
+    // Mythic GPU distribution fixed as of 8/21/2024 
     gpu_dPM: [
         [1.252e-05, 1.256e-05, 1.26e-05, 1.264e-05, 1.268e-05, 1.272e-05, 1.276e-05, 1.28e-05, 1.284e-05, 1.288e-05, 1.292e-05, 1.296e-05, 1.3e-05, 1.304e-05, 1.308e-05, 1.312e-05, 1.316e-05, 1.32e-05, 1.324e-05, 1.328e-05, 1.332e-05, 1.336e-05, 1.34e-05, 1.344e-05, 1.348e-05, 1.352e-05, 1.356e-05, 1.36e-05, 1.364e-05, 1.368e-05, 1.372e-05, 1.376e-05, 1.38e-05, 1.384e-05, 1.388e-05, 1.392e-05, 1.396e-05, 1.4e-05, 1.404e-05, 1.408e-05, 1.412e-05, 1.416e-05, 1.42e-05, 1.424e-05, 1.428e-05, 1.432e-05, 1.436e-05, 1.44e-05, 1.444e-05, 1.448e-05, 1.452e-05, 1.456e-05, 1.46e-05, 1.464e-05, 1.468e-05, 1.472e-05, 1.476e-05, 1.48e-05, 1.484e-05, 1.488e-05, 1.492e-05, 1.496e-05, 1.5e-05, 1.504e-05, 1.508e-05, 1.512e-05, 1.516e-05, 1.52e-05, 1.524e-05, 1.528e-05, 1.532e-05, 1.536e-05, 1.54e-05, 1.544e-05, 1.548e-05, 1.552e-05, 1.556e-05, 1.56e-05, 1.564e-05, 1.568e-05, 1.572e-05, 1.576e-05, 1.58e-05, 1.584e-05, 1.588e-05, 1.592e-05, 1.596e-05, 1.6e-05, 1.604e-05, 1.608e-05, 1.612e-05, 1.616e-05, 1.62e-05, 1.624e-05, 1.628e-05, 1.632e-05, 1.636e-05, 1.64e-05, 1.644e-05, 1.648e-05, 1.652e-05], 
         [1.394e-05, 1.407e-05, 1.42e-05, 1.433e-05, 1.446e-05, 1.459e-05, 1.472e-05, 1.485e-05, 1.498e-05, 1.511e-05, 1.524e-05, 1.537e-05, 1.55e-05, 1.563e-05, 1.575e-05, 1.588e-05, 1.602e-05, 1.614e-05, 1.627e-05, 1.641e-05, 1.654e-05, 1.667e-05, 1.68e-05, 1.693e-05, 1.705e-05, 1.718e-05, 1.731e-05, 1.744e-05, 1.757e-05, 1.771e-05, 1.783e-05, 1.797e-05, 1.81e-05, 1.823e-05, 1.836e-05, 1.849e-05, 1.862e-05, 1.875e-05, 1.888e-05, 1.9e-05, 1.913e-05, 1.926e-05, 1.939e-05, 1.952e-05, 1.965e-05, 1.978e-05, 1.991e-05, 2.004e-05, 2.017e-05, 2.03e-05, 2.043e-05, 2.057e-05, 2.07e-05, 2.083e-05, 2.096e-05, 2.109e-05, 2.122e-05, 2.135e-05, 2.147e-05, 2.161e-05, 2.173e-05, 2.186e-05, 2.199e-05, 2.212e-05, 2.225e-05, 2.238e-05, 2.251e-05, 2.264e-05, 2.277e-05, 2.29e-05, 2.303e-05, 2.316e-05, 2.329e-05, 2.342e-05, 2.355e-05, 2.368e-05, 2.381e-05, 2.394e-05, 2.407e-05, 2.42e-05, 2.433e-05, 2.447e-05, 2.46e-05, 2.473e-05, 2.486e-05, 2.499e-05, 2.511e-05, 2.524e-05, 2.537e-05, 2.55e-05, 2.563e-05, 2.576e-05, 2.589e-05, 2.602e-05, 2.615e-05, 2.628e-05, 2.641e-05, 2.654e-05, 2.668e-05, 2.681e-05, 2.694e-05], 
         [1.936e-05, 1.953e-05, 1.97e-05, 1.987e-05, 2.004e-05, 2.021e-05, 2.038e-05, 2.054e-05, 2.072e-05, 2.088e-05, 2.105e-05, 2.122e-05, 2.14e-05, 2.157e-05, 2.174e-05, 2.191e-05, 2.208e-05, 2.225e-05, 2.242e-05, 2.26e-05, 2.276e-05, 2.293e-05, 2.311e-05, 2.328e-05, 2.344e-05, 2.362e-05, 2.379e-05, 2.396e-05, 2.413e-05, 2.43e-05, 2.447e-05, 2.464e-05, 2.481e-05, 2.498e-05, 2.514e-05, 2.531e-05, 2.548e-05, 2.566e-05, 2.583e-05, 2.599e-05, 2.617e-05, 2.633e-05, 2.65e-05, 2.667e-05, 2.684e-05, 2.701e-05, 2.718e-05, 2.735e-05, 2.752e-05, 2.768e-05, 2.785e-05, 2.802e-05, 2.819e-05, 2.836e-05, 2.853e-05, 2.87e-05, 2.887e-05, 2.904e-05, 2.921e-05, 2.939e-05, 2.955e-05, 2.972e-05, 2.989e-05, 3.006e-05, 3.023e-05, 3.04e-05, 3.057e-05, 3.074e-05, 3.091e-05, 3.108e-05, 3.125e-05, 3.142e-05, 3.159e-05, 3.176e-05, 3.193e-05, 3.21e-05, 3.227e-05, 3.244e-05, 3.261e-05, 3.278e-05, 3.295e-05, 3.312e-05, 3.329e-05, 3.346e-05, 3.363e-05, 3.38e-05, 3.397e-05, 3.414e-05, 3.431e-05, 3.448e-05, 3.466e-05, 3.483e-05, 3.499e-05, 3.517e-05, 3.534e-05, 3.551e-05, 3.568e-05, 3.585e-05, 3.602e-05, 3.619e-05, 3.636e-05], 
         [2.587e-05, 2.608e-05, 2.628e-05, 2.65e-05, 2.67e-05, 2.691e-05, 2.711e-05, 2.732e-05, 2.753e-05, 2.773e-05, 2.794e-05, 2.814e-05, 2.835e-05, 2.856e-05, 2.877e-05, 2.897e-05, 2.918e-05, 2.938e-05, 2.959e-05, 2.979e-05, 3e-05, 3.02e-05, 3.041e-05, 3.062e-05, 3.083e-05, 3.103e-05, 3.124e-05, 3.144e-05, 3.165e-05, 3.185e-05, 3.206e-05, 3.227e-05, 3.248e-05, 3.269e-05, 3.289e-05, 3.31e-05, 3.331e-05, 3.351e-05, 3.372e-05, 3.393e-05, 3.414e-05, 3.435e-05, 3.456e-05, 3.476e-05, 3.497e-05, 3.518e-05, 3.538e-05, 3.559e-05, 3.58e-05, 3.6e-05, 3.621e-05, 3.642e-05, 3.663e-05, 3.683e-05, 3.704e-05, 3.725e-05, 3.745e-05, 3.766e-05, 3.787e-05, 3.807e-05, 3.828e-05, 3.849e-05, 3.869e-05, 3.89e-05, 3.91e-05, 3.931e-05, 3.952e-05, 3.973e-05, 3.993e-05, 4.014e-05, 4.035e-05, 4.055e-05, 4.076e-05, 4.096e-05, 4.117e-05, 4.138e-05, 4.159e-05, 4.18e-05, 4.201e-05, 4.221e-05, 4.242e-05, 4.263e-05, 4.283e-05, 4.304e-05, 4.325e-05, 4.346e-05, 4.366e-05, 4.387e-05, 4.408e-05, 4.428e-05, 4.449e-05, 4.47e-05, 4.491e-05, 4.511e-05, 4.532e-05, 4.553e-05, 4.574e-05, 4.594e-05, 4.615e-05, 4.636e-05, 4.657e-05], 
         [4.119e-05, 4.135e-05, 4.153e-05, 4.17e-05, 4.186e-05, 4.203e-05, 4.22e-05, 4.237e-05, 4.254e-05, 4.271e-05, 4.287e-05, 4.304e-05, 4.321e-05, 4.338e-05, 4.355e-05, 4.371e-05, 4.388e-05, 4.405e-05, 4.422e-05, 4.439e-05, 4.455e-05, 4.472e-05, 4.489e-05, 4.506e-05, 4.522e-05, 4.539e-05, 4.556e-05, 4.573e-05, 4.589e-05, 4.606e-05, 4.623e-05, 4.64e-05, 4.656e-05, 4.673e-05, 4.69e-05, 4.707e-05, 4.724e-05, 4.74e-05, 4.757e-05, 4.774e-05, 4.791e-05, 4.807e-05, 4.824e-05, 4.841e-05, 4.858e-05, 4.875e-05, 4.892e-05, 4.909e-05, 4.925e-05, 4.942e-05, 4.959e-05, 4.976e-05, 4.993e-05, 5.01e-05, 5.027e-05, 5.043e-05, 5.06e-05, 5.077e-05, 5.094e-05, 5.111e-05, 5.128e-05, 5.144e-05, 5.161e-05, 5.178e-05, 5.195e-05, 5.211e-05, 5.228e-05, 5.245e-05, 5.262e-05, 5.279e-05, 5.296e-05, 5.313e-05, 5.329e-05, 5.346e-05, 5.363e-05, 5.379e-05, 5.396e-05, 5.413e-05, 5.43e-05, 5.446e-05, 5.463e-05, 5.48e-05, 5.497e-05, 5.513e-05, 5.53e-05, 5.547e-05, 5.564e-05, 5.581e-05, 5.598e-05, 5.614e-05, 5.631e-05, 5.647e-05, 5.664e-05, 5.681e-05, 5.697e-05, 5.714e-05, 5.731e-05, 5.748e-05, 5.765e-05, 5.782e-05, 5.799e-05], 
-        [6.86e-05, 6.87e-05, 6.879e-05, 6.889e-05, 6.898e-05, 6.908e-05, 6.918e-05, 6.927e-05, 6.937e-05, 6.946e-05, 6.956e-05, 6.965e-05, 6.975e-05, 6.984e-05, 6.994e-05, 7.004e-05, 7.013e-05, 7.023e-05, 7.032e-05, 7.042e-05, 7.051e-05, 7.061e-05, 7.07e-05, 7.08e-05, 7.09e-05, 7.099e-05, 7.108e-05, 7.118e-05, 7.128e-05, 7.137e-05, 7.147e-05, 7.156e-05, 7.166e-05, 7.175e-05, 7.185e-05, 7.195e-05, 7.204e-05, 7.214e-05, 7.224e-05, 7.233e-05, 7.243e-05, 7.252e-05, 7.262e-05, 7.271e-05, 7.281e-05, 7.291e-05, 7.3e-05, 7.31e-05, 7.319e-05, 7.329e-05, 7.339e-05, 7.348e-05, 7.358e-05, 7.367e-05, 7.377e-05, 7.387e-05, 7.396e-05, 7.406e-05, 7.416e-05, 7.425e-05, 7.435e-05, 7.445e-05, 7.454e-05, 7.464e-05, 7.474e-05, 7.483e-05, 7.493e-05, 7.502e-05, 7.512e-05, 7.521e-05, 7.531e-05, 7.541e-05, 7.55e-05, 7.56e-05, 7.569e-05, 7.579e-05, 7.588e-05, 7.598e-05, 7.608e-05, 7.617e-05, 7.627e-05, 7.636e-05, 7.646e-05, 7.656e-05, 7.665e-05, 7.675e-05, 7.685e-05, 7.694e-05, 7.704e-05, 7.714e-05, 7.723e-05, 7.733e-05, 7.743e-05, 7.752e-05, 7.762e-05, 7.772e-05, 7.781e-05, 7.791e-05, 7.801e-05, 7.81e-05, 7.82e-05], 
+        [5.580e-05, 5.603e-05, 5.625e-05, 5.648e-05, 5.671e-05, 5.693e-05, 5.716e-05, 5.738e-05, 5.761e-05, 5.784e-05, 5.806e-05, 5.829e-05, 5.852e-05, 5.874e-05, 5.897e-05, 5.919e-05, 5.942e-05, 5.965e-05, 5.987e-05, 6.010e-05, 6.033e-05, 6.055e-05, 6.078e-05, 6.100e-05, 6.123e-05, 6.146e-05, 6.168e-05, 6.191e-05, 6.214e-05, 6.236e-05, 6.259e-05, 6.281e-05, 6.304e-05, 6.327e-05, 6.349e-05, 6.372e-05, 6.395e-05, 6.417e-05, 6.440e-05, 6.462e-05, 6.485e-05, 6.508e-05, 6.530e-05, 6.553e-05, 6.576e-05, 6.598e-05, 6.621e-05, 6.643e-05, 6.666e-05, 6.689e-05, 6.711e-05, 6.734e-05, 6.757e-05, 6.779e-05, 6.802e-05, 6.824e-05, 6.847e-05, 6.870e-05, 6.892e-05, 6.915e-05, 6.938e-05, 6.960e-05, 6.983e-05, 7.005e-05, 7.028e-05, 7.051e-05, 7.073e-05, 7.096e-05, 7.119e-05, 7.141e-05, 7.164e-05, 7.186e-05, 7.209e-05, 7.232e-05, 7.254e-05, 7.277e-05, 7.300e-05, 7.322e-05, 7.345e-05, 7.367e-05, 7.390e-05, 7.413e-05, 7.435e-05, 7.458e-05, 7.481e-05, 7.503e-05, 7.526e-05, 7.548e-05, 7.571e-05, 7.594e-05, 7.616e-05, 7.639e-05, 7.662e-05, 7.684e-05, 7.707e-05, 7.729e-05, 7.752e-05, 7.775e-05, 7.797e-05, 7.820e-05],
         [8.162e-05, 8.179e-05, 8.196e-05, 8.213e-05, 8.23e-05, 8.247e-05, 8.264e-05, 8.281e-05, 8.298e-05, 8.315e-05, 8.332e-05, 8.349e-05, 8.366e-05, 8.383e-05, 8.4e-05, 8.418e-05, 8.434e-05, 8.451e-05, 8.468e-05, 8.485e-05, 8.502e-05, 8.519e-05, 8.537e-05, 8.553e-05, 8.57e-05, 8.587e-05, 8.604e-05, 8.621e-05, 8.638e-05, 8.655e-05, 8.671e-05, 8.689e-05, 8.706e-05, 8.723e-05, 8.74e-05, 8.757e-05, 8.774e-05, 8.791e-05, 8.808e-05, 8.824e-05, 8.841e-05, 8.858e-05, 8.875e-05, 8.892e-05, 8.909e-05, 8.926e-05, 8.943e-05, 8.96e-05, 8.977e-05, 8.994e-05, 9.011e-05, 9.028e-05, 9.045e-05, 9.062e-05, 9.079e-05, 9.096e-05, 9.113e-05, 9.13e-05, 9.147e-05, 9.164e-05, 9.181e-05, 9.198e-05, 9.215e-05, 9.232e-05, 9.249e-05, 9.267e-05, 9.284e-05, 9.301e-05, 9.318e-05, 9.335e-05, 9.352e-05, 9.369e-05, 9.385e-05, 9.403e-05, 9.42e-05, 9.436e-05, 9.454e-05, 9.47e-05, 9.487e-05, 9.504e-05, 9.521e-05, 9.539e-05, 9.556e-05, 9.573e-05, 9.59e-05, 9.607e-05, 9.624e-05, 9.641e-05, 9.658e-05, 9.675e-05, 9.692e-05, 9.709e-05, 9.726e-05, 9.744e-05, 9.76e-05, 9.777e-05, 9.794e-05, 9.812e-05, 9.829e-05, 9.845e-05, 9.862e-05]
     ],
     psu_dPM: [
@@ -342,6 +330,10 @@ const stats = {
     ],
 };
 
+const halfColor = (hexColor) => {
+    return "#" + hexColor.match(/[^#]{2}/g).map(e => ('00' + (Math.floor(parseInt(e, 16) / 2).toString(16))).slice(-2)).join("")
+}
+
 (function() {
     'use strict';
 
@@ -359,7 +351,7 @@ const stats = {
     }
 
     const prettierLoadFails = (code) => {
-        alert(`Prettier-s0urce loading failed, please contact Xen0o2 on Discord (error code: ${code})`);
+        alert(`Prettier-d0urce loading failed, please contact d0t on Discord (error code: ${code})`);
     }
 
     const sendLog = async (HTMLContent) => {
@@ -397,7 +389,7 @@ const stats = {
     const colorizeTerminal = async () => {
         const codeElement = document.querySelector("#code-list");
         const codeSection = document.querySelector("#section-code");
-        if (!codeElement || !codeSection) return;
+        if (!codeElement || !codeSection || !player.configuration.codeSyntaxing) return;
         document.querySelector("#highlighted")?.remove();
 
         codeElement.style.display = "none";
@@ -741,7 +733,8 @@ const stats = {
                     const background = item.style.background;
                     const rarity = raritiesVariables[background] || raritiesVariables[background + ")"];    
                     const type = (item.querySelector("img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, -7);
-                    return a + (player.tradePricing[rarity][type] || player.tradePricing[rarity]["other"]);
+                    const lvl = item.outerText.split("lvl ")[1] * 1 || 1
+                    return a + (player.tradePricing[rarity][type] || player.tradePricing[rarity]["other"]) + (lvl-1) * 3 * (player.tradePricing[rarity][type] || player.tradePricing[rarity]["other"]);
                 }, 0)
                 const currentBTC = Number(document.querySelector(".topbar-value > div").textContent.slice(0, -4));
                 if (currentBTC < price)
@@ -955,11 +948,6 @@ const stats = {
         }
     }
 
-    // hack = Hack Damage
-    // trueDam = True Damage
-    // pen = Hack Armor Penetration
-    // chance = Hack Critical Damage Chance
-    // dam = Hack Critical Damage Bonus
     const getItemGrade = (type, level, index, effects, dPM_flag=false) => {
         switch(type) {
             case "cpu":
@@ -1104,7 +1092,7 @@ const stats = {
     const getItemPrice = async (item) => {
         await item.dispatchEvent(new MouseEvent("mouseover"));
         await sleep(100);
-        const price = Number(document.querySelector(".estimated-price")?.textContent.trim().split("~")[0]|| 0)
+        const price = Number(document.querySelector(".estimated-price")?.textContent.trim().split("~")[0].replace("+","") || 0)
         await item.dispatchEvent(new MouseEvent("mouseleave"));
         return price;
     }
@@ -1132,7 +1120,7 @@ const stats = {
     const sortItem = async (item, itemSellerWindow) => {
         const slot = itemSellerWindow.querySelector(".item-slot");
         moveItem(item, slot);
-        await sleep(150);
+        await sleep(110);
         itemSellerWindow.querySelector(".item")?.parentNode.dispatchEvent(new MouseEvent("dblclick"));
     }
 
@@ -1152,10 +1140,212 @@ const stats = {
 			const index = inventory.indexOf(nextItem);
 			scores.push(scores[index]);
 			scores.splice(index, 1);
-            await sleep(150);
+            await sleep(110);
             nextItem = await getItemToMove(order, scores);
         }
         closeWindow("Item Seller");
+    }
+
+    const customSort = async () => {
+        const inventory = await openWindow("Inventory");
+        const items = Array.from(inventory.querySelectorAll(".item"));
+        items.forEach((item, index) => item.id = `inventory${index}`);
+        let mode = "insert";
+        const e = new Component("div", {
+            id: "customSort",
+            style: {
+                position: "absolute",
+                zIndex: 1000,
+                height: "100vh",
+                width: "100vw",
+                top: 0,
+                left: 0,
+                backgroundColor: "#000000cc",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                gap: "20px",
+            },
+            children: [
+                new Component("h1", {
+                    innerText: "Drag to sort"
+                }),
+                new Component("div", {
+                    style: { display: "flex", border: "1px solid var(--color-terminal)", borderRadius: "8px", fontSize: "20px", fontFamily: "var(--font-family-2)"},
+                    children: [
+                        new Component("span", {
+                            classList: ["customSort-insert"],
+                            style: { width: "200px", padding: "5px 15px", color: "white", backgroundColor: "var(--color-midgreen)", borderRadius: "8px", textAlign: "center", cursor: "pointer"},
+                            innerText: "Insert",
+                            onclick: (e) => {
+                                mode = "insert";
+                                e.target.style.backgroundColor = "var(--color-midgreen)";
+                                document.querySelector(".customSort-replace").style.backgroundColor = "unset";
+                            }
+                        }),
+                        new Component("span", {
+                            classList: ["customSort-replace"],
+                            style: { width: "200px", padding: "5px 15px", color: "white", borderRadius: "8px", textAlign: "center", cursor: "pointer"},
+                            innerText: "Replace",
+                            onclick: (e) => {
+                                mode = "replace";
+                                e.target.style.backgroundColor = "var(--color-midgreen)";
+                                document.querySelector(".customSort-insert").style.backgroundColor = "unset";
+                            }
+                        }),
+                    ]
+                }),
+                new Component("ul", {
+                    id: "draggable-menu",
+                    style: {
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                        padding: 0,
+                        listStyleType: "none",
+                        overflow: "auto",
+                        height: "70vh",
+                        // width: "90%",
+                        width: (325 * Math.ceil(items.length / 15)) + "px",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                    },
+                    children: items.map((item, index) => (
+                        new Component("div", {
+                            style: { display: "flex", gap: "10px", alignItems: "center" },
+                            children: [
+                                (items.length > 15 && new Component("span", {
+                                    classList: ["indexes"],
+                                    innerText: (Number(index) + 1).toString() + ".",
+                                    style: { width: "20px" }
+                                })),
+                                new Component("li", {
+                                    classList: ["draggable"],
+                                    draggable: true,
+                                    style: {
+                                        width: "290px",
+                                        height: "35px",
+                                        minHeight: "35px",
+                                        backgroundColor: "red",
+                                        cursor: "move",
+                                        borderRadius: "3px",
+                                        overflow: "hidden"
+                                    },
+                                    innerHTML: item.parentNode.innerHTML,
+                                    onmouseenter: async (e) => {
+                                        e.target.style.outline = "1px solid white";
+                                        const item = document.querySelector(`#${e.target.querySelector(".item").id}`);
+                                        item.dispatchEvent(new MouseEvent("mouseover"))
+                                        await sleep(20);
+                                        const hoverWindow = document.querySelector("#desc");
+                                        if (hoverWindow) {
+                                            hoverWindow.style.top = (e.clientY < 450 ? 450 : e.clientY) + "px";
+                                            hoverWindow.style.left = (e.clientX + 20) + "px";
+                                        }
+                                    },
+                                    onmouseleave: (e) => {
+                                        e.target.style.outline = "unset";
+                                        item.dispatchEvent(new MouseEvent("mouseleave"))
+                                    },
+                                })
+                            ]
+                        })
+                    ))
+                }),
+                new Component("div", {
+                    style: { display: "flex", gap: "20px" },
+                    children: [
+                        new Component("button", {
+                            style: { width: "100px", height: "40px", fontSize: "20px"},
+                            classList: ["red", "svelte-ec9kqa"],
+                            innerText: "Cancel",
+                            onclick: () => document.querySelector("#customSort")?.remove(),
+                        }),
+                        new Component("button", {
+                            style: { width: "100px", height: "40px", fontSize: "20px"},
+                            classList: ["green", "svelte-ec9kqa"],
+                            innerText: "Sort",
+                            onclick: async () => {
+                                const list = Array.from(document.querySelectorAll(".draggable > div"))
+                                document.querySelector("#customSort")?.remove();
+                                await sortInventory("asc", (item) => list.findIndex(e => e.id == item.id));
+                            }
+                        }),
+                    ]
+                })
+            ]
+        })
+
+        document.body.append(e.element);
+        await sleep(100);
+
+        let dragSrcEl = null;
+        let insertIndicator = document.createElement('div');
+        insertIndicator.className = 'insert-indicator';
+        function dragStart(e) {
+            document.getElementById("desc")?.remove();
+            this.style.opacity = '0.5';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        };
+
+        function dragEnter(e) {
+            Array.from(document.querySelectorAll(".over")).forEach(el => el.classList.remove("over"));
+            if (mode == "insert")
+                this.parentNode.parentNode.insertBefore(insertIndicator, this.parentNode);
+            else
+                this.classList.add('over');
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function dragDrop(e) {
+            e.stopPropagation();
+            if (dragSrcEl != this) {
+                if (mode == "insert") {
+                    let list = document.getElementById('draggable-menu');
+                    let items = Array.from(list.querySelectorAll('.draggable'));
+            
+                    let draggedIndex = items.indexOf(dragSrcEl);
+                    let targetIndex = items.indexOf(this);
+            
+                    if (draggedIndex < targetIndex)
+                        this.parentNode.insertAdjacentElement('afterend', dragSrcEl.parentNode);
+                    else
+                        this.parentNode.insertAdjacentElement('beforebegin', dragSrcEl.parentNode);
+                    Array.from(document.querySelectorAll(".indexes")).forEach((e, index) => e.innerText = (Number(index) + 1) + ".")
+                } else {
+                    dragSrcEl.innerHTML = this.innerHTML;
+                    this.innerHTML = e.dataTransfer.getData('text/html');
+                }
+            }
+            return false;
+        }
+
+        function dragEnd() {
+            const listItems = Array.from(document.querySelectorAll('.draggable'));
+            listItems.forEach(item => {
+                item.classList.remove('over');
+                item.style.opacity = '1';
+                document.querySelector(".insert-indicator")?.remove();
+            });
+        }
+
+        const addEventsDragAndDrop = (el) => {
+            el.addEventListener('dragstart', dragStart, false);
+            el.addEventListener('dragenter', dragEnter, false);
+            el.addEventListener('dragover', dragOver, false);
+            el.addEventListener('drop', dragDrop, false);
+            el.addEventListener('dragend', dragEnd, false);
+        }
+
+        Array.from(document.querySelectorAll('.draggable')).forEach((item) => addEventsDragAndDrop(item));
     }
     
     const editInventoryWindow = (inventoryWindow = document.querySelector(".window-title > img[src='icons/inventory.svg']")?.closest(".window")) => {
@@ -1174,6 +1364,7 @@ const stats = {
                 const position = e.target.getBoundingClientRect();
                 new Popup({clientY: position.y, clientX: position.x})
                 .setTitle("Sort by (WIP)")
+                .addAction("Custom", customSort)
                 .addAction("Type", async () => await sortInventory("asc", getItemTypeScore))
                 .addAction("Rarity", async () => {
                     new Popup({clientY: position.y, clientX: position.x})
@@ -1214,23 +1405,6 @@ const stats = {
         div.append(sortButton.element);
     }
 
-    function halfColor(hexColor) {
-        if (hexColor.startsWith('#')) {
-            hexColor = hexColor.slice(1);
-        }
-        let r = parseInt(hexColor.substring(0, 2), 16);
-        let g = parseInt(hexColor.substring(2, 4), 16);
-        let b = parseInt(hexColor.substring(4, 6), 16);
-        let rHalf = Math.floor(r / 2);
-        let gHalf = Math.floor(g / 2);
-        let bHalf = Math.floor(b / 2);
-        let halfColorHex = '#' + 
-            ('00' + rHalf.toString(16)).slice(-2) +
-            ('00' + gHalf.toString(16)).slice(-2) +
-            ('00' + bHalf.toString(16)).slice(-2);
-        return halfColorHex;
-    }  
-
     const windowOpenObserver = new MutationObserver(async function(mutations) {
         const newWindow = mutations.find(e => {
             return e.target == document.querySelector("main") &&
@@ -1240,15 +1414,13 @@ const stats = {
         if (!newWindow)
             return;
 
-        var pref_color = localStorage.getItem("prettier-tabPreferredColor")
-        newWindow.addedNodes[0].querySelector(".window-title").style.background = "linear-gradient(200deg,"+pref_color+" 0%,"+halfColor(pref_color)+" 100%)"
-
         const src = newWindow.addedNodes[0].querySelector(".window-title > img").src
         const name = src.split("/")[src.split("/").length - 1].slice(0, -4);
         if (player.configuration.openInSilent.includes(name)) {
             newWindow.addedNodes[0].style.display = "none";
             newWindow.addedNodes[0].classList.add("openInSilent");
         }
+
         const isProfile = newWindow.addedNodes[0].querySelector(".window-title").innerText == "Target"
         if (isProfile) {
                 try {
@@ -1652,33 +1824,65 @@ const stats = {
                     })
                 ]
             })
-
-            const iconColorSetting = new Component("div", {
+            
+            const tabColorSetting = new Component("div", {
                 classList: ["el", "svelte-176ijne"],
+                style: { display: "flex", flexDirection: "column", gap: "10px", justifyContent: "center", alignItems: "center" },
                 children: [
                     new Component("h4", {
-                        innerText: "Tab Colors",
+                        innerText: "Window Color",
                     }),
                     new Component("div", {
                         style: { marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px" },
                         children: [
                             new Component("input", {
                                 type: "color",
-                                classList: ["color-picker"],
+                                classList: ["tab-color-picker"],
                                 style: { height: "35px", width: "60px", border: "none", borderRadius: "2px", cursor: 'pointer', paddingInline: "2px" },
-                                value: player.configuration.desktopIconColor,
-                                onchange: async (e) => {                                  
-                                    //document.querySelector(".color-input").value = e.target.value;
-                                    //document.querySelectorAll(".desktop-icon").forEach(image => image.style.backgroundColor = e.target.value);
-                                    //document.querySelectorAll(".desktop-title").forEach(title => title.style.color = e.target.value);
-                                    for (let i = 0; i < document.querySelectorAll(".window-title").length; i++) {
-                                        document.querySelectorAll(".window-title")[i].style.background = "linear-gradient(200deg,"+e.target.value+" 0%,"+halfColor(e.target.value)+" 100%)"
+                                value: player.configuration.windowColors.windowTabLight,
+                                onchange: async (e) => {
+                                    document.querySelector(".tab-color-input").value = e.target.value;
+                                    player.configuration.windowColors = {
+                                        windowBorder: e.target.value,
+                                        windowTabLight: e.target.value,
+                                        windowTabDark: halfColor(e.target.value),
                                     }
-                                    player.configuration.desktopIconColor = e.target.value;
-                                    localStorage.setItem("prettier-tabPreferredColor", e.target.value);
+                                    save("prettier-windowColors", player.configuration.windowColors);
+                                    loadStyle();
+                                }
+                            }),
+                            new Component("input", {
+                                type: "text",
+                                classList: ["tab-color-input"],
+                                placeholder: "Ex: #ffffff",
+                                value: player.configuration.windowColors.windowTabLight,
+                                style: { width: "150px", padding: "10px", borderRadius: "2px", textAlign: "left", backgroundColor: "var(--color-grey)", boxShadow: "0 10px 20px var(--color-shadow) inset", border: "1px solid var(--color-lightgrey)", fontFamily: "var(--font-family-2)", zIndex: "60" },
+                                onblur: (e) => {
+                                    if (!e.target.value.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/))
+                                        return
+                                    document.querySelector(".tab-color-picker").value = e.target.value;
+                                    player.configuration.windowColors = {
+                                        windowBorder: e.target.value,
+                                        windowTabLight: e.target.value,
+                                        windowTabDark: halfColor(e.target.value),
+                                    }
+                                    save("prettier-windowColors", player.configuration.windowColors);
+                                    loadStyle();
                                 }
                             }),
                         ]
+                    }),
+                    new Component("button", {
+                        innerText: "Reset",
+                        classList: ["red", "svelte-ec9kqa"],
+                        style: { height: "35px", width: "85px" },
+                        onclick: () => {
+                            player.configuration.windowColors = defaultColors;
+                            save("prettier-windowColors", player.configuration.windowColors);
+                            document.querySelector(".tab-color-picker").value = defaultColors.windowTabLight;
+                            document.querySelector(".tab-color-input").value = defaultColors.windowTabLight;
+                            loadStyle();
+                        }
                     })
                 ]
             })
@@ -1744,7 +1948,7 @@ const stats = {
             })
 
             wrapper.insertBefore(backgroundSetting.element, wrapper.querySelector("div:nth-child(2)"));
-            wrapper.insertBefore(iconColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
+            wrapper.insertBefore(tabColorSetting.element, wrapper.querySelector("div:nth-child(2)"));
             wrapper.insertBefore(itemManager.element, wrapper.querySelector("div:nth-child(1)"));
             // wrapper.insertBefore(autolootSetting.element, wrapper.querySelector("div:nth-child(2)"));
         }
@@ -1801,7 +2005,7 @@ const stats = {
             .replace("System started.<br>", "")
             .replace("s0urceOS 2023", "🔥 Prettier d0urceOS V"+VERSION+" 🔥")
             .replace(">.", ">. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Expanded by <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>d0t</span> 😍.</span>")
-            .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made with ❤️ by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
+            .replace(">.", `>. <br><span style='font-size: 0.8rem; color: var(--color-lightgrey);'>Template made by <span style='color: pink; text-shadow: 0 0 3px pink'>Xen0o2</span>.</span>`);
         sendLog(`
             <a href="https://www.buymeacoffee.com/doteki">Buy me a <span style='color: chartreuse; text-shadow: 0 0 3px chartreuse'>dCoffee</span> 😉</a>
         `)
@@ -1933,14 +2137,44 @@ const stats = {
                 break;
         }
     }
+
     const createObserver = () => {
         const logWindow = document.querySelector(".window-title > img[src='icons/log.svg']")?.closest(".window.svelte-1hjm43z")?.querySelector(".window-content > #wrapper");
-        if (logWindow)
-            logObserver.observe(logWindow, {attributes: false, childList: true, characterData: false, subtree: true});
+        if (logWindow) {
+            logObserver.observe(logWindow, {
+                attributes: false,
+                childList: true,
+                characterData: false,
+                subtree: true
+            });
+        }
         windowOpenObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         windowCloseObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
         itemHoverObserver.observe(document.querySelector("main"), {attributes: false, childList: true, characterData: false, subtree: true});
+    
+        // Observe logWindow and ignore messages from muted players
+        const logObserverCallback = (mutationsList) => {
+            mutationsList.forEach(mutation => {
+                if (mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1) {
+                            const playerNameElement = node.querySelector('.message-name');
+                            const playerName = playerNameElement?.textContent.trim();
+                            if (isPlayerMuted(playerName)) {
+                                node.style.display = 'none'; // Hide the message from muted player
+                            }
+                        }
+                    });
+                }
+            });
+        };
+    
+        if (logWindow) {
+            const logObserver = new MutationObserver(logObserverCallback);
+            logObserver.observe(logWindow, { childList: true, subtree: true });
+        }
     }
+    
 
     const updateThemeStyle = () => {
         const styleElement = document.getElementById('customStyles');
@@ -1968,21 +2202,34 @@ const stats = {
 
         if (!localStorage.getItem("prettier-autoloot"))
             save("prettier-autoloot", player.autoloot)
-        else if (typeof JSON.parse(localStorage.getItem("prettier-autoloot")).common === "string") {
-            localStorage.removeItem("prettier-autoloot");
-            player.autoloot = {
-                common: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-                uncommon: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-                rare: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-                epic: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-                legendary: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-                mythic: { cpu: "take", gpu: "take", psu: "take", router: "take", other: "take" },
-            }
-            save("prettier-autoloot", player.autoloot);
-        }
+        if (!localStorage.getItem("prettier-windowColors"))
+            save("prettier-windowColors", player.configuration.windowColors)
         if (!localStorage.getItem("prettier-currentTheme"))
             localStorage.setItem("prettier-currentTheme", Object.keys(themes)[0])
     }
+
+    const addMutedPlayer = async (username) => {
+        let mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        if (!mutedPlayers.includes(username)) {
+            mutedPlayers.push(username);
+            localStorage.setItem('mutedPlayers', JSON.stringify(mutedPlayers));
+            document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > div > div > div.textarea.svelte-81yxrq").innerText = "/mute " + username.replace(":","")
+            document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > a > button").click()
+        }
+    }
+    
+    const removeMutedPlayer = async (username) => {
+        let mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        mutedPlayers = mutedPlayers.filter(player => player !== username);
+        localStorage.setItem('mutedPlayers', JSON.stringify(mutedPlayers));
+        document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > div > div > div.textarea.svelte-81yxrq").innerText = "/unmute " + username.replace(":","")
+        document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > div:nth-child(2) > form > a > button").click()
+    }
+    
+    const isPlayerMuted = (username) => {
+        const mutedPlayers = JSON.parse(localStorage.getItem('mutedPlayers') || '[]');
+        return mutedPlayers.includes(username);
+    }    
 
     const loadScripts = async () => {
         const scripts = [
@@ -2057,6 +2304,7 @@ const stats = {
             const slot = filamentWindow.querySelectorAll(".item-slot")[index % 5];
             const color = lootRarity.find(e => e.name === rarity)?.color;
             await moveItem(item, slot);
+            await sleep(50);
             sendLog(`
                 <img class="icon" src="icons/check.svg"/>
                 Successfully shredded ${["uncommon", "epic", "ethereal"].includes(rarity) ? "an" : "a"}
@@ -2065,7 +2313,7 @@ const stats = {
             `);
             if ((Number(index) + 1) % 5 == 0) {
                 filamentWindow.querySelector("button.green")?.click();
-                await sleep(200);
+                await sleep(300);
             }
         }
         await sleep(200);
@@ -2158,20 +2406,30 @@ const stats = {
     }
 
     const manageRightClickOnPlayer = (player, pointer) => {
-        new Popup(pointer)
-        .addAction("Send message", async () => {
-            player.click();
-            await sleep(100);
-            document.querySelector("button.blue")?.click();
-            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
-        })
-        .addAction("Trade", async () => {
-            player.click();
-            await sleep(100);
-            document.querySelector("button.yellow")?.click();
-            document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
-        })
-        .create();
+        const username = player.textContent.trim();
+        const isMuted = isPlayerMuted(username);
+    
+        const popup = new Popup(pointer)
+            .addAction("Send message", async () => {
+                player.click();
+                await sleep(100);
+                document.querySelector("button.blue")?.click();
+                document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+            })
+            .addAction("Trade", async () => {
+                player.click();
+                await sleep(100);
+                document.querySelector("button.yellow")?.click();
+                document.querySelector(".window-title > img[src='icons/target.svg']")?.parentNode.querySelector(".window-close")?.click();
+            });
+    
+        if (isMuted) {
+            popup.addAction("Unmute", async () => removeMutedPlayer(username));
+        } else {
+            popup.addAction("Mute", async () => addMutedPlayer(username));
+        }
+    
+        popup.create();
     }
 
     const manageRightClick = (target, pointer) => {
@@ -2326,35 +2584,48 @@ const stats = {
                 player.input.isShiftDown = false;
         }
     }
-    
-    const editTabs = async () => {
-        if (localStorage.getItem("prettier-desktopIconSize")) {
-            const settings = await openWindow("Settings", true);
-            if (!settings) return;
-            const slider = settings.querySelector(".slider[min='70']");
-            if (slider){
-                slider.value = Number(localStorage.getItem("prettier-desktopIconSize"));
-                slider.dispatchEvent(new Event("input"));
+
+    const loadStyle = () => {
+        const css = `
+            .over {transform: scale(1.1, 1.1); border: 2px solid var(--color-terminal);}
+            .insert-indicator {height: 3px;background-color: var(--color-terminal);width: 320px;margin-left:15px;border-radius:10px;}
+            ${player.configuration.windowColors.windowTabDark != defaultColors.windowTabDark && `
+                .message.svelte-pu3iit {background: ${player.configuration.windowColors.windowTabDark} !important;}
+                .svelte-81yxrq {background: ${halfColor(player.configuration.windowColors.windowTabDark)} !important;}
+                .svelte-1ff1jo {background: ${player.configuration.windowColors.windowTabDark} !important;}
+                .search-tag.svelte-1ff1jo {background: ${player.configuration.windowColors.windowTabLight} !important;}
+                .svelte-1p12gtw:not(.npc):not(.timer) {background-color: unset !important;}
+                .section.svelte-1ti1fiv {background: linear-gradient(188deg, ${player.configuration.windowColors.windowTabDark} 60%, ${halfColor(player.configuration.windowColors.windowTabDark)} 100%) !important;}
+                .window:not(:has(.window-title > img[src='icons/terminal.svg'])) {
+                    border-color: ${player.configuration.windowColors.windowTabLight} !important;
+                    background: linear-gradient(200deg, #000000 0%, ${halfColor(player.configuration.windowColors.windowTabLight)} 100%) !important;
+                }
+                .window-title:not(:has(img[src='icons/terminal.svg'])) {border-top-left-radius: 2px !important; border-top-right-radius: 2px !important; background: linear-gradient(200deg, ${player.configuration.windowColors.windowTabLight} 0%, ${player.configuration.windowColors.windowTabDark} 100%) !important;}
+                `
             }
-            closeWindow("Settings");
+        `;
+        const already = document.getElementById("globalCustomStyles")
+        if (already)
+            already.textContent = css;
+        else {
+            const newStyleElement = document.createElement('style');
+            newStyleElement.id = 'globalCustomStyles';
+            newStyleElement.textContent = css;
+            document.head.appendChild(newStyleElement);
         }
-        for (let i = 0; i < document.querySelectorAll(".window-title").length; i++) {
-            var pref_color = localStorage.getItem("prettier-tabPreferredColor")
-            document.querySelectorAll(".window-title")[i].style.background = "linear-gradient(200deg,"+pref_color+" 0%,"+halfColor(pref_color)+" 100%)"
-        }
-        
     }
     
     (async () => {
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
-        loadingScreen("create");
+        loadingScreen("create", "Prettier s0urce");
         editFilaments();
         customTerminal();
         createObserver();
         editProgressBar();
         loadLocalStorage();
         updateThemeStyle();
+        loadStyle();
         await loadScripts();
         editWelcomeMessage();
         loadUserInputManager();
@@ -2429,7 +2700,8 @@ listen(({ data, socket, event }) => {
     } catch (e) {
         return data;
     }
-    if (typeof payload !== "object") return console.log(data);
+
+  if (typeof payload !== "object") return console.log(data);
 
     traverse(payload, function(item) {
         if (item && item.btc) {
