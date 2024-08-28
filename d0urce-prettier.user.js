@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.7.3
+// @version      1.8.0
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -10,7 +10,7 @@
 // @grant        none
 // ==/UserScript==
 
-const VERSION = "1.7.3"
+const VERSION = "1.8.0"
 
 const themes = {
     "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #85ff49 0%, #427f24 100%)}",
@@ -839,7 +839,7 @@ const halfColor = (hexColor) => {
     const dPS = (dPM,level,rarity) => {
         var basePrice = stats.filament_price[rarity];
         const value = (level-1)*3*basePrice + basePrice;
-        console.log(dPM,rarity)
+        //console.log(dPM,rarity)
         switch (rarity) {
             case 5:
                 if (dPM > 50) return (value).toFixed(2) + "~" + (value*2).toFixed(2);
@@ -1422,6 +1422,7 @@ const halfColor = (hexColor) => {
         }
 
         const isProfile = newWindow.addedNodes[0].querySelector(".window-title").innerText == "Target"
+        var currentStore = null
         if (isProfile) {
                 try {
                 while (1) {
@@ -1439,8 +1440,21 @@ const halfColor = (hexColor) => {
                             newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").style.color = "white"
                             newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'    
                             added = true
-                        }    
+                        }
                     }
+                    const details = document.querySelector("#description").innerText
+                    const padlet = details.split("https://padlet.com/")[1] || details.split("padlet.com/")[1] || null
+                    
+                    if (currentStore && currentStore != newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText) {
+                        newWindow.addedNodes[0].querySelector("div.window-title.svelte-1hjm43z > button").click()
+                    }
+
+                    if (padlet && details) {
+                        currentStore = newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(2) > div").innerText
+                        document.querySelector("#description").innerHTML = details.split("https://padlet.com/")[0].split("Browse Shop")[0] + 
+                        `<button id="` + padlet + `" onclick="openPadlet()" class="green svelte-ec9kqa" style="margin-left: 20%;width: 60%;height: 40px;">Browse Shop</button>`
+                    }
+
                     if (!added) {
                         try {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(4)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
                         catch {newWindow.addedNodes[0].querySelector("#top-wrapper > div > div:nth-child(2) > div:nth-child(3)").innerHTML = '0.0000 \n<img class="icon icon-in-text" src="icons/btc.svg" alt="Bitcoin Icon">'}
@@ -2044,7 +2058,7 @@ const halfColor = (hexColor) => {
                 element.innerHTML = element.innerHTML.replace(/^\d+\.\d+/, total);
             return total;
         } catch(e) {
-            console.log(e);
+            //console.log(e);
             prettierLoadFails("7");
         }
 
@@ -2103,7 +2117,7 @@ const halfColor = (hexColor) => {
             filamentObserver.disconnect();
             filamentObserver.observe(container, { subtree: true, characterData: true, childList: true });
         } catch(e) {
-            console.log(e);
+            //console.log(e);
             prettierLoadFails("6")
         }
     }
@@ -2634,6 +2648,27 @@ const halfColor = (hexColor) => {
         loadingScreen("delete");
     })();
 })();
+
+// Padlet handler:
+
+async function openPadlet() {
+    document.querySelector('#desktop-container > div:nth-child(14)').click();
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    await sleep(300)
+    const inputFields = document.querySelectorAll('#wrapper > input');
+    var inputField = null 
+    for (var i = 0; i < inputFields.length; i++) {
+        inputField = inputFields[i].placeholder == "" ? inputFields[i] : inputField
+    }
+    //console.log(inputField,document.querySelector("#description").innerHTML)
+    inputField.value = "https://padlet.com/" + document.querySelector("#description").innerHTML.split("id=\"")[1].split("\"")[0];
+    inputField.dispatchEvent(new Event('input', { bubbles: true }));
+    document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > form > a > button").click();
+    await sleep(1000)
+    document.querySelector("body > div > main > div.window.svelte-1hjm43z.window-selected > div.window-content.svelte-1hjm43z > div > form > a > button").click();
+}
 
 // Page Break
 
