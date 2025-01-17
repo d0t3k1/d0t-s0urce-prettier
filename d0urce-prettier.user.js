@@ -100,11 +100,6 @@
 
 	const windowManager = new WindowManager();
 
-    var divs = {};
-    document.querySelectorAll("#desktop-container > div").forEach(div => {
-        divs[div.innerText] = div;
-    });
-
     class Component {
         prepend;
         element;
@@ -238,6 +233,8 @@
         "Computer",
         "Settings"
     ]*/
+
+    var divs = {};
 
     const rarities = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "ethereal"];
 
@@ -2720,6 +2717,7 @@
         })
     }
 
+    /*
     const sumPx = (a, b) => {
         return Number((a.match(/\d+px/) || [""])[0].slice(0, -2)) + Number((b.match(/\d+px/) || [""])[0].slice(0, -2));
     }
@@ -2806,7 +2804,7 @@
             createLine({ top: "0px", height: "100vh", width: "2px", left: `${value}px` });
         }
     };
-
+    */
     const altNavigate = (e) => {
         var tabs = {};
         document.querySelectorAll("body > div > main > div.window.svelte-1hjm43z > div.window-title.svelte-1hjm43z").forEach(div => {
@@ -2867,12 +2865,12 @@
                 && ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt)
             )
                 manageItemSelection(e.target.parentNode);
-            if (e.target.classList.contains("window-title"))
-                window.addEventListener("mousemove", manageWindowDragged);
+            //if (e.target.classList.contains("window-title"))
+                //window.addEventListener("mousemove", manageWindowDragged);
         })
         document.body.addEventListener("mouseup", () => {
             document.querySelectorAll(".sticky-line").forEach(e => e.remove());
-            window.removeEventListener("mousemove", manageWindowDragged);
+            //window.removeEventListener("mousemove", manageWindowDragged);
         })
         document.body.oncontextmenu = (e) => {
             e.preventDefault();
@@ -2967,9 +2965,6 @@ any of these keys!
     
     (async () => {
 
-        // Crash fix
-        divs["Log"].click()
-
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
         loadingScreen("create", "Prettier s0urce");
@@ -2981,6 +2976,10 @@ any of these keys!
         updateThemeStyle();
         loadStyle();
         await loadScripts();
+        document.querySelectorAll("#desktop-container > div").forEach(div => {
+            divs[div.innerText] = div;
+        });
+        divs["Log"].click()
         editWelcomeMessage();
         tryCheckStaffStatus(document.querySelector("main"));
         loadUserInputManager();
