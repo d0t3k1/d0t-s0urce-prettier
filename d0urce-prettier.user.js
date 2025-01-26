@@ -3048,9 +3048,9 @@ any of these keys!
         }
         //console.log(total)
         sendLog(`<div style="color:rgb(110, 247, 82); text-shadow: 0 0 2px #0fa, 0 0 3px rgb(110, 247, 82); letter-spacing: 0.3px; font-weight: lighter">
-                <img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                According to dPS, your inventory is worth ~$${total.toFixed(2)} BTC.
-                </div>`)
+            <img class="icon" src="https://www.svgrepo.com/show/308635/home-value-house-price-home-price-house-value.svg" style="filter: drop-shadow(50px 0px 100px) invert(50%) sepia(100%) saturate(7486%) hue-rotate(143deg) brightness(200%) contrast(94%);">
+            According to dPS, your inventory is worth ~${total.toFixed(2)} BTC.
+            </div>`)
     }
     
     (async () => {
