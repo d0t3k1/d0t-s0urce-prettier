@@ -1051,7 +1051,7 @@
     }
     const dCPS = (type, rarity, mint, premium) => {
         const value = stats['filament_price'][rarity];
-        console.log(type, type in ["skxll", "navin", "zenko", "xenia", "shadowpriestess"])
+        //console.log(type, type in ["skxll", "navin", "zenko", "xenia", "shadowpriestess"])
         if (!type) {
             return mint > 3 
                 ? Math.max(((50*value)**(1/(1+Math.log10(mint)))-(mint/100)).toFixed(2),value.toFixed(2)) + "~" + Math.max(((100*value)**(1/(1+Math.log10(mint)))-(mint/400)).toFixed(2),(2*value).toFixed(2))
@@ -1135,7 +1135,7 @@
             const value = effect.querySelector("div > span > span")?.innerText;
             effects[name] = Number(value);
         });
-        console.log(type, rarity, level, effects)
+        //console.log(type, rarity, level, effects)
         if (!rarity)
             return;
         else if (!level || effects.length == 0) {
