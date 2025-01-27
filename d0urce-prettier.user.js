@@ -2685,11 +2685,11 @@
             else
                 popup.addAction("Equip", () => equipBasicItem(item), {selectionLimit: 1});
         }
-        const tradeWindow = document.querySelector(".window:has(.window-title > img[src='icons/trade.svg']");
+        const tradeWindow = document.querySelector(".window:has(.window-title > img[src='icons/trade.svg'])");
         if (tradeWindow) {
             const alreadyInTrade = tradeWindow.querySelector(".offer-wrapper")?.querySelectorAll(".item").length;
             popup.addAction("Trade", async () => {
-                const slots = tradeWindow.querySelector(".offer-wrapper").querySelectorAll(".item-slot:not(.item-slot-hasitem");
+                const slots = tradeWindow.querySelector(".offer-wrapper").querySelectorAll(".item-slot:not(.item-slot-hasitem)");
                 for (let index in player.selectedItems) {
                     const item = player.selectedItems[index];
                     const slot = slots[index];
@@ -2902,7 +2902,7 @@
             case 'F': name = "Friends"; break;
             case 'l': name = "Log"; break;
             case 'I': name = "Item Seller"; break;
-            case 'P': name = "Premium"; break;
+            case 'r': name = "Premium"; break;
             case 's': name = "Shop"; break;
             case 'b': name = "Leaderboard"; break;
             case 'w': name = "Country Wars"; break;
@@ -2916,6 +2916,8 @@
             case 'g': name = "Global Chat"; break;
             case 'a': name = "Agents"; break;
             case 'm': name = "Mail"; break;
+            case 'n': loadNote(); break;
+            case 'N': calculateNetworth(); break;
             default: break
         }
         if (!name) return
@@ -3018,7 +3020,7 @@ any of these keys!
         | Friends	  |  F  |
         | Log		  |  l  |
         | Item Seller	  |  I  |
-        | Premium	  |  P  |
+        | Premium	  |  r  |
         | Shop		  |  s  |
         | Leaderboard	  |  l  |
         | Country Wars	  |  w  |
@@ -3032,6 +3034,8 @@ any of these keys!
         | Global Chat	  |  g  |
         | Agents	  |  a  |
         | Mail		  |  m  |
+        | Shortcut Note	  |  n  |
+        | NetWorth		  |  N  |
         -------------------------
         `
     }
