@@ -2902,7 +2902,7 @@
             case 'F': name = "Friends"; break;
             case 'l': name = "Log"; break;
             case 'I': name = "Item Seller"; break;
-            case 'P': name = "Premium"; break;
+            case 'r': name = "Premium"; break;
             case 's': name = "Shop"; break;
             case 'b': name = "Leaderboard"; break;
             case 'w': name = "Country Wars"; break;
@@ -3018,7 +3018,7 @@ any of these keys!
         | Friends	  |  F  |
         | Log		  |  l  |
         | Item Seller	  |  I  |
-        | Premium	  |  P  |
+        | Premium	  |  r  |
         | Shop		  |  s  |
         | Leaderboard	  |  l  |
         | Country Wars	  |  w  |
