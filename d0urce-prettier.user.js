@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.10.1
+// @version      1.10.0
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -3331,7 +3331,6 @@ any of these keys!
     
     (async () => {
 
-        divs["Log"].click()
 
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
@@ -3347,6 +3346,7 @@ any of these keys!
         openWindows();
         // await calculateNetworth(); // Disabled for now
         createNetworthDiv();
+        divs["Log"].click()
         editWelcomeMessage();
         tryCheckStaffStatus(document.querySelector("main"));
         loadUserInputManager();
