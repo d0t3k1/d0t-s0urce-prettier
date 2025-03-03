@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.10.0
+// @version      1.10.1
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -12,7 +12,7 @@
 
 (function() {
     'use strict';
-    const VERSION = "1.10.0"
+    const VERSION = "1.10.1"
 
     const themes = {
         "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #85ff49 0%, #427f24 100%)}",
@@ -962,9 +962,8 @@
         //console.log(type,value,diff)
         switch (rarity) {
             case 5:
-                if (dPM > 50) return (value).toFixed(2) + "~" + (value*1.5).toFixed(2);
-                else if (dPM > 1) return Math.max((value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2),value)*diff).toFixed(2) + "~" + Math.max((value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3))*diff,value*1.5).toFixed(2);
-                else if (dPM > 0) return ((value * 2 + basePrice * 8)*diff).toFixed(2) + "+"
+                if (dPM > 1) return Math.max((value + basePrice*3 - 1.928 * (dPM - 1) ** (1/2))/1.5*diff,value).toFixed(2) + "~" + Math.max((value * 2 + basePrice + basePrice * 2 * 4 - 3 * (dPM - 1) ** (2/3))/2*diff,value*1.5).toFixed(2);
+                else if (dPM > 0) return ((value * 2 + basePrice * 3)*diff).toFixed(2) + "+"
             case 6:
                 if (dPM == 100) return (value).toFixed(4);
                 else if (dPM > 50) return Math.max((value + basePrice*0.5 + 0.5 - 1.7 * (dPM - 50) ** (2/3))*diff,value).toFixed(2) + "~" + (value*1.5).toFixed(2);
@@ -2404,13 +2403,19 @@
         `)*/
         sendLog(`
             <div style="color: #52e7f7; text-shadow: 0 0 2px #0fa, 0 0 3px #52e7f7; letter-spacing: 0.3px; font-weight: lighter">
-                New In 1.10.0:
+                New In 1.10.X:
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
                     Networth Meter
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532432/dollar-sign.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
                     dPS Changes
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
                     Alt-nav Fixes
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+                Patch 1.10.1:
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/522519/discount.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                    Mythic dPS Adjustments
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532299/bug.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                    Bug fixes
             </div>
         `)
     }
@@ -3318,8 +3323,15 @@ any of these keys!
             console.error('Target location not found or does not have the specified structure.');
         }
     }
+
+    var divs = {};
+    document.querySelectorAll("#desktop-container > div").forEach(div => {
+        divs[div.innerText] = div;
+    });
     
     (async () => {
+
+        divs["Log"].click()
 
         while (document.querySelector("#login-top") || window.location.href !== "https://s0urce.io/")
             await sleep(500);
@@ -3466,7 +3478,7 @@ listen(({ data, socket, event }) => {
     if (inboundLog) {
         item_info = payload[0]?.data || null
         if (item_info && item_info.hasOwnProperty('inventory')) {
-            console.log(item_info);
+            //console.log(item_info);
             window.updateNetworth(item_info);
         }
     }
