@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.10.1
+// @version      1.10.2
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -12,7 +12,7 @@
 
 (function() {
     'use strict';
-    const VERSION = "1.10.1"
+    const VERSION = "1.10.2"
 
     const themes = {
         "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #85ff49 0%, #427f24 100%)}",
@@ -2411,11 +2411,9 @@
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
                     Alt-nav Fixes
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-                Patch 1.10.1:
-ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/522519/discount.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                    Mythic dPS Adjustments
-ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532299/bug.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                    Bug fixes
+                Patch 1.10.2:
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                    BTC Total Added Below Meter
             </div>
         `)
     }
@@ -3272,6 +3270,11 @@ any of these keys!
         leftDiv.style.cssText = 'text-align: left; color: cyan;';
         leftDiv.textContent = 'X.xx';
         flexDiv.appendChild(leftDiv);
+
+        const middleDiv = document.createElement('div');
+        middleDiv.style.cssText = 'flex: 1 1 0%; text-align: center; color: gold;';
+        middleDiv.textContent = 'X.xx';
+        flexDiv.appendChild(middleDiv);
         
         const rightDiv = document.createElement('div');
         rightDiv.style.cssText = 'flex: 1 1 0%; text-align: right; color: hotpink;';
@@ -3292,7 +3295,7 @@ any of these keys!
                 // Get user filament-networth
                 const filaments = document.querySelectorAll(".filament-el");
                 const [cf, uf, rf, ef, lf, mf, ethf] = Array.from(filaments).map(e => parseInt(e.innerText.trim()));
-                const total = cf + 3 * (uf + 3 * (rf + 3 * (ef + 5 * (lf + 3 * (mf + 5 * ethf)))));
+                const total = cf + 3 * uf + 9 * rf + 27 * ef + 135 * lf + 405 * mf + 2025 * ethf;
                 const filamentNetworth = total * stats.cf_filament_value;
                 // end
 
@@ -3305,6 +3308,14 @@ any of these keys!
                     leftDiv.textContent = '';
                     leftDiv.appendChild(filamentImg);
                     leftDiv.append(`${filamentNetworth.toFixed(2)}`);
+                }
+                if (middleDiv.textContent != newValue.toFixed(2)) {
+                    const btcImg = document.createElement('img');
+                    btcImg.classList.add('icon', 'icon-in-text');
+                    btcImg.setAttribute('src', 'icons/btc.svg');
+                    middleDiv.textContent = '';
+                    middleDiv.appendChild(btcImg);
+                    middleDiv.append(`${newValue.toFixed(2)}`);
                 }
                 if (rightDiv.textContent != globalItemNetworth.toFixed(2)) {
                     const inventoryImg = document.createElement('img');
@@ -3346,7 +3357,8 @@ any of these keys!
         openWindows();
         // await calculateNetworth(); // Disabled for now
         createNetworthDiv();
-        divs["Log"].click()
+        divs["Log"].click();
+        await sleep(100);
         editWelcomeMessage();
         tryCheckStaffStatus(document.querySelector("main"));
         loadUserInputManager();
