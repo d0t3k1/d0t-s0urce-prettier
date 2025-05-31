@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         prettier-d0urce
-// @version      1.10.2
+// @version      1.10.3
 // @description  Get a prettier s0urce.io environment! Template made by Xen0o2.
 // @author       d0t
 // @match        https://s0urce.io/
@@ -12,7 +12,7 @@
 
 (function() {
     'use strict';
-    const VERSION = "1.10.2"
+    const VERSION = "1.10.3"
 
     const themes = {
         "No Theme": ":root{--color-terminal:#85ff49;--color-darkgreen:#85ff492f} .window:has(img[src='icons/terminal.svg']){border-color: #85ff49} #section-code{background: linear-gradient(180deg, #000000 3%, #85ff4940 123%)} #themes{border: 1px solid #85ff49} .target-bar{outline: 1px solid #85ff49 !important} .window-title.svelte-1hjm43z {background: linear-gradient(200deg, #85ff49 0%, #427f24 100%)}",
@@ -314,10 +314,11 @@
                 epic:       { cpu: 0.3, gpu: 0.3, psu: 0.3, firewall: 0.3, other: 0.3 },
                 legendary:  { cpu: 1.5, gpu: 1.5, psu: 1.5, firewall: 1.5, other: 1.5 },
                 mythic:     { cpu: 4.5, gpu: 4.5, psu: 4.5, firewall: 4.5, other: 4.5 },
-                ethereal:   { cpu: 67.5, gpu: 67.5, psu: 67.5, firewall: 67.5, other: 67.5 },
+                ethereal:   { cpu: 45, gpu: 45, psu: 45, firewall: 45, other: 45 },
             },
         
     }
+
 
     const stats = {
         cpu: [
@@ -377,6 +378,7 @@
         psu_term: [
             1.2, 1.4, 1.6, 1.7, 1.9, 2, 2.2
         ],
+        rarityMap: { D: 0, C: 1, B: 2, A: 3, S: 4, SS: 5, SSS: 6 },
         cpu_dPM: [
             [1.0, 1.1, 1.2, 1.29, 1.39, 1.49, 1.59, 1.68, 1.78, 1.88, 1.97, 2.07, 2.17, 2.26, 2.36, 2.46, 2.55, 2.65, 2.74, 2.84, 2.93, 3.03, 3.12, 3.22, 3.31, 3.41, 3.5, 3.59, 3.69, 3.78, 3.87, 3.97, 4.06, 4.15, 4.25, 4.34, 4.43, 4.52, 4.61, 4.7, 4.79, 4.89, 4.98, 5.07, 5.16, 5.25, 5.34, 5.43, 5.52, 5.61, 5.7, 5.79, 5.88, 5.97, 6.06, 6.14, 6.23, 6.32, 6.41, 6.5, 6.59, 6.67, 6.76, 6.85, 6.93, 7.02, 7.11, 7.2, 7.29, 7.37, 7.46, 7.55, 7.63, 7.72, 7.8, 7.89, 7.98, 8.07, 8.15, 8.24, 8.32, 8.41, 8.49, 8.58, 8.66, 8.75, 8.83, 8.92, 9.0, 9.08, 9.17, 9.25, 9.34, 9.42, 9.5, 9.59, 9.67, 9.75, 9.83, 9.92, 10.0], 
             [1.11, 2.53, 2.86, 3.09, 3.27, 3.42, 3.55, 3.67, 3.78, 3.87, 3.97, 4.05, 4.13, 4.21, 4.29, 4.36, 4.42, 4.49, 4.55, 4.62, 4.68, 4.73, 4.79, 4.84, 4.9, 4.95, 5.0, 5.05, 5.1, 5.15, 5.19, 5.24, 5.28, 5.33, 5.37, 5.42, 5.46, 5.5, 5.55, 5.59, 5.63, 5.67, 5.71, 5.75, 5.79, 5.83, 5.87, 5.91, 5.95, 5.99, 6.03, 6.07, 6.11, 6.15, 6.19, 6.23, 6.27, 6.3, 6.34, 6.38, 6.42, 6.46, 6.5, 6.54, 6.58, 6.62, 6.67, 6.71, 6.75, 6.79, 6.83, 6.88, 6.92, 6.97, 7.01, 7.06, 7.1, 7.15, 7.2, 7.25, 7.3, 7.35, 7.4, 7.45, 7.51, 7.56, 7.62, 7.69, 7.75, 7.81, 7.89, 7.96, 8.04, 8.12, 8.21, 8.32, 8.43, 8.57, 8.74, 8.98, 9.79],
@@ -2409,11 +2411,13 @@
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532432/dollar-sign.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
                     dPS Changes
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/449156/navigate.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                    Alt-nav Fixes
+                    Alt Navigation
 ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-                Patch 1.10.2:
-ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532401/bitcoin-circle.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
-                    BTC Total Added Below Meter
+                Patch 1.10.3:
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/389868/spider-web.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                    Sticky tabs (@Nacom)
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img class="icon" src="https://www.svgrepo.com/show/532997/plus-large.svg" style="filter: drop-shadow(50px 0px 100px #52e7f7) invert(96%) sepia(95%) saturate(7486%) hue-rotate(143deg) brightness(100%) contrast(94%);">
+                    Upgraded Item Flair
             </div>
         `)
     }
@@ -2962,30 +2966,117 @@
         }
     }
 
-    const loadUserInputManager = () => {
-        document.body.addEventListener("mousedown", (e) => {
-            if (e.buttons != 1) return;
-            const windowClicked = e.target.closest(".window");
-            if ((e.target.classList.contains("window-close") || e.target.parentNode?.classList.contains("window-close")) && windowClicked.querySelector(".window-title").textContent.trim() == "Settings")
-                windowClicked.querySelector(".window-close")?.click();
-            if (!e.target.classList.contains("context-menu") && !player.input.isShiftDown)
-                removeContextMenu();
-            if (e.target.parentNode
-                && e.target.parentNode.classList.contains("item")
-                && ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt)
-            )
-                manageItemSelection(e.target.parentNode);
-            //if (e.target.classList.contains("window-title"))
-                //window.addEventListener("mousemove", manageWindowDragged);
-        })
-        document.body.addEventListener("mouseup", () => {
-            document.querySelectorAll(".sticky-line").forEach(e => e.remove());
-            //window.removeEventListener("mousemove", manageWindowDragged);
-        })
-        document.body.oncontextmenu = (e) => {
-            e.preventDefault();
-            manageRightClick(e.target, { clientX: e.clientX, clientY: e.clientY });
-        }
+    const sumPx = (a, b) => {
+		return Number((a.match(/\d+px/) || [""])[0].slice(0, -2)) + Number((b.match(/\d+px/) || [""])[0].slice(0, -2));
+	}
+
+	const pxToInt = (a) => {
+		return (a.match(/\d+/) || [])[0];
+	}
+
+	const findClosestValue = (arr, target) => {
+		return arr.reduce((closest, num) =>
+			Math.abs(num - target) < Math.abs(closest - target) ? num : closest
+		);
+	}
+
+	const manageWindowDragged = () => {
+		const windowDragged = document.querySelector(".window-selected");
+		const content = windowDragged?.querySelector(".window-content");
+		if (!windowDragged || !content) return;
+
+		if (windowDragged.querySelector(".window-title > img[src='icons/settings.svg']"))
+			windowDragged.querySelector(".window-content").style.width = "600px";
+
+		const getPxValue = (style) => Number(style.match(/\d+/)[0]);
+		const top = getPxValue(windowDragged.style.top);
+		const bottom = sumPx(windowDragged.style.top, content.style.height) + 41;
+		const left = getPxValue(windowDragged.style.left);
+		const right = sumPx(windowDragged.style.left, content.style.width) + 2;
+
+		const allPositions = Array.from(document.querySelectorAll(".window"))
+			.filter(e => e !== windowDragged)
+			.map(e => {
+				const content = e.querySelector(".window-content");
+				return {
+					name: e.querySelector(".window-title").textContent,
+					top: getPxValue(e.style.top),
+					bottom: sumPx(e.style.top, content.style.height) + 42,
+					left: getPxValue(e.style.left),
+					right: sumPx(e.style.left, content.style.width) + 1,
+				};
+			});
+
+		const sensitivity = 10;
+		const findMatching = (pos, key1, key2) =>
+			allPositions.find(e =>
+				(pos >= e[key1] - sensitivity && pos <= e[key1] + sensitivity) ||
+				(pos >= e[key2] - sensitivity && pos <= e[key2] + sensitivity)
+			);
+
+		const topMatching = findMatching(top, 'top', 'bottom');
+		const bottomMatching = findMatching(bottom, 'top', 'bottom');
+		const rightMatching = findMatching(right, 'right', 'left');
+		const leftMatching = findMatching(left, 'right', 'left');
+
+		const createLine = (style) => {
+			const line = new Component("div", {
+				classList: ["sticky-line"],
+				style: {
+					position: "absolute", backgroundColor: "var(--color-terminal)", zIndex: 1000, ...style
+				}
+			});
+			document.body.append(line.element);
+		};
+
+		document.querySelectorAll(".sticky-line").forEach(e => e.remove());
+
+		if (topMatching) {
+			const value = findClosestValue([topMatching.top, topMatching.bottom], top);
+			windowDragged.style.top = `${value}px`;
+			createLine({ top: `${value}px`, height: "2px", width: "100vw" });
+		}
+		if (bottomMatching) {
+			const value = findClosestValue([bottomMatching.top, bottomMatching.bottom], bottom);
+			windowDragged.style.top = `${value - pxToInt(content.style.height) - 42}px`;
+			createLine({ top: `${value}px`, height: "2px", width: "100vw" });
+		}
+		if (rightMatching) {
+			const value = findClosestValue([rightMatching.right, rightMatching.left], right);
+			windowDragged.style.left = `${value - pxToInt(content.style.width) - 2}px`;
+			createLine({ top: "0px", height: "100vh", width: "2px", left: `${value}px` });
+		}
+		if (leftMatching) {
+			const value = findClosestValue([leftMatching.right, leftMatching.left], left);
+			windowDragged.style.left = `${value}px`;
+			createLine({ top: "0px", height: "100vh", width: "2px", left: `${value}px` });
+		}
+	};
+
+	const loadUserInputManager = () => {
+		document.body.addEventListener("mousedown", (e) => {
+			if (e.buttons != 1) return;
+			const windowClicked = e.target.closest(".window");
+			if ((e.target.classList.contains("window-close") || e.target.parentNode?.classList.contains("window-close")) && windowClicked.querySelector(".window-title").textContent.trim() == "Settings")
+				windowClicked.querySelector(".window-close")?.click();
+			if (!e.target.classList.contains("context-menu") && !player.input.isShiftDown)
+				removeContextMenu();
+			if (e.target.parentNode
+				&& e.target.parentNode.classList.contains("item")
+				&& ["Computer", "Inventory", "Trade"].includes(windowClicked?.querySelector(".window-title > img")?.alt)
+			)
+				manageItemSelection(e.target.parentNode);
+			if (e.target.classList.contains("window-title"))
+				window.addEventListener("mousemove", manageWindowDragged);
+		})
+		document.body.addEventListener("mouseup", () => {
+			document.querySelectorAll(".sticky-line").forEach(e => e.remove());
+			window.removeEventListener("mousemove", manageWindowDragged);
+		})
+		document.body.oncontextmenu = (e) => {
+			e.preventDefault();
+			manageRightClick(e.target, { clientX: e.clientX, clientY: e.clientY });
+		}
         document.body.onkeydown = (e) => {
             if (e.key === "Shift")
                 player.input.isShiftDown = true;
@@ -3239,7 +3330,6 @@ any of these keys!
         globalItemNetworth = btcValue;
         return btcValue;
     }
-
         
     function createNetworthDiv() {
         const targetLocation = document.querySelector('body > div:nth-child(1) > main > div:nth-child(1) > div:nth-child(2)');
@@ -3335,6 +3425,75 @@ any of these keys!
         }
     }
 
+    function applyItemSwag() {
+    const desc = document.querySelector("#desc");
+    if (!desc) return;
+
+    descriptionObserver.disconnect();
+
+    const typeCode = (desc.querySelector("div > div > img")?.src?.match(/[^\/]+\.webp/) || [])[0]?.slice(0, 3);
+    const typeMap = {
+        cpu: "cputerm",
+        rou: "fireterm",
+        gpu: "gpu_term",
+        psu: "psu_term",
+    };
+
+    const statKey = typeMap[typeCode];
+    if (!statKey) {
+        descriptionObserver.observe(document.body, { childList: true, subtree: true });
+        return;
+    }
+
+    const rarityTag = desc.querySelector("div > div:nth-child(2)")?.textContent?.split("-")[0]?.split(" ")[1];
+    const rarity = rarityTag?.substring(0, rarityTag.length - 1);
+    const rarityIndex = stats.rarityMap[rarity];
+
+    if (rarityIndex == null || stats[statKey] == null) {
+        descriptionObserver.observe(document.body, { childList: true, subtree: true });
+        return;
+    }
+
+    const levelDiv = desc.querySelector(".level");
+    const levelMatch = levelDiv?.innerText?.match(/Level (\d+)/);
+    const level = levelMatch ? parseInt(levelMatch[1], 10) : null;
+
+    if (!level || level <= 1) {
+        // If Level is 1 or not found, don't change anything
+        descriptionObserver.observe(document.body, { childList: true, subtree: true });
+        return;
+    }
+
+    const bonusVal = stats[statKey][rarityIndex] * (level - 1);
+    const bonusFormatted = statKey === "gpu_term"
+        ? `+${bonusVal.toFixed(8)}`
+        : `+${bonusVal.toFixed(2)}`;
+
+    const span = desc.querySelector("#desc > div:nth-child(2) > div:nth-child(5) > span");
+    if (!span || span.innerHTML.includes(bonusFormatted)) {
+        descriptionObserver.observe(document.body, { childList: true, subtree: true });
+        return;
+    }
+
+    const content = span.innerHTML;
+
+    const match1 = content.match(/(.+?by )<span[^>]*>([\d.]+)<\/span>(%?)/);
+    const match2 = content.match(/(Mines )<span[^>]*>([\d.]+)<\/span>( BTC per second.*)/);
+
+    if (match1) {
+        const [, prefix, value, suffix] = match1;
+        span.innerHTML = `${prefix}<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #ffdd00;">${value}</span> (<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #c4ff8a;">${bonusFormatted}</span>)${suffix}`;
+    } else if (match2) {
+        const [, prefix, value, suffix] = match2;
+        span.innerHTML = `${prefix}<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #ffdd00;">${value}</span> (<span style="font-weight: 500; padding: 0 2px; border-radius: 2px; color: #c4ff8a;">${bonusFormatted}</span>)${suffix}`;
+    }
+
+    descriptionObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    const descriptionObserver = new MutationObserver(applyItemSwag);
+    descriptionObserver.observe(document.body, { childList: true, subtree: true });
+
     var divs = {};
     document.querySelectorAll("#desktop-container > div").forEach(div => {
         divs[div.innerText] = div;
@@ -3357,6 +3516,7 @@ any of these keys!
         openWindows();
         // await calculateNetworth(); // Disabled for now
         createNetworthDiv();
+        applyItemSwag();
         divs["Log"].click();
         await sleep(100);
         editWelcomeMessage();
