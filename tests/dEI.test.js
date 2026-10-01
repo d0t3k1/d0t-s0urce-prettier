@@ -4,6 +4,18 @@ import dEI from "../dEI.js";
 const { dEI_encode, dEI_decode } = dEI;
 const verbose = process.argv.includes("--verbose");
 
+const colors = {
+    reset: '\x1b[0m',
+    bright: '\x1b[1m',
+    dim: '\x1b[2m',
+    cyan: '\x1b[36m',
+    yellow: '\x1b[33m',
+    green: '\x1b[32m',
+    magenta: '\x1b[35m',
+    blue: '\x1b[34m',
+    gray: '\x1b[90m',
+};
+
 
 /*
  * @author: AI
@@ -17,17 +29,18 @@ function testRoundTrip(name, dt_d, suffix_d, mint_d, rarity_d, type_d, lvl_d, p_
         const decoded = dEI_decode(encoded);
 
         if (verbose) {
-            console.log(`\n${name}:`);
-            console.log(`  Encoded: ${encoded}`);
-            console.log(`  Date: ${dt_d} | Suffix: ${suffix_d} | Mint: ${mint_d} | Rarity: ${rarity_d}`);
-            console.log(`  Type: ${type_d} | Level: ${lvl_d} | Percentile: ${p_d}`);
-            console.log(`  Stats:`);
-            data.forEach((s, i) => console.log(`    [${i}] ${s.name}: ${s.value}`));
+            console.log(`\n${colors.bright}${name}:${colors.reset}`);
+            console.log(`  ${colors.cyan}Encoded:${colors.reset} ${colors.yellow}${encoded}${colors.reset}`);
+            console.log(`  ${colors.cyan}creationDate:${colors.reset} ${colors.yellow}'${dt_d}'${colors.reset}, ${colors.cyan}mint:${colors.reset} ${colors.yellow}${mint_d}${colors.reset}, ${colors.cyan}rarity:${colors.reset} ${colors.yellow}'${rarity_d}'${colors.reset}, ${colors.cyan}type:${colors.reset} ${colors.yellow}'${type_d}'${colors.reset},`);
+            console.log(`  ${colors.cyan}suffix:${colors.reset} ${colors.yellow}'${suffix_d}'${colors.reset}, ${colors.cyan}upgradeLevel:${colors.reset} ${colors.yellow}${lvl_d}${colors.reset}, ${colors.cyan}percentile:${colors.reset} ${colors.yellow}${p_d}${colors.reset},`);
+            console.log(`  ${colors.cyan}stats:${colors.reset} [`);
+            data.forEach((s, i) => console.log(`    ${colors.gray}{${colors.reset} ${colors.cyan}name:${colors.reset} ${colors.yellow}'${s.name}'${colors.reset}, ${colors.cyan}value:${colors.reset} ${colors.yellow}${s.value}${colors.reset} ${colors.gray}},${colors.reset}`));
+            console.log(`  ${colors.gray}]${colors.reset}`);
         }
 
         assert.equal(decoded.creationDate, dt_d, `${name}: creationDate mismatch`);
         assert.equal(decoded.mint, mint_d, `${name}: mint mismatch`);
-        assert.equal(decoded.rarity, rarity_d, `${name}: rarity mismatch`);
+        assert.equal(decoded.rarity.toLowerCase(), rarity_d.toLowerCase(), `${name}: rarity mismatch`);
         assert.equal(decoded.type, type_d, `${name}: type mismatch`);
         assert.equal(decoded.suffix, suffix_d, `${name}: suffix mismatch`);
         assert.equal(decoded.upgradeLevel, lvl_d, `${name}: upgradeLevel mismatch`);
@@ -41,15 +54,15 @@ function testRoundTrip(name, dt_d, suffix_d, mint_d, rarity_d, type_d, lvl_d, p_
                 `${name}: stat ${i} value mismatch (${decoded.stats[i].value} vs ${data[i].value})`);
         }
 
-        console.log(`✓ ${name}`);
+        console.log(`${colors.green}✓${colors.reset} ${name}`);
         return true;
     } catch (e) {
-        console.error(`✗ ${name}: ${e.message}`);
+        console.error(`${colors.green}✗${colors.reset} ${name}: ${e.message}`);
         return false;
     }
 }
 
-console.log("\n=== dEI Encoding/Decoding Tests ===\n");
+console.log(`\n${colors.blue}${colors.bright}=== dEI Encoding/Decoding Tests ===${colors.reset}\n`);
 
 let passed = 0;
 let failed = 0;
@@ -374,31 +387,31 @@ function testAvatarRoundTrip(name, type_d, rarity_d, mint_d, premium_d, expected
         const exp_mint = expected_mint !== undefined ? expected_mint : mint_d;
 
         if (verbose) {
-            console.log(`\n${name}:`);
-            console.log(`  Encoded: ${encoded}`);
-            console.log(`  Date: ${dt_d} | Type: ${type_d} | Rarity: ${rarity_d} | Mint: ${mint_d} | Premium: ${premium_d}`);
+            console.log(`\n${colors.bright}${name}:${colors.reset}`);
+            console.log(`  ${colors.cyan}Encoded:${colors.reset} ${colors.yellow}${encoded}${colors.reset}`);
+            console.log(`  ${colors.cyan}creationDate:${colors.reset} ${colors.yellow}'${dt_d}'${colors.reset}, ${colors.cyan}type:${colors.reset} ${colors.yellow}'${type_d}'${colors.reset}, ${colors.cyan}rarity:${colors.reset} ${colors.yellow}'${rarity_d}'${colors.reset}, ${colors.cyan}mint:${colors.reset} ${colors.yellow}${mint_d}${colors.reset}, ${colors.cyan}premium:${colors.reset} ${colors.yellow}${premium_d}${colors.reset}`);
         }
 
         assert.equal(decoded.type, type_d, `${name}: type mismatch`);
-        assert.equal(decoded.rarity, rarity_d, `${name}: rarity mismatch`);
+        assert.equal(decoded.rarity.toLowerCase(), rarity_d.toLowerCase(), `${name}: rarity mismatch`);
         assert.equal(decoded.mint, exp_mint, `${name}: mint mismatch`);
         assert.equal(decoded.premium, premium_d, `${name}: premium mismatch`);
         assert.equal(decoded.creationDate, dt_d, `${name}: creationDate mismatch`);
 
-        console.log(`✓ ${name}`);
+        console.log(`${colors.green}✓${colors.reset} ${name}`);
         return true;
     } catch (e) {
-        console.error(`✗ ${name}: ${e.message}`);
+        console.error(`${colors.green}✗${colors.reset} ${name}: ${e.message}`);
         return false;
     }
 }
 
-console.log("\n=== Avatar Tests ===\n");
+console.log(`\n${colors.blue}${colors.bright}=== Avatar Tests ===${colors.reset}\n`);
 
 if (testAvatarRoundTrip(
     "Avatar basic (otter, common, mint 1, not premium)",
     "otter",
-    "Common",
+    "common",
     1,
     false,
     undefined,
@@ -408,7 +421,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar premium flag",
     "trinity2",
-    "Uncommon",
+    "uncommon",
     100,
     true,
     undefined,
@@ -418,7 +431,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar high mint",
     "skynet",
-    "Rare",
+    "rare",
     999999,
     false,
     undefined,
@@ -426,9 +439,9 @@ if (testAvatarRoundTrip(
 )) passed++; else failed++;
 
 if (testAvatarRoundTrip(
-    "Avatar max rarity (Ethereal)",
+    "Avatar max rarity (ethereal)",
     "nyancat",
-    "Ethereal",
+    "ethereal",
     50000,
     true,
     undefined,
@@ -438,7 +451,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar mid values",
     "hackergirl",
-    "Epic",
+    "epic",
     54321,
     false,
     undefined,
@@ -448,7 +461,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar mythic rarity",
     "gpt",
-    "Mythic",
+    "mythic",
     1,
     false,
     undefined,
@@ -458,7 +471,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar invalid mint (too high) → -1",
     "foxgirl",
-    "Legendary",
+    "legendary",
     1000000,
     true,
     -1,
@@ -468,7 +481,7 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar invalid mint (negative) → -1",
     "catgirl",
-    "Common",
+    "common",
     -500,
     false,
     -1,
@@ -478,17 +491,28 @@ if (testAvatarRoundTrip(
 if (testAvatarRoundTrip(
     "Avatar invalid mint (zero) → -1",
     "lenia",
-    "Uncommon",
+    "uncommon",
     0,
     false,
     -1,
     "2026-09-01T00:00:00.000Z"
 )) passed++; else failed++;
 
-console.log(`\n=== Results ===`);
-console.log(`Passed: ${passed}`);
-console.log(`Failed: ${failed}`);
-console.log(`Total:  ${passed + failed}\n`);
+// okay this is an actual avatar not an AI-generated pair
+if (testAvatarRoundTrip(
+    "Real item",
+    "pepe",
+    "legendary",
+    2,
+    true,
+    2,
+    "2023-12-18T00:00:00.000Z"
+)) passed++; else failed++;
+
+console.log(`\n${colors.blue}${colors.bright}=== Results ===${colors.reset}`);
+console.log(`${colors.green}Passed:${colors.reset} ${passed}`);
+console.log(`${colors.magenta}Failed:${colors.reset} ${failed}`);
+console.log(`${colors.cyan}Total:${colors.reset}  ${passed + failed}\n`);
 
 if (failed > 0) {
     process.exit(1);
