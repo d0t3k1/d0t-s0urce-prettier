@@ -15,13 +15,15 @@ const avatars = ["otter", "gobo", "dwarf", "ascii-bunny", "crow", "ascii-r2", "e
     "alex", "s1-pumpkin", "thief", "garyhost", "s1-horseman", "franceball", "smasher", "gothgirl3", "syry", "bigbrother2", "matrix2", "catgirl",
     "anonymous", "nyancat", "foxgirl", "cam", "gothgirl5", "gothgirl4", "zenko", "ashley", "skxll", "eastergirl", "mrd", "skull", "zucc", "lilly",
     "sadeg", "hai", "hackergirl", "gardenwitch", "anongirl", "npc", "botnet", "doggo", "anon", "zenon", "skynet", "rona", "pepe", "skip", "1337",
-    "gillbates", "alphastop", "trinity1", "ne-o", "josh", "dread", "greatfirewall", "ascii-pepe-wine", "bronzecrown", "s1-cat", "ascii-cat", "ascii-cat-2",
-    "ascii-cat-3", "matrix1", "valenia", "name_color_yellow", "usaball", "xmas2023", "germanyball", "ukball",
-    "ball-southkorea", "ball-japan", "ball-turkey", "ball-spain", "glitchgirl", "name_plate_green", "name_color_green", "ascii-hackeru", "wojak", "ascii-linux",
-    "cassettegirl", "nyx", "ascii-troll", "ascii-amogus", "name_plate_yellow", "legion", "ascii-puffy", "monalisa", "tim", "ascii-onion", "gothgirl2", "puddy",
-    "ascii-pumpkin", "gothgirl1", "avocuteo", "slimey", "gothgirl6", "name_plate_orange", "name_color_orange", "ascii-monkey", "silver", "rarefrog", "gpt", "fishstock",
-    "ascii-ghost", "ascii-b2", "lenia", "ascii-skull", "name_plate_silver", "name_color_silver", "miku", "klaus", "name_plate_red", "name_color_red", "kitsune",
-    "discordmod", "bigbrother1", "name_plate_blue", "name_color_blue", "asmodea"
+    "gillbates", "alphastop", "trinity1", "ne-o", "josh", "dread", "greatfirewall", "ascii-pepe-wine", "bronzecrown", "s1-cat", "ascii-cat",
+    "ascii-cat-2", "ascii-cat-3", "matrix1", "valenia", "name_color_yellow", "usaball", "xmas2023", "germanyball", "ukball", "cassettegirl", "wojak",
+    "ball-southkorea", "ball-japan", "ball-turkey", "ball-spain", "glitchgirl", "name_plate_green", "name_color_green", "ascii-hackeru", "ascii-linux",
+    "nyx", "ascii-troll", "ascii-amogus", "name_plate_yellow", "legion", "ascii-puffy", "monalisa", "tim", "ascii-onion", "gothgirl2", "puddy",
+    "ascii-pumpkin", "gothgirl1", "avocuteo", "slimey", "gothgirl6", "name_plate_orange", "name_color_orange", "ascii-monkey", "silver", "rarefrog",
+    "fishstock", "ascii-ghost", "ascii-b2", "lenia", "ascii-skull", "name_plate_silver", "name_color_silver", "miku", "klaus", "name_plate_red", 
+    "name_color_red", "kitsune", "discordmod", "bigbrother1", "name_plate_blue", "name_color_blue", "asmodea", "ascii-shark", "ascii-tank", "gpt", 
+    "bea", "bikini", "cowboy", "dragongirl", "easterbunny", "eastermage", "gardenguardian", "navin", "pepeanon", "pepehacker", "s1-doll", 
+    "s1-pumpkinwitch-1", "s1-pumpkinwitch-2", "s1-reaper", "s1-scarecrow", "s1-vampire", "s1-wolfgirl-1", "shadowpriestess", "xenia", "ascii-teddy"
 ];
 const avatar_types = ["profile", "terminal", "plate", "color"]
 const printable_ascii = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»ÁÂÀ©ãÃ¤ðÐÊËÈıÍÎÏ¦ÌÓßÔÒõÕµþÞÚÛÙýÝ¯´≡±‗√ⁿ²■·¸°¨¹ŠšŽžŒœŸ§®³¶¾"
@@ -62,14 +64,14 @@ const dEI_encode = (dt_d, suffix_d, mint_d, rarity_d, type_d, lvl_d, p_d, data) 
         let mint_t = 999999n;
         if (mint_d >= 1 && mint_d < 1e6) mint_t = BigInt(mint_d - 1);
         const premium_t = (data && data.premium) ? 1n : 0n;
-        const rarity_t = BigInt(rarity_names.indexOf(rarity_d));
+        const rarity_t = BigInt(rarity_names.findIndex(r => r.toLowerCase() === rarity_d.toLowerCase()));
         const dt_t = BigInt(Math.floor((new Date(dt_d) - new Date("2020-01-01T00:00:00.000Z")) / 864e5));
         return "dEI#" + base200_encode(((((premium_t*4000n+dt_t)*1000000n+mint_t)*7n+rarity_t)*200n+BigInt(avatar_idx))*4n);
     }
     if (data.length > 0 && !["cpu","gpu","psu","router"].includes(type_d)) throw new Error(`Item type mismatched (expected item instead received '${type_d}')`);
     const header = "dEI@";
     const dt_t = BigInt(Math.floor((new Date(dt_d) - new Date("2020-01-01T00:00:00.000Z")) / 864e5));
-    const rarity_t = BigInt(rarities.indexOf(rarity_d));
+    const rarity_t = BigInt(rarities.findIndex(r => r.toLowerCase() === rarity_d.toLowerCase()));
     const type_t = BigInt(type.indexOf(type_d));
     const suffix_t = BigInt(suffix.indexOf(suffix_d));
     const terms_d  = data.map(s => s.name);
